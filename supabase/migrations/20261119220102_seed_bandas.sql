@@ -1,0 +1,9 @@
+-- Migration: Dados iniciais de bandas
+INSERT INTO public.bandas (nome, slug, vertente, cidade, integrantes, biografia, destaque) VALUES
+    ('Valquíria de Aço', 'valquiria-de-aco', 'Heavy Metal', 'São Paulo - SP', 'Camila Rocha (Vocal), Diego Vaz (Guitarra), Rômulo Reis (Baixo), Igor Lemos (Bateria)', 'Referência do metal tradicional paulistano com riffs velozes, letras épicas e presença de palco explosiva.', true),
+    ('Fúria Subterrânea', 'furia-subterranea', 'Punk Rock / Hardcore', 'Santo André - SP', 'Beto Punk (Vocal/Guitarra), Nanda Cruz (Baixo), Teco (Bateria)', 'Trio do ABC Paulista com som cru, direto e energético inspirado no punk dos anos 80 e 90.', true),
+    ('Eco de Seattle', 'eco-de-seattle', 'Grunge / Alternativo', 'Campinas - SP', 'Lucas Moura (Vocal/Guitarra), Tiago Prado (Guitarra), Marina Luz (Baixo), Cauê (Bateria)', 'Homenagem visceral à era de ouro do Grunge, mesclando composições próprias e clássicos de Alice in Chains, Nirvana e Soundgarden.', false),
+    ('Voltagem 77', 'voltagem-77', 'Hard Rock / Classic Rock', 'São Paulo - SP', 'Rick Santana (Vocal), Leo Gibson (Guitarra), Bruno Bass (Baixo), Duda (Bateria)', 'Groove pesado, amplificadores valvulados no talo e solos incendiários na linha de AC/DC, Led Zeppelin e Deep Purple.', true),
+    ('Cripta Sombria', 'cripta-sombria', 'Doom / Gothic Metal', 'Sorocaba - SP', 'Helena Noir (Vocal/Teclado), Vitor Doom (Guitarra), Caio (Baixo), André (Bateria)', 'Atmosfera densa, riffs arrastados e vocais hipnóticos que transformam cada show em um ritual inesquecível.', false),
+    ('Distrito Fantasma', 'distrito-fantasma', 'Post-Punk / Indie Rock', 'Santos - SP', 'Artur Dias (Vocal), Sofia Martins (Guitarra), Gael (Baixo/Synth), Enzo (Bateria)', 'Baixo pulsante, guitarras cheias de reverb e estética noturna que conquistou a cena independente.', false)
+ON CONFLICT (slug) DO NOTHING;

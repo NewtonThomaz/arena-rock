@@ -646,6 +646,8 @@ window.EventosAPI = (function () {
         function alternarMenu() {
             const aberto = menuNavegacao.classList.toggle("aberto");
             botaoMenu.classList.toggle("ativo", aberto);
+            botaoMenu.setAttribute("aria-expanded", aberto ? "true" : "false");
+            document.body.style.overflow = aberto ? "hidden" : "";
             if (fundoMenu) {
                 fundoMenu.classList.toggle("visivel", aberto);
             }
@@ -654,6 +656,8 @@ window.EventosAPI = (function () {
         function fecharMenu() {
             menuNavegacao.classList.remove("aberto");
             botaoMenu.classList.remove("ativo");
+            botaoMenu.setAttribute("aria-expanded", "false");
+            document.body.style.overflow = "";
             if (fundoMenu) {
                 fundoMenu.classList.remove("visivel");
             }
@@ -663,6 +667,12 @@ window.EventosAPI = (function () {
         if (fundoMenu) {
             fundoMenu.addEventListener("click", fecharMenu);
         }
+
+        document.addEventListener("keydown", function (evento) {
+            if (evento.key === "Escape" && menuNavegacao.classList.contains("aberto")) {
+                fecharMenu();
+            }
+        });
 
         menuNavegacao.querySelectorAll("a").forEach(function (link) {
             link.addEventListener("click", fecharMenu);

@@ -34,9 +34,9 @@ const controladorCategorias = {
             const cor = cat.cor || "#e11d48";
             return `
                 <tr>
-                    <td><span class="ponto-cor" style="background-color:${cor}"></span>${cat.nome}</td>
-                    <td>${cat.slug}</td>
-                    <td class="acoes-tabela">
+                    <td data-label="Categoria"><span class="ponto-cor" style="background-color:${cor}"></span>${cat.nome}</td>
+                    <td data-label="Slug">${cat.slug}</td>
+                    <td data-label="Ações" class="acoes-tabela">
                         <button type="button" class="botao-pequeno botao-excluir" data-id="${cat.id || cat.slug}">Excluir</button>
                     </td>
                 </tr>

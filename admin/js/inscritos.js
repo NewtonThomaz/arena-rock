@@ -37,13 +37,13 @@
         corpoTabela.innerHTML = filtradas.map(function (item) {
             return `
                 <tr data-evento="${item.eventoId}">
-                    <td><strong>${item.nome}</strong></td>
-                    <td>${item.email}</td>
-                    <td>${item.eventoTitulo}</td>
-                    <td><span class="categoria-evento">${item.setorIngresso || "Pista Rock"}</span></td>
-                    <td>${item.dataHora}</td>
-                    <td><strong>${item.codigoConfirmacao}</strong></td>
-                    <td class="acoes-tabela">
+                    <td data-label="Participante"><strong>${item.nome}</strong></td>
+                    <td data-label="E-mail">${item.email}</td>
+                    <td data-label="Show / Evento">${item.eventoTitulo}</td>
+                    <td data-label="Setor"><span class="categoria-evento">${item.setorIngresso || "Pista Rock"}</span></td>
+                    <td data-label="Emitido em">${item.dataHora}</td>
+                    <td data-label="Código"><strong>${item.codigoConfirmacao}</strong></td>
+                    <td data-label="Ações" class="acoes-tabela">
                         <button type="button" class="botao-pequeno botao-excluir" data-id="${item.id}">Remover</button>
                     </td>
                 </tr>

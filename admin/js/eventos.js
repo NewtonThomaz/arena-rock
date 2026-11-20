@@ -21,13 +21,13 @@ const controladorEventos = {
 
         return `
             <tr>
-                <td><strong>${nomeShow}</strong></td>
-                <td>${banda}</td>
-                <td><span class="categoria-evento">${nomeCategoria}</span></td>
-                <td>${dataShow}</td>
-                <td>${item.local}</td>
-                <td>${vagasRestantes} / ${vagasTotais}</td>
-                <td class="acoes-tabela">
+                <td data-label="Show / Evento"><strong>${nomeShow}</strong></td>
+                <td data-label="Line-up / Banda">${banda}</td>
+                <td data-label="Categoria"><span class="categoria-evento">${nomeCategoria}</span></td>
+                <td data-label="Data">${dataShow}</td>
+                <td data-label="Casa de Show">${item.local}</td>
+                <td data-label="Ingressos">${vagasRestantes} / ${vagasTotais}</td>
+                <td data-label="Ações" class="acoes-tabela">
                     <a class="botao-pequeno botao-editar" href="inscritos.html?evento=${encodeURIComponent(item.id)}">Inscritos</a>
                     <button type="button" class="botao-pequeno botao-excluir" data-id="${item.id}">Excluir</button>
                 </td>

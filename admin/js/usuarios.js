@@ -34,11 +34,11 @@
 
             return `
                 <tr>
-                    <td><strong>${u.nome}</strong></td>
-                    <td>${u.email}</td>
-                    <td><span class="selo ${classePapel}">${textoPapel}</span></td>
-                    <td><span class="selo ${classeStatus}">${textoStatus}</span></td>
-                    <td class="acoes-tabela">
+                    <td data-label="Nome"><strong>${u.nome}</strong></td>
+                    <td data-label="E-mail">${u.email}</td>
+                    <td data-label="Função"><span class="selo ${classePapel}">${textoPapel}</span></td>
+                    <td data-label="Status"><span class="selo ${classeStatus}">${textoStatus}</span></td>
+                    <td data-label="Ações" class="acoes-tabela">
                         <button type="button" class="botao-pequeno botao-excluir" data-id="${u.id}" data-email="${u.email}">Excluir</button>
                     </td>
                 </tr>
