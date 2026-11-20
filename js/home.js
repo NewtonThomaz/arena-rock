@@ -11,32 +11,15 @@
         const cabecalho = document.createElement("div");
         cabecalho.className = "cabecalho-cartao";
 
-        if (evento.destaque) {
-            const destaque = document.createElement("span");
-            destaque.className = "selo-destaque";
-            destaque.textContent = "Headliner / Destaque";
-            cabecalho.appendChild(destaque);
-        }
+        const categoria = document.createElement("span");
+        categoria.className = "categoria-evento";
+        categoria.textContent = evento.categoria;
+        cabecalho.appendChild(categoria);
 
         const data = document.createElement("time");
         data.className = "data-evento";
         data.textContent = EventosAPI.formatarData(evento.dataISO) + " • " + evento.horario;
         cabecalho.appendChild(data);
-
-        const etiquetas = document.createElement("div");
-        etiquetas.className = "etiquetas-cartao";
-
-        const categoria = document.createElement("span");
-        categoria.className = "categoria-evento";
-        categoria.textContent = evento.categoria;
-        etiquetas.appendChild(categoria);
-
-        if (evento.vertenteRock) {
-            const subgenero = document.createElement("span");
-            subgenero.className = "subgenero-rock";
-            subgenero.textContent = evento.vertenteRock;
-            etiquetas.appendChild(subgenero);
-        }
 
         const titulo = document.createElement("h3");
         titulo.className = "titulo-evento";
@@ -81,7 +64,6 @@
         link.textContent = "Ver Line-up & Garantir Ingresso";
 
         cartao.appendChild(cabecalho);
-        cartao.appendChild(etiquetas);
         cartao.appendChild(titulo);
         cartao.appendChild(atracao);
         cartao.appendChild(local);

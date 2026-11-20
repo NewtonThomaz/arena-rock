@@ -15,8 +15,8 @@
     --cor-borda-clara: rgba(255, 255, 255, 0.14);
     --cor-borda-forte: rgba(225, 29, 72, 0.5);
     --raio-pilula: 999px;
-    --raio-medio: 8px;
-    --raio-grande: 12px;
+    --raio-medio: 14px;
+    --raio-grande: 20px;
     --largura-grande: 1160px;
     --largura-media: 780px;
     --largura-pequena: 540px;
@@ -122,8 +122,8 @@ h1, h2, h3, .fonte-rock {
     background: linear-gradient(135deg, var(--cor-vermelho-rock), var(--cor-laranja-chama));
     border: none;
     color: var(--cor-texto-branco);
-    padding: 9px 18px;
-    border-radius: var(--raio-medio);
+    padding: 9px 20px;
+    border-radius: var(--raio-pilula);
     font-family: "Oswald", sans-serif;
     font-size: 14px;
     font-weight: 700;
@@ -231,8 +231,8 @@ h1, h2, h3, .fonte-rock {
 }
 
 .campo-busca {
-    border-radius: var(--raio-medio);
-    padding: 14px 20px;
+    border-radius: var(--raio-pilula);
+    padding: 14px 24px;
     background-color: var(--cor-superficie);
     border: 1px solid var(--cor-borda-clara);
     color: var(--cor-texto-branco);
@@ -310,7 +310,7 @@ h1, h2, h3, .fonte-rock {
     padding: 8px 18px;
     border: 1px solid var(--cor-borda-clara);
     background-color: var(--cor-superficie);
-    border-radius: var(--raio-medio);
+    border-radius: var(--raio-pilula);
     font-family: "Oswald", sans-serif;
     font-size: 13px;
     letter-spacing: 0.06em;
@@ -388,18 +388,14 @@ h1, h2, h3, .fonte-rock {
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    border-radius: 4px;
-    padding: 4px 8px;
+    border-radius: var(--raio-pilula);
+    padding: 4px 12px;
 }
 
 .data-evento {
-    background-color: var(--cor-fundo-escuro);
-    border: 1px solid var(--cor-borda-clara);
-    color: var(--cor-texto-metal);
-    border-radius: 6px;
+    color: var(--cor-texto-cinza);
     font-size: 12px;
     font-weight: 600;
-    padding: 4px 10px;
 }
 
 .etiquetas-cartao {
@@ -416,8 +412,8 @@ h1, h2, h3, .fonte-rock {
     letter-spacing: 0.08em;
     background-color: rgba(249, 115, 22, 0.12);
     border: 1px solid rgba(249, 115, 22, 0.35);
-    padding: 3px 8px;
-    border-radius: 4px;
+    padding: 4px 12px;
+    border-radius: var(--raio-pilula);
     font-weight: 700;
     width: fit-content;
 }
@@ -428,8 +424,8 @@ h1, h2, h3, .fonte-rock {
     font-size: 10px;
     letter-spacing: 0.06em;
     background-color: var(--cor-botao-escuro);
-    padding: 3px 8px;
-    border-radius: 4px;
+    padding: 4px 12px;
+    border-radius: var(--raio-pilula);
     font-weight: 600;
 }
 
@@ -468,7 +464,7 @@ h1, h2, h3, .fonte-rock {
     position: absolute;
     bottom: 0;
     left: 0;
-    border-radius: 4px;
+    border-radius: var(--raio-pilula);
     overflow: hidden;
 }
 
@@ -478,7 +474,7 @@ h1, h2, h3, .fonte-rock {
     height: 6px;
     top: 0;
     background: linear-gradient(90deg, var(--cor-vermelho-rock), var(--cor-laranja-chama));
-    border-radius: 4px;
+    border-radius: var(--raio-pilula);
 }
 
 .link-detalhes {
@@ -494,8 +490,8 @@ h1, h2, h3, .fonte-rock {
     background-color: var(--cor-botao-escuro);
     border: 1px solid var(--cor-borda-clara);
     width: 100%;
-    padding: 11px 12px;
-    border-radius: var(--raio-medio);
+    padding: 11px 16px;
+    border-radius: var(--raio-pilula);
     transition: all 0.25s ease;
 }
 
@@ -520,8 +516,8 @@ h1, h2, h3, .fonte-rock {
     text-transform: uppercase;
     text-align: center;
     background: linear-gradient(135deg, var(--cor-vermelho-rock), var(--cor-laranja-chama));
-    padding: 12px 24px;
-    border-radius: var(--raio-medio);
+    padding: 12px 26px;
+    border-radius: var(--raio-pilula);
     border: none;
     cursor: pointer;
     transition: all 0.25s ease;
@@ -539,7 +535,7 @@ h1, h2, h3, .fonte-rock {
     font-size: 12px;
     font-weight: 600;
     padding: 6px 14px;
-    border-radius: var(--raio-medio);
+    border-radius: var(--raio-pilula);
     transition: 0.25s;
     text-decoration: none;
     white-space: nowrap;
@@ -724,10 +720,7 @@ h1, h2, h3, .fonte-rock {
 }
 
 .meta-item {
-    background-color: var(--cor-fundo-escuro);
-    border: 1px solid var(--cor-borda-clara);
-    padding: 4px 10px;
-    border-radius: 6px;
+    color: var(--cor-texto-cinza);
 }
 
 .secao-inscricao {
