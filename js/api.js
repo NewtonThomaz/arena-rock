@@ -703,8 +703,8 @@ window.EventosAPI = (function () {
                     requestAnimationFrame(function () {
                         hero.style.setProperty("--mouse-x", ultimoX + "px");
                         hero.style.setProperty("--mouse-y", ultimoY + "px");
-                        hero.style.setProperty("--tilt-x", (-ny * 18).toFixed(2) + "deg");
-                        hero.style.setProperty("--tilt-y", (nx * 18).toFixed(2) + "deg");
+                        hero.style.setProperty("--tilt-x", (-ny * 24).toFixed(2) + "deg");
+                        hero.style.setProperty("--tilt-y", (nx * 24).toFixed(2) + "deg");
                         quadroPendente = false;
                     });
                 }

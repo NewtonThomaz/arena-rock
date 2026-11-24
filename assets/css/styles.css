@@ -274,6 +274,7 @@ h1, h2, h3, .fonte-rock {
     .secao-destaque::before,
     .secao-destaque::after,
     .giro-asterisco-3d,
+    .luz-metal-estatica,
     .anel-orbital-3d,
     .trilha-marquee,
     .aura-emblema-3d {
@@ -492,19 +493,34 @@ h1, h2, h3, .fonte-rock {
     pointer-events: none;
 }
 
-.camada-fundo-4 { transform: translateZ(-28px); }
-.camada-fundo-3 { transform: translateZ(-21px); }
-.camada-fundo-2 { transform: translateZ(-14px); }
-.camada-fundo-1 { transform: translateZ(-7px); }
+.camada-fundo-8 { transform: translateZ(-28px); }
+.camada-fundo-7 { transform: translateZ(-24.5px); }
+.camada-fundo-6 { transform: translateZ(-21px); }
+.camada-fundo-5 { transform: translateZ(-17.5px); }
+.camada-fundo-4 { transform: translateZ(-14px); }
+.camada-fundo-3 { transform: translateZ(-10.5px); }
+.camada-fundo-2 { transform: translateZ(-7px); }
+.camada-fundo-1 { transform: translateZ(-3.5px); }
 
 .camada-frente {
     transform: translateZ(0);
-    filter: drop-shadow(0 18px 34px rgba(237, 28, 36, 0.45));
+    filter: drop-shadow(0 20px 28px rgba(0, 0, 0, 0.88)) drop-shadow(0 0 22px rgba(237, 28, 36, 0.32));
+}
+
+.luz-metal-estatica {
+    transform-box: view-box;
+    transform-origin: 100px 100px;
+    animation: contraGiroLuzMetal 24s linear infinite;
 }
 
 @keyframes girarEmblema3D {
     0% { transform: rotateZ(0deg); }
     100% { transform: rotateZ(360deg); }
+}
+
+@keyframes contraGiroLuzMetal {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(-360deg); }
 }
 
 @keyframes girarAnelOposto {
