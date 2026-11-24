@@ -679,10 +679,48 @@ window.EventosAPI = (function () {
         });
     }
 
+    function inicializarEfeitoHero() {
+        const secoesHero = document.querySelectorAll(".secao-destaque");
+        secoesHero.forEach(function (hero) {
+            if (hero.dataset.efeitoHero === "sim") {
+                return;
+            }
+            hero.dataset.efeitoHero = "sim";
+
+            let quadroPendente = false;
+            let ultimoX = 0;
+            let ultimoY = 0;
+
+            hero.addEventListener("pointermove", function (evento) {
+                const retangulo = hero.getBoundingClientRect();
+                ultimoX = evento.clientX - retangulo.left;
+                ultimoY = evento.clientY - retangulo.top;
+
+                if (!quadroPendente) {
+                    quadroPendente = true;
+                    requestAnimationFrame(function () {
+                        hero.style.setProperty("--mouse-x", ultimoX + "px");
+                        hero.style.setProperty("--mouse-y", ultimoY + "px");
+                        quadroPendente = false;
+                    });
+                }
+            });
+
+            hero.addEventListener("pointerleave", function () {
+                hero.style.removeProperty("--mouse-x");
+                hero.style.removeProperty("--mouse-y");
+            });
+        });
+    }
+
     if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", inicializarMenuMobile);
+        document.addEventListener("DOMContentLoaded", function () {
+            inicializarMenuMobile();
+            inicializarEfeitoHero();
+        });
     } else {
         inicializarMenuMobile();
+        inicializarEfeitoHero();
     }
 
     return {
