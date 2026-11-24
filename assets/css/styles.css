@@ -33,7 +33,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: var(--fonte-corpo);
 }
 
 html {
@@ -41,6 +40,7 @@ html {
 }
 
 body {
+    font-family: var(--fonte-corpo);
     background-color: var(--cor-fundo-palco);
     background-image:
         radial-gradient(circle at 15% 10%, rgba(237, 28, 36, 0.12), transparent 35%),
@@ -50,6 +50,10 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+}
+
+button, input, select, textarea {
+    font-family: var(--fonte-corpo);
 }
 
 h1, h2, h3, .fonte-rock {
@@ -202,18 +206,20 @@ h1, h2, h3, .fonte-rock {
 .secao-destaque {
     position: relative;
     overflow: hidden;
-    padding: 76px 20px 54px;
+    min-height: 430px;
+    padding: 84px 5% 72px;
     display: flex;
     align-items: center;
+    justify-content: center;
     flex-direction: column;
     text-align: center;
     border-bottom: 1px solid var(--cor-borda-clara);
-    background: linear-gradient(180deg, rgba(5, 5, 5, 0.85) 0%, rgba(11, 11, 11, 0.98) 100%);
+    background: radial-gradient(circle at 50% 42%, rgba(237, 28, 36, 0.14), transparent 55%), #050505;
 }
 
 .secao-destaque > * {
     position: relative;
-    z-index: 1;
+    z-index: 2;
 }
 
 .secao-destaque::before {
@@ -238,18 +244,17 @@ h1, h2, h3, .fonte-rock {
 .secao-destaque::after {
     content: "";
     position: absolute;
-    inset: -50%;
+    inset: -15%;
     z-index: 0;
     pointer-events: none;
-    background-image: repeating-linear-gradient(
-        -45deg,
-        rgba(255, 255, 255, 0.032) 0px,
-        rgba(255, 255, 255, 0.032) 12px,
-        transparent 12px,
-        transparent 24px
-    );
-    animation: deslizarGrade 6s linear infinite, pulsoPalco 4.5s ease-in-out infinite alternate;
-    will-change: transform, opacity;
+    background-image:
+        linear-gradient(to right, rgba(245, 245, 243, 0.075) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(245, 245, 243, 0.075) 1px, transparent 1px);
+    background-size: 58px 58px;
+    transform: perspective(900px) rotateY(-14deg) rotateX(8deg) scale(1.25);
+    transform-origin: center center;
+    mask-image: radial-gradient(ellipse 80% 75% at 50% 48%, #000 35%, transparent 85%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 75% at 50% 48%, #000 35%, transparent 85%);
 }
 
 @keyframes pulsoPalco {
@@ -258,15 +263,6 @@ h1, h2, h3, .fonte-rock {
     }
     100% {
         opacity: 1;
-    }
-}
-
-@keyframes deslizarGrade {
-    0% {
-        transform: translate3d(0, 0, 0);
-    }
-    100% {
-        transform: translate3d(34px, 34px, 0);
     }
 }
 
@@ -1830,7 +1826,8 @@ h1, h2, h3, .fonte-rock {
     }
 
     .secao-destaque {
-        padding: 54px 16px 38px;
+        min-height: auto;
+        padding: 56px 5% 46px;
     }
 
     .secao-hero-principal {
