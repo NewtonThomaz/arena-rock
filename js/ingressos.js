@@ -5,49 +5,65 @@
 
     function criarCartaoIngresso(inscricao) {
         const cartao = document.createElement("article");
-        cartao.className = "cartao-evento";
+        cartao.className = "cartao-vitrine";
 
-        const cabecalho = document.createElement("div");
-        cabecalho.className = "cabecalho-cartao";
+        const eventoRelacionado = EventosAPI.buscarEventoPorId(inscricao.eventoId);
+        cartao.appendChild(
+            EventosAPI.criarMidiaVitrine(
+                EventosAPI.obterCapaEvento(eventoRelacionado || {}),
+                inscricao.eventoTitulo,
+                inscricao.setorIngresso || "Pista Rock",
+                "Confirmado",
+                ""
+            )
+        );
 
-        const selo = document.createElement("span");
-        selo.className = "selo-destaque";
-        selo.textContent = inscricao.codigoConfirmacao;
-
-        const dataHora = document.createElement("span");
-        dataHora.className = "data-evento";
-        dataHora.textContent = "Emitido em " + inscricao.dataHora;
-
-        cabecalho.appendChild(selo);
-        cabecalho.appendChild(dataHora);
-
-        const setor = document.createElement("span");
-        setor.className = "categoria-evento";
-        setor.textContent = inscricao.setorIngresso || "Pista Rock";
+        const corpo = document.createElement("div");
+        corpo.className = "corpo-cartao";
 
         const titulo = document.createElement("h3");
-        titulo.className = "titulo-evento";
+        titulo.className = "titulo-cartao";
         titulo.textContent = inscricao.eventoTitulo;
+        corpo.appendChild(titulo);
 
-        const titular = document.createElement("p");
-        titular.className = "atracao-principal";
-        titular.textContent = "Titular: " + inscricao.nome;
+        const listaMeta = document.createElement("div");
+        listaMeta.className = "lista-meta-cartao";
 
-        const email = document.createElement("p");
-        email.className = "local-evento";
-        email.textContent = "E-mail: " + inscricao.email;
+        const linhaTitular = document.createElement("div");
+        linhaTitular.className = "linha-meta-cartao";
+        linhaTitular.appendChild(EventosAPI.criarMetaIcone("usuarios", inscricao.nome + " • " + inscricao.email, "destaque-meta"));
+        listaMeta.appendChild(linhaTitular);
+
+        const linhaEmissao = document.createElement("div");
+        linhaEmissao.className = "linha-meta-cartao";
+        linhaEmissao.appendChild(EventosAPI.criarMetaIcone("calendario", "Emitido em " + inscricao.dataHora));
+        listaMeta.appendChild(linhaEmissao);
+
+        corpo.appendChild(listaMeta);
+
+        const rodape = document.createElement("div");
+        rodape.className = "rodape-cartao";
+
+        const destaqueRodape = document.createElement("div");
+        destaqueRodape.className = "destaque-rodape-cartao";
+        const rotulo = document.createElement("span");
+        rotulo.className = "rotulo-rodape-cartao";
+        rotulo.textContent = "voucher";
+        const codigo = document.createElement("strong");
+        codigo.className = "valor-rodape-cartao codigo";
+        codigo.textContent = inscricao.codigoConfirmacao;
+        destaqueRodape.appendChild(rotulo);
+        destaqueRodape.appendChild(codigo);
 
         const linkShow = document.createElement("a");
-        linkShow.className = "link-detalhes";
+        linkShow.className = "botao-cartao";
         linkShow.href = "evento.html?id=" + encodeURIComponent(inscricao.eventoId);
-        linkShow.textContent = "Ver Detalhes do Show";
+        linkShow.textContent = "Ver Show →";
 
-        cartao.appendChild(cabecalho);
-        cartao.appendChild(setor);
-        cartao.appendChild(titulo);
-        cartao.appendChild(titular);
-        cartao.appendChild(email);
-        cartao.appendChild(linkShow);
+        rodape.appendChild(destaqueRodape);
+        rodape.appendChild(linkShow);
+        corpo.appendChild(rodape);
+        cartao.appendChild(corpo);
 
         return cartao;
     }

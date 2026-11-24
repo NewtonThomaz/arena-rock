@@ -729,6 +729,122 @@ window.EventosAPI = (function () {
         inicializarEfeitoHero();
     }
 
+    const CAPAS_CARDS = [
+        "./assets/images/cards/capa-festival.png",
+        "./assets/images/cards/capa-show.png",
+        "./assets/images/cards/capa-tributo.png",
+        "./assets/images/cards/capa-batalha.png",
+        "./assets/images/cards/capa-workshop.png",
+        "./assets/images/cards/capa-palco.png"
+    ];
+
+    function obterCapaEvento(evento) {
+        if (evento && evento.imagem) {
+            return evento.imagem;
+        }
+        const slug = evento && evento.id ? String(evento.id).toLowerCase() : "";
+        if (slug === "ritual-doom-nocturno") {
+            return "./assets/images/cards/capa-palco.png";
+        }
+        if (slug === "tributo-monstros-metal") {
+            return "./assets/images/cards/capa-show.png";
+        }
+        const categoria = evento && evento.categoria ? String(evento.categoria).toLowerCase() : "";
+        if (categoria.includes("festival")) return "./assets/images/cards/capa-festival.png";
+        if (categoria.includes("tributo")) return "./assets/images/cards/capa-tributo.png";
+        if (categoria.includes("batalha")) return "./assets/images/cards/capa-batalha.png";
+        if (categoria.includes("workshop")) return "./assets/images/cards/capa-workshop.png";
+        if (categoria.includes("encontro")) return "./assets/images/cards/capa-palco.png";
+        return "./assets/images/cards/capa-show.png";
+    }
+
+    function obterCapaBanda(banda, indice) {
+        if (banda && banda.imagem) {
+            return banda.imagem;
+        }
+        const mapaPorSlug = {
+            "valquiria-de-aco": "./assets/images/cards/capa-show.png",
+            "furia-subterranea": "./assets/images/cards/capa-batalha.png",
+            "eco-de-seattle": "./assets/images/cards/capa-tributo.png",
+            "voltagem-77": "./assets/images/cards/capa-festival.png",
+            "cripta-sombria": "./assets/images/cards/capa-palco.png",
+            "distrito-fantasma": "./assets/images/cards/capa-workshop.png"
+        };
+        const slug = banda && (banda.slug || banda.id) ? String(banda.slug || banda.id).toLowerCase() : "";
+        if (mapaPorSlug[slug]) {
+            return mapaPorSlug[slug];
+        }
+        const idx = Math.abs(Number(indice || 0)) % CAPAS_CARDS.length;
+        return CAPAS_CARDS[idx];
+    }
+
+    function obterCapaLocal(local, indice) {
+        if (local && local.imagem) {
+            return local.imagem;
+        }
+        const chave = local ? (String(local.id || "") + " " + String(local.nome || "")).toLowerCase() : "";
+        if (chave.includes("arena") || chave.includes("trovao")) return "./assets/images/cards/capa-festival.png";
+        if (chave.includes("galpao") || chave.includes("manifesto")) return "./assets/images/cards/capa-batalha.png";
+        if (chave.includes("caverna") || chave.includes("pub")) return "./assets/images/cards/capa-palco.png";
+        if (chave.includes("estudio") || chave.includes("amplificador")) return "./assets/images/cards/capa-workshop.png";
+        const idx = Math.abs(Number(indice || 0)) % CAPAS_CARDS.length;
+        return CAPAS_CARDS[idx];
+    }
+
+    function obterIconeSVG(nome) {
+        const icones = {
+            pin: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>',
+            calendario: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>',
+            relogio: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+            musica: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>',
+            guitarra: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>',
+            usuarios: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+            raio: '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>'
+        };
+        return icones[nome] || icones.musica;
+    }
+
+    function criarMidiaVitrine(srcImagem, altImagem, etiquetaTexto, seloTexto, classeSeloExtra) {
+        const midia = document.createElement("div");
+        midia.className = "midia-cartao";
+
+        const img = document.createElement("img");
+        img.className = "imagem-cartao";
+        img.src = srcImagem;
+        img.alt = altImagem || "";
+        img.loading = "lazy";
+        midia.appendChild(img);
+
+        if (seloTexto) {
+            const selo = document.createElement("span");
+            selo.className = "selo-topo-cartao" + (classeSeloExtra ? " " + classeSeloExtra : "");
+            if (classeSeloExtra !== "esgotado") {
+                selo.innerHTML = obterIconeSVG("raio");
+            }
+            selo.appendChild(document.createTextNode(seloTexto));
+            midia.appendChild(selo);
+        }
+
+        if (etiquetaTexto) {
+            const etiqueta = document.createElement("span");
+            etiqueta.className = "etiqueta-midia-cartao";
+            etiqueta.textContent = etiquetaTexto;
+            midia.appendChild(etiqueta);
+        }
+
+        return midia;
+    }
+
+    function criarMetaIcone(nomeIcone, texto, classeExtra) {
+        const item = document.createElement("span");
+        item.className = "item-meta-icone" + (classeExtra ? " " + classeExtra : "");
+        item.innerHTML = obterIconeSVG(nomeIcone);
+        const spanTexto = document.createElement("span");
+        spanTexto.textContent = texto || "";
+        item.appendChild(spanTexto);
+        return item;
+    }
+
     return {
         sincronizarComSupabase: sincronizarComSupabase,
         listarEventos: listarEventos,
@@ -746,6 +862,12 @@ window.EventosAPI = (function () {
         removerEventoLocal: removerEventoLocal,
         adicionarCategoriaLocal: adicionarCategoriaLocal,
         removerCategoriaLocal: removerCategoriaLocal,
-        removerInscricaoLocal: removerInscricaoLocal
+        removerInscricaoLocal: removerInscricaoLocal,
+        obterCapaEvento: obterCapaEvento,
+        obterCapaBanda: obterCapaBanda,
+        obterCapaLocal: obterCapaLocal,
+        obterIconeSVG: obterIconeSVG,
+        criarMidiaVitrine: criarMidiaVitrine,
+        criarMetaIcone: criarMetaIcone
     };
 })();

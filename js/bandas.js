@@ -3,57 +3,73 @@
     const contadorBandas = document.getElementById("contador-bandas");
     const buscaBandas = document.getElementById("busca-bandas");
 
-    function criarCartaoBanda(banda) {
+    function criarCartaoBanda(banda, indice) {
         const cartao = document.createElement("article");
-        cartao.className = "cartao-banda";
+        cartao.className = "cartao-vitrine";
 
-        const cabecalho = document.createElement("div");
-        cabecalho.className = "cabecalho-cartao";
+        cartao.appendChild(
+            EventosAPI.criarMidiaVitrine(
+                EventosAPI.obterCapaBanda(banda, indice),
+                banda.nome,
+                banda.vertente,
+                banda.destaque ? "Headliner" : "",
+                ""
+            )
+        );
 
-        const vertente = document.createElement("span");
-        vertente.className = "categoria-evento";
-        vertente.textContent = banda.vertente;
-        cabecalho.appendChild(vertente);
-
-        if (banda.destaque) {
-            const destaque = document.createElement("span");
-            destaque.className = "selo-destaque";
-            destaque.textContent = "Headliner";
-            cabecalho.appendChild(destaque);
-        }
+        const corpo = document.createElement("div");
+        corpo.className = "corpo-cartao";
 
         const nome = document.createElement("h3");
-        nome.className = "nome-banda";
+        nome.className = "titulo-cartao";
         nome.textContent = banda.nome;
+        corpo.appendChild(nome);
 
         const biografia = document.createElement("p");
-        biografia.className = "biografia-banda";
+        biografia.className = "resumo-cartao";
         biografia.textContent = banda.biografia;
+        corpo.appendChild(biografia);
 
-        const meta = document.createElement("div");
-        meta.className = "meta-cartao";
+        const listaMeta = document.createElement("div");
+        listaMeta.className = "lista-meta-cartao";
 
-        const cidade = document.createElement("span");
-        cidade.className = "meta-item";
-        cidade.textContent = "Origem: " + banda.cidade;
+        const linhaCidade = document.createElement("div");
+        linhaCidade.className = "linha-meta-cartao";
+        linhaCidade.appendChild(EventosAPI.criarMetaIcone("pin", banda.cidade));
+        listaMeta.appendChild(linhaCidade);
 
-        const integrantes = document.createElement("span");
-        integrantes.className = "meta-item";
-        integrantes.textContent = "Formação: " + banda.integrantes;
+        if (banda.integrantes) {
+            const linhaIntegrantes = document.createElement("div");
+            linhaIntegrantes.className = "linha-meta-cartao";
+            linhaIntegrantes.appendChild(EventosAPI.criarMetaIcone("usuarios", banda.integrantes));
+            listaMeta.appendChild(linhaIntegrantes);
+        }
 
-        meta.appendChild(cidade);
-        meta.appendChild(integrantes);
+        corpo.appendChild(listaMeta);
+
+        const rodape = document.createElement("div");
+        rodape.className = "rodape-cartao";
+
+        const destaqueRodape = document.createElement("div");
+        destaqueRodape.className = "destaque-rodape-cartao";
+        const rotulo = document.createElement("span");
+        rotulo.className = "rotulo-rodape-cartao";
+        rotulo.textContent = "temporada";
+        const valor = document.createElement("strong");
+        valor.className = "valor-rodape-cartao";
+        valor.textContent = "2026";
+        destaqueRodape.appendChild(rotulo);
+        destaqueRodape.appendChild(valor);
 
         const botaoShows = document.createElement("a");
-        botaoShows.className = "link-detalhes";
+        botaoShows.className = "botao-cartao";
         botaoShows.href = "index.html#agenda";
-        botaoShows.textContent = "Ver Shows na Agenda";
+        botaoShows.textContent = "Ver Shows →";
 
-        cartao.appendChild(cabecalho);
-        cartao.appendChild(nome);
-        cartao.appendChild(biografia);
-        cartao.appendChild(meta);
-        cartao.appendChild(botaoShows);
+        rodape.appendChild(destaqueRodape);
+        rodape.appendChild(botaoShows);
+        corpo.appendChild(rodape);
+        cartao.appendChild(corpo);
 
         return cartao;
     }
@@ -81,8 +97,8 @@
             return;
         }
 
-        filtradas.forEach(function (banda) {
-            listaBandas.appendChild(criarCartaoBanda(banda));
+        filtradas.forEach(function (banda, indice) {
+            listaBandas.appendChild(criarCartaoBanda(banda, indice));
         });
     }
 

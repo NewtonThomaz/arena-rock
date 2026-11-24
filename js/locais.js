@@ -1,56 +1,73 @@
 (function () {
     const listaLocais = document.getElementById("lista-locais");
 
-    function criarCartaoLocal(local) {
+    function criarCartaoLocal(local, indice) {
         const cartao = document.createElement("article");
-        cartao.className = "cartao-local";
+        cartao.className = "cartao-vitrine";
 
-        const cabecalho = document.createElement("div");
-        cabecalho.className = "cabecalho-cartao";
+        cartao.appendChild(
+            EventosAPI.criarMidiaVitrine(
+                EventosAPI.obterCapaLocal(local, indice),
+                local.nome,
+                local.bairroCidade,
+                "",
+                ""
+            )
+        );
 
-        const bairro = document.createElement("span");
-        bairro.className = "categoria-evento";
-        bairro.textContent = local.bairroCidade;
-
-        const capacidade = document.createElement("span");
-        capacidade.className = "data-evento";
-        capacidade.textContent = "Capacidade: " + local.capacidade + " pessoas";
-
-        cabecalho.appendChild(bairro);
-        cabecalho.appendChild(capacidade);
+        const corpo = document.createElement("div");
+        corpo.className = "corpo-cartao";
 
         const nome = document.createElement("h3");
-        nome.className = "nome-local";
+        nome.className = "titulo-cartao";
         nome.textContent = local.nome;
+        corpo.appendChild(nome);
 
         const descricao = document.createElement("p");
-        descricao.className = "descricao-local";
+        descricao.className = "resumo-cartao";
         descricao.textContent = local.descricao;
+        corpo.appendChild(descricao);
 
-        const meta = document.createElement("div");
-        meta.className = "meta-cartao";
+        const listaMeta = document.createElement("div");
+        listaMeta.className = "lista-meta-cartao";
 
-        const endereco = document.createElement("span");
-        endereco.className = "meta-item";
-        endereco.textContent = "Endereço: " + local.endereco;
+        const linhaEndereco = document.createElement("div");
+        linhaEndereco.className = "linha-meta-cartao";
+        linhaEndereco.appendChild(EventosAPI.criarMetaIcone("pin", local.endereco));
+        listaMeta.appendChild(linhaEndereco);
 
-        const estrutura = document.createElement("span");
-        estrutura.className = "meta-item";
-        estrutura.textContent = "Estrutura: " + local.estrutura;
+        if (local.estrutura) {
+            const linhaEstrutura = document.createElement("div");
+            linhaEstrutura.className = "linha-meta-cartao";
+            linhaEstrutura.appendChild(EventosAPI.criarMetaIcone("musica", local.estrutura));
+            listaMeta.appendChild(linhaEstrutura);
+        }
 
-        meta.appendChild(endereco);
-        meta.appendChild(estrutura);
+        corpo.appendChild(listaMeta);
+
+        const rodape = document.createElement("div");
+        rodape.className = "rodape-cartao";
+
+        const destaqueRodape = document.createElement("div");
+        destaqueRodape.className = "destaque-rodape-cartao";
+        const rotulo = document.createElement("span");
+        rotulo.className = "rotulo-rodape-cartao";
+        rotulo.textContent = "lotação";
+        const valor = document.createElement("strong");
+        valor.className = "valor-rodape-cartao";
+        valor.textContent = Number(local.capacidade || 0).toLocaleString("pt-BR");
+        destaqueRodape.appendChild(rotulo);
+        destaqueRodape.appendChild(valor);
 
         const linkAgenda = document.createElement("a");
-        linkAgenda.className = "link-detalhes";
+        linkAgenda.className = "botao-cartao";
         linkAgenda.href = "index.html#agenda";
-        linkAgenda.textContent = "Ver Shows neste Palco";
+        linkAgenda.textContent = "Ver Agenda →";
 
-        cartao.appendChild(cabecalho);
-        cartao.appendChild(nome);
-        cartao.appendChild(descricao);
-        cartao.appendChild(meta);
-        cartao.appendChild(linkAgenda);
+        rodape.appendChild(destaqueRodape);
+        rodape.appendChild(linkAgenda);
+        corpo.appendChild(rodape);
+        cartao.appendChild(corpo);
 
         return cartao;
     }
@@ -62,8 +79,8 @@
             contadorLocais.textContent = locais.length + (locais.length === 1 ? " casa de show parceira" : " casas de show parceiras");
         }
         listaLocais.innerHTML = "";
-        locais.forEach(function (local) {
-            listaLocais.appendChild(criarCartaoLocal(local));
+        locais.forEach(function (local, indice) {
+            listaLocais.appendChild(criarCartaoLocal(local, indice));
         });
     }
 

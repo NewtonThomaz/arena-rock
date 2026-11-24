@@ -6,69 +6,83 @@
 
     function criarCardEvento(evento) {
         const cartao = document.createElement("article");
-        cartao.className = "cartao-evento";
+        cartao.className = "cartao-vitrine";
 
-        const cabecalho = document.createElement("div");
-        cabecalho.className = "cabecalho-cartao";
+        const esgotado = Number(evento.vagasRestantes || 0) <= 0;
+        const seloTexto = esgotado ? "Esgotado" : (evento.destaque ? "Destaque" : "");
+        const seloClasse = esgotado ? "esgotado" : "";
+        cartao.appendChild(
+            EventosAPI.criarMidiaVitrine(
+                EventosAPI.obterCapaEvento(evento),
+                evento.titulo,
+                evento.categoria,
+                seloTexto,
+                seloClasse
+            )
+        );
 
-        const categoria = document.createElement("span");
-        categoria.className = "categoria-evento";
-        categoria.textContent = evento.categoria;
-        cabecalho.appendChild(categoria);
-
-        const data = document.createElement("time");
-        data.className = "data-evento";
-        data.textContent = EventosAPI.formatarData(evento.dataISO) + " • " + evento.horario;
-        cabecalho.appendChild(data);
+        const corpo = document.createElement("div");
+        corpo.className = "corpo-cartao";
 
         const titulo = document.createElement("h3");
-        titulo.className = "titulo-evento";
+        titulo.className = "titulo-cartao";
         titulo.textContent = evento.titulo;
+        corpo.appendChild(titulo);
 
-        const atracao = document.createElement("p");
-        atracao.className = "atracao-principal";
-        atracao.textContent = "Line-up: " + (evento.bandaPrincipal || "Bandas convidadas");
+        const listaMeta = document.createElement("div");
+        listaMeta.className = "lista-meta-cartao";
 
-        const local = document.createElement("p");
-        local.className = "local-evento";
-        local.textContent = "Palco: " + evento.local;
+        const linhaBanda = document.createElement("div");
+        linhaBanda.className = "linha-meta-cartao";
+        linhaBanda.appendChild(EventosAPI.criarMetaIcone("musica", evento.bandaPrincipal || "Atrações Confirmadas", "destaque-meta"));
+        listaMeta.appendChild(linhaBanda);
 
-        const ocupacao = document.createElement("div");
-        ocupacao.className = "info-ocupacao";
+        const linhaLocal = document.createElement("div");
+        linhaLocal.className = "linha-meta-cartao";
+        linhaLocal.appendChild(EventosAPI.criarMetaIcone("pin", evento.local));
+        listaMeta.appendChild(linhaLocal);
 
-        const quantidade = document.createElement("span");
-        quantidade.className = "quantidade-vagas";
-        quantidade.textContent = evento.vagasRestantes > 0
-            ? evento.vagasRestantes + " ingressos restantes"
-            : "Ingressos Esgotados (Sold Out)";
+        const linhaData = document.createElement("div");
+        linhaData.className = "linha-meta-cartao";
+        linhaData.appendChild(EventosAPI.criarMetaIcone("calendario", EventosAPI.formatarData(evento.dataISO)));
+        linhaData.appendChild(EventosAPI.criarMetaIcone("relogio", evento.horario));
+        listaMeta.appendChild(linhaData);
 
-        const percentual = EventosAPI.calcularPercentualOcupacao(evento);
-        const percentagem = document.createElement("span");
-        percentagem.className = "percentual-vagas";
-        percentagem.textContent = percentual + "% lotado";
+        corpo.appendChild(listaMeta);
 
-        const barraProgresso = document.createElement("div");
-        barraProgresso.className = "barra-progresso";
-        const preenchimentoProgresso = document.createElement("div");
-        preenchimentoProgresso.className = "preenchimento-progresso";
-        preenchimentoProgresso.style.width = percentual + "%";
-        barraProgresso.appendChild(preenchimentoProgresso);
+        const rodape = document.createElement("div");
+        rodape.className = "rodape-cartao";
 
-        ocupacao.appendChild(quantidade);
-        ocupacao.appendChild(percentagem);
-        ocupacao.appendChild(barraProgresso);
+        const destaqueRodape = document.createElement("div");
+        destaqueRodape.className = "destaque-rodape-cartao";
+
+        if (!esgotado) {
+            const rotulo = document.createElement("span");
+            rotulo.className = "rotulo-rodape-cartao";
+            rotulo.textContent = "restam";
+
+            const valor = document.createElement("strong");
+            valor.className = "valor-rodape-cartao";
+            valor.textContent = Number(evento.vagasRestantes).toLocaleString("pt-BR");
+
+            destaqueRodape.appendChild(rotulo);
+            destaqueRodape.appendChild(valor);
+        } else {
+            const valorEsgotado = document.createElement("strong");
+            valorEsgotado.className = "valor-rodape-cartao esgotado";
+            valorEsgotado.textContent = "Sold Out";
+            destaqueRodape.appendChild(valorEsgotado);
+        }
 
         const link = document.createElement("a");
-        link.className = "link-detalhes";
+        link.className = "botao-cartao";
         link.href = "evento.html?id=" + encodeURIComponent(evento.id);
-        link.textContent = "Ver Line-up & Garantir Ingresso";
+        link.textContent = "Ingressos →";
 
-        cartao.appendChild(cabecalho);
-        cartao.appendChild(titulo);
-        cartao.appendChild(atracao);
-        cartao.appendChild(local);
-        cartao.appendChild(ocupacao);
-        cartao.appendChild(link);
+        rodape.appendChild(destaqueRodape);
+        rodape.appendChild(link);
+        corpo.appendChild(rodape);
+        cartao.appendChild(corpo);
 
         return cartao;
     }
@@ -77,7 +91,7 @@
         listaEventos.innerHTML = "";
         for (let i = 0; i < quantidade; i++) {
             const esqueleto = document.createElement("div");
-            esqueleto.className = "cartao-evento esqueleto";
+            esqueleto.className = "cartao-vitrine esqueleto";
             listaEventos.appendChild(esqueleto);
         }
     }
