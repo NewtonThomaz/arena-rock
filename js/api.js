@@ -695,12 +695,16 @@ window.EventosAPI = (function () {
                 const retangulo = hero.getBoundingClientRect();
                 ultimoX = evento.clientX - retangulo.left;
                 ultimoY = evento.clientY - retangulo.top;
+                const nx = retangulo.width ? (ultimoX / retangulo.width) * 2 - 1 : 0;
+                const ny = retangulo.height ? (ultimoY / retangulo.height) * 2 - 1 : 0;
 
                 if (!quadroPendente) {
                     quadroPendente = true;
                     requestAnimationFrame(function () {
                         hero.style.setProperty("--mouse-x", ultimoX + "px");
                         hero.style.setProperty("--mouse-y", ultimoY + "px");
+                        hero.style.setProperty("--tilt-x", (-ny * 18).toFixed(2) + "deg");
+                        hero.style.setProperty("--tilt-y", (nx * 18).toFixed(2) + "deg");
                         quadroPendente = false;
                     });
                 }
@@ -709,6 +713,8 @@ window.EventosAPI = (function () {
             hero.addEventListener("pointerleave", function () {
                 hero.style.removeProperty("--mouse-x");
                 hero.style.removeProperty("--mouse-y");
+                hero.style.removeProperty("--tilt-x");
+                hero.style.removeProperty("--tilt-y");
             });
         });
     }

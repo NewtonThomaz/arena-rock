@@ -1,8 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Archivo+Black&family=Libre+Franklin:wght@400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Archivo+Black&family=Libre+Franklin:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@1,700;1,900&display=swap");
 
 :root {
     --fonte-display: "Archivo Black", "Franklin Gothic Heavy", "Arial Black", sans-serif;
     --fonte-corpo: "Libre Franklin", "Franklin Gothic Medium", Arial, sans-serif;
+    --fonte-cursiva: "Playfair Display", Georgia, serif;
     --cor-fundo-escuro: #050505;
     --cor-fundo-palco: #0b0b0b;
     --cor-superficie: #131313;
@@ -271,9 +272,340 @@ h1, h2, h3, .fonte-rock {
 
 @media (prefers-reduced-motion: reduce) {
     .secao-destaque::before,
-    .secao-destaque::after {
+    .secao-destaque::after,
+    .giro-asterisco-3d,
+    .anel-orbital-3d,
+    .trilha-marquee,
+    .aura-emblema-3d {
         animation: none;
     }
+}
+
+.secao-hero-principal {
+    min-height: calc(100vh - 84px);
+    padding: 56px 5% 124px;
+    justify-content: center;
+    background: radial-gradient(circle at 72% 42%, rgba(237, 28, 36, 0.14), transparent 52%), #050505;
+}
+
+.secao-hero-principal::after {
+    display: none;
+}
+
+.grade-perspectiva-hero {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.grade-perspectiva-hero::before {
+    content: "";
+    position: absolute;
+    inset: -15%;
+    background-image:
+        linear-gradient(to right, rgba(245, 245, 243, 0.075) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(245, 245, 243, 0.075) 1px, transparent 1px);
+    background-size: 58px 58px;
+    transform: perspective(900px) rotateY(-14deg) rotateX(8deg) scale(1.25);
+    transform-origin: center center;
+    mask-image: radial-gradient(ellipse 80% 75% at 55% 48%, #000 35%, transparent 85%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 75% at 55% 48%, #000 35%, transparent 85%);
+}
+
+.container-hero-split {
+    width: 100%;
+    max-width: var(--largura-grande);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.12fr 0.88fr;
+    align-items: center;
+    gap: 44px;
+    z-index: 2;
+}
+
+.coluna-hero-texto {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.selo-topo-hero {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 15px;
+    border-radius: var(--raio-pilula);
+    background: rgba(245, 245, 243, 0.06);
+    border: 1px solid rgba(245, 245, 243, 0.16);
+    color: var(--cor-texto-metal);
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 22px;
+    backdrop-filter: blur(8px);
+}
+
+.ponto-ao-vivo {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--cor-vermelho-rock);
+    box-shadow: 0 0 12px var(--cor-vermelho-rock);
+    flex-shrink: 0;
+}
+
+.titulo-hero {
+    font-size: clamp(34px, 4.6vw + 0.6rem, 64px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+    max-width: 680px;
+}
+
+.texto-cursivo {
+    font-family: var(--fonte-cursiva);
+    font-style: italic;
+    font-weight: 900;
+    text-transform: lowercase;
+    color: var(--cor-vermelho-rock);
+    letter-spacing: -0.01em;
+    padding: 0 6px;
+    display: inline-block;
+    text-shadow: 0 0 28px rgba(237, 28, 36, 0.45);
+    font-size: 1.08em;
+}
+
+.descricao-hero {
+    margin-bottom: 30px;
+    max-width: 540px;
+    font-size: 16px;
+}
+
+.acoes-hero {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+}
+
+.botao-cta-hero {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 30px;
+    font-size: 13px;
+    box-shadow: 0 8px 26px rgba(237, 28, 36, 0.4);
+}
+
+.botao-contorno-hero {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 28px;
+    border-radius: var(--raio-pilula);
+    background: rgba(245, 245, 243, 0.05);
+    border: 1px solid rgba(245, 245, 243, 0.22);
+    color: var(--cor-texto-branco);
+    font-family: var(--fonte-corpo);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: all 0.25s ease;
+}
+
+.botao-contorno-hero:hover {
+    border-color: var(--cor-vermelho-rock);
+    background: rgba(237, 28, 36, 0.14);
+    box-shadow: var(--sombra-neon);
+}
+
+.coluna-hero-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.palco-emblema-3d {
+    position: relative;
+    width: 100%;
+    min-height: 380px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1100px;
+}
+
+.aura-emblema-3d {
+    position: absolute;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(237, 28, 36, 0.42) 0%, rgba(237, 28, 36, 0.08) 50%, transparent 72%);
+    filter: blur(28px);
+    pointer-events: none;
+    animation: pulsoPalco 4s ease-in-out infinite alternate;
+}
+
+.objeto-asterisco-3d {
+    position: relative;
+    width: clamp(240px, 28vw, 360px);
+    height: clamp(240px, 28vw, 360px);
+    transform-style: preserve-3d;
+    transform: rotateX(var(--tilt-x, 12deg)) rotateY(var(--tilt-y, -16deg));
+    transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+}
+
+.giro-asterisco-3d {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    animation: girarEmblema3D 24s linear infinite;
+}
+
+.anel-orbital-3d {
+    position: absolute;
+    inset: -14%;
+    border-radius: 50%;
+    border: 1.5px dashed rgba(245, 245, 243, 0.2);
+    box-shadow: 0 0 28px rgba(237, 28, 36, 0.15);
+    transform: translateZ(22px);
+    animation: girarAnelOposto 18s linear infinite;
+    pointer-events: none;
+}
+
+.camada-asterisco {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+}
+
+.camada-fundo-4 { transform: translateZ(-28px); }
+.camada-fundo-3 { transform: translateZ(-21px); }
+.camada-fundo-2 { transform: translateZ(-14px); }
+.camada-fundo-1 { transform: translateZ(-7px); }
+
+.camada-frente {
+    transform: translateZ(0);
+    filter: drop-shadow(0 18px 34px rgba(237, 28, 36, 0.45));
+}
+
+@keyframes girarEmblema3D {
+    0% { transform: rotateZ(0deg); }
+    100% { transform: rotateZ(360deg); }
+}
+
+@keyframes girarAnelOposto {
+    0% { transform: translateZ(22px) rotateZ(0deg); }
+    100% { transform: translateZ(22px) rotateZ(-360deg); }
+}
+
+.estatisticas-topo.estatisticas-vidro {
+    width: 100%;
+    max-width: var(--largura-grande);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 44px;
+    padding-top: 0;
+    border-top: none;
+    z-index: 2;
+}
+
+.estatisticas-vidro .item-estatistica {
+    background: rgba(19, 19, 19, 0.62);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(245, 245, 243, 0.12);
+    border-radius: var(--raio-grande);
+    padding: 18px 16px;
+    align-items: flex-start;
+    text-align: left;
+    transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.estatisticas-vidro .item-estatistica:hover {
+    transform: translateY(-3px);
+    border-color: var(--cor-borda-forte);
+}
+
+.faixa-marquee-hero {
+    position: absolute;
+    left: -4%;
+    right: -4%;
+    bottom: 22px;
+    z-index: 3;
+    background: rgba(18, 18, 18, 0.82);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(245, 245, 243, 0.15);
+    border-bottom: 1px solid rgba(237, 28, 36, 0.45);
+    padding: 13px 0;
+    transform: rotate(-2.2deg);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.75);
+    overflow: hidden;
+}
+
+.trilha-marquee {
+    display: flex;
+    width: max-content;
+    animation: rolarMarquee 28s linear infinite;
+}
+
+.grupo-marquee {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    padding-right: 28px;
+    font-family: var(--fonte-display);
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    color: var(--cor-texto-branco);
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.separador-asterisco {
+    color: var(--cor-vermelho-rock);
+    font-size: 16px;
+}
+
+@keyframes rolarMarquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.topo-secao-agenda {
+    width: 92%;
+    max-width: var(--largura-grande);
+    margin: 0 auto 26px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+}
+
+.titulo-secao-agenda {
+    font-size: clamp(22px, 3vw, 32px);
+    color: var(--cor-texto-branco);
+}
+
+.topo-secao-agenda .campo-busca {
+    max-width: 440px;
+    flex: 1 1 300px;
 }
 
 .titulo-principal {
@@ -1483,6 +1815,67 @@ h1, h2, h3, .fonte-rock {
 
     .secao-destaque {
         padding: 54px 16px 38px;
+    }
+
+    .secao-hero-principal {
+        min-height: auto;
+        padding: 36px 5% 100px;
+    }
+
+    .container-hero-split {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .coluna-hero-visual {
+        order: -1;
+    }
+
+    .palco-emblema-3d {
+        min-height: 230px;
+    }
+
+    .aura-emblema-3d {
+        width: 210px;
+        height: 210px;
+    }
+
+    .objeto-asterisco-3d {
+        width: 200px;
+        height: 200px;
+    }
+
+    .coluna-hero-texto {
+        align-items: center;
+        text-align: center;
+    }
+
+    .acoes-hero {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .estatisticas-topo.estatisticas-vidro {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-top: 32px;
+    }
+
+    .estatisticas-vidro .item-estatistica {
+        align-items: center;
+        text-align: center;
+        padding: 14px 12px;
+    }
+
+    .topo-secao-agenda {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+
+    .topo-secao-agenda .campo-busca {
+        max-width: 100%;
+        flex: none;
     }
 
     .secao-eventos,
