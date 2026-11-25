@@ -1048,6 +1048,8 @@ h1, h2, h3, .fonte-rock {
 }
 
 .categoria-evento {
+    display: inline-block;
+    white-space: nowrap;
     color: #ff474d;
     text-transform: uppercase;
     font-size: 11px;
@@ -1730,7 +1732,7 @@ h1, h2, h3, .fonte-rock {
     background-color: var(--cor-superficie);
     border: 1px solid var(--cor-borda-clara);
     border-radius: var(--raio-grande);
-    padding: 26px;
+    padding: 28px 30px;
     box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
 }
 
@@ -1775,7 +1777,8 @@ h1, h2, h3, .fonte-rock {
 
 .envoltorio-tabela {
     width: 100%;
-    overflow: visible;
+    overflow-x: auto;
+    overflow-y: visible;
     max-height: none;
 }
 
@@ -1786,32 +1789,40 @@ h1, h2, h3, .fonte-rock {
 
 .tabela-admin th,
 .tabela-admin td {
-    padding: 13px 10px;
+    padding: 16px 14px;
     text-align: left;
+    vertical-align: middle;
     font-size: 13px;
+    line-height: 1.45;
     color: var(--cor-texto-branco);
     border-bottom: 1px solid var(--cor-borda-clara);
     white-space: normal;
     overflow-wrap: break-word;
 }
 
+.tabela-admin .celula-nowrap {
+    white-space: nowrap;
+}
+
 .tabela-admin th:last-child,
 .tabela-admin td:last-child {
     white-space: nowrap;
     width: 1%;
+    text-align: right;
 }
 
 .tabela-admin th {
     color: var(--cor-texto-cinza);
     text-transform: uppercase;
     font-size: 11px;
-    letter-spacing: 0.06em;
-    font-weight: 700;
+    letter-spacing: 0.08em;
+    font-weight: 800;
     background-color: var(--cor-fundo-escuro);
+    white-space: nowrap;
 }
 
 .tabela-admin tbody tr {
-    transition: 0.2s;
+    transition: background-color 0.2s ease;
 }
 
 .tabela-admin tbody tr:hover {
@@ -1825,7 +1836,23 @@ h1, h2, h3, .fonte-rock {
 .acoes-tabela {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 10px;
+}
+
+.tabela-admin td.acoes-tabela {
+    display: table-cell;
+    vertical-align: middle;
+    white-space: nowrap;
+    text-align: right;
+}
+
+.tabela-admin td.acoes-tabela > * + * {
+    margin-left: 8px;
+}
+
+.tabela-admin .botao-pequeno {
+    padding: 7px 14px;
+    font-size: 11px;
 }
 
 .atalhos-admin {
@@ -1868,6 +1895,7 @@ h1, h2, h3, .fonte-rock {
 
 .selo {
     display: inline-block;
+    white-space: nowrap;
     padding: 4px 10px;
     border-radius: var(--raio-pilula);
     font-size: 11px;
@@ -2213,9 +2241,10 @@ body.pagina-backstage {
 
 .conteudo-backstage .painel-admin {
     width: 100%;
-    max-width: 1240px;
+    max-width: 1260px;
     margin: 0 auto;
-    padding: 36px 32px 64px;
+    padding: 40px 36px 72px;
+    gap: 32px;
 }
 
 .barra-mobile-admin {
@@ -2306,12 +2335,14 @@ body.pagina-backstage {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
     flex-wrap: wrap;
+    margin-bottom: 22px;
 }
 
 .cabecalho-bloco-admin h2 {
     font-size: 18px;
+    margin-bottom: 0;
 }
 
 .link-bloco-admin {
@@ -2541,24 +2572,25 @@ body.pagina-backstage {
 .barra-portaria-admin {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 14px;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 24px;
 }
 
 .controles-portaria-admin {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    flex: 1;
+    gap: 12px;
+    flex: 1 1 520px;
     align-items: center;
 }
 
 .input-busca-admin,
 .select-portaria-admin {
-    height: 42px;
-    padding: 0 14px;
-    border-radius: 12px;
+    height: 44px;
+    padding: 0 16px;
+    border-radius: var(--raio-pilula);
     border: 1px solid var(--cor-borda-clara);
     background-color: var(--cor-fundo-escuro);
     color: var(--cor-texto-branco);
@@ -2568,8 +2600,14 @@ body.pagina-backstage {
 }
 
 .input-busca-admin {
-    flex: 1 1 220px;
-    min-width: 190px;
+    flex: 1.5 1 250px;
+    min-width: 220px;
+}
+
+.select-portaria-admin {
+    flex: 0 1 220px;
+    max-width: 240px;
+    text-overflow: ellipsis;
 }
 
 .input-busca-admin:focus,
@@ -2980,11 +3018,18 @@ body.pagina-backstage {
 
     .tabela-admin td:last-child,
     .tabela-admin td.acoes-tabela {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
         border-bottom: none;
         justify-content: flex-end;
         align-items: center;
         padding-top: 12px;
         padding-bottom: 2px;
+    }
+
+    .tabela-admin td.acoes-tabela > * + * {
+        margin-left: 0;
     }
 
     .tabela-admin td.acoes-tabela::before {

@@ -91,7 +91,7 @@
                 <tr>
                     <td data-label="Casa de Show"><strong>${loc.nome}</strong></td>
                     <td data-label="Bairro / Cidade">${loc.bairroCidade}</td>
-                    <td data-label="Capacidade">${Number(loc.capacidade || 0).toLocaleString("pt-BR")} pessoas</td>
+                    <td data-label="Capacidade" class="celula-nowrap">${Number(loc.capacidade || 0).toLocaleString("pt-BR")} pessoas</td>
                     <td data-label="Endereço">${loc.endereco}</td>
                     <td data-label="Ações" class="acoes-tabela">
                         <button type="button" class="botao-pequeno botao-editar" data-id="${loc.id}">Editar</button>

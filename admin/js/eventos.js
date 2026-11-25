@@ -15,11 +15,20 @@ const controladorEventos = {
             .replace(/^-+|-+$/g, "");
     },
 
+    formatarDataTabela: function (dataISO) {
+        if (!dataISO) return "-";
+        const partes = String(dataISO).split("-");
+        if (partes.length === 3) {
+            return partes[2] + "/" + partes[1] + "/" + partes[0];
+        }
+        return dataISO;
+    },
+
     templateItem: function (item) {
         const nomeShow = item.nome || item.titulo;
         const banda = item.banda_principal || item.bandaPrincipal || "Atrações Confirmadas";
         const nomeCategoria = item.categoria && item.categoria.nome ? item.categoria.nome : (item.categoria || "Show");
-        const dataShow = item.data || item.dataISO;
+        const dataShow = controladorEventos.formatarDataTabela(item.data || item.dataISO);
         const vagasRestantes = item.vagas_restantes ?? item.vagasRestantes ?? 0;
         const vagasTotais = item.vagas_totais ?? item.vagasTotais ?? 0;
         const idRef = item.id;
@@ -30,9 +39,9 @@ const controladorEventos = {
                 <td data-label="Show / Evento"><strong>${nomeShow}</strong></td>
                 <td data-label="Line-up / Banda">${banda}</td>
                 <td data-label="Categoria"><span class="categoria-evento">${nomeCategoria}</span></td>
-                <td data-label="Data">${dataShow}</td>
+                <td data-label="Data" class="celula-nowrap">${dataShow}</td>
                 <td data-label="Casa de Show">${item.local}</td>
-                <td data-label="Ingressos">${vagasRestantes} / ${vagasTotais}</td>
+                <td data-label="Ingressos" class="celula-nowrap">${vagasRestantes} / ${vagasTotais}</td>
                 <td data-label="Ações" class="acoes-tabela">
                     <button type="button" class="botao-pequeno botao-editar botao-editar-evento" data-id="${idRef}">Editar</button>
                     <a class="botao-pequeno botao-editar" href="inscritos.html?evento=${encodeURIComponent(slugRef)}">Inscritos</a>

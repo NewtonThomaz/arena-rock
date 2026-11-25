@@ -81,8 +81,8 @@
                     <td data-label="E-mail">${item.email}</td>
                     <td data-label="Show / Evento">${item.eventoTitulo}</td>
                     <td data-label="Setor"><span class="categoria-evento">${item.setorIngresso || "Pista Rock"}</span></td>
-                    <td data-label="Código"><strong>${item.codigoConfirmacao}</strong></td>
-                    <td data-label="Status"><span class="selo ${classeSelo}">${textoStatus}</span></td>
+                    <td data-label="Código" class="celula-nowrap"><strong>${item.codigoConfirmacao}</strong></td>
+                    <td data-label="Status" class="celula-nowrap"><span class="selo ${classeSelo}">${textoStatus}</span></td>
                     <td data-label="Ações" class="acoes-tabela">
                         <button type="button" class="${classeBotao}" data-id="${item.id}">${textoBotao}</button>
                         <button type="button" class="botao-pequeno botao-excluir" data-id="${item.id}">Remover</button>
