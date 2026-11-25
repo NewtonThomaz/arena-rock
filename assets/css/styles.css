@@ -2204,21 +2204,18 @@ body.pagina-backstage {
 
 .conteudo-backstage {
     flex: 1;
-    margin-left: 0;
-    width: 100%;
+    margin-left: 272px;
     min-width: 0;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    padding-left: max(300px, calc((100% - 1080px) / 2));
-    padding-right: max(28px, calc((100% - 1080px) / 2));
 }
 
 .conteudo-backstage .painel-admin {
     width: 100%;
-    max-width: none;
-    margin: 0;
-    padding: 40px 0 64px;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 36px 32px 64px;
 }
 
 .barra-mobile-admin {
@@ -3062,8 +3059,6 @@ body.pagina-backstage {
 
     .conteudo-backstage {
         margin-left: 0;
-        padding-left: 0;
-        padding-right: 0;
     }
 
     .conteudo-backstage .painel-admin {
