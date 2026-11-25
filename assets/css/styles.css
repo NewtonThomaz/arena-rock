@@ -1171,39 +1171,49 @@ h1, h2, h3, .fonte-rock {
 }
 
 .botao-pequeno {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
     border: none;
     cursor: pointer;
+    font-family: var(--fonte-corpo);
     font-size: 12px;
-    font-weight: 700;
-    padding: 6px 14px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 8px 16px;
     border-radius: var(--raio-pilula);
-    transition: 0.25s;
+    transition: all 0.22s ease;
     text-decoration: none;
     white-space: nowrap;
     flex-shrink: 0;
 }
 
 .botao-editar {
-    background-color: var(--cor-botao-escuro);
+    background: rgba(245, 245, 243, 0.05);
     color: var(--cor-texto-branco);
-    border: 1px solid var(--cor-borda-clara);
+    border: 1px solid rgba(245, 245, 243, 0.22);
 }
 
 .botao-editar:hover {
     border-color: var(--cor-vermelho-rock);
-    color: #ff474d;
+    background: rgba(237, 28, 36, 0.14);
+    color: var(--cor-texto-branco);
+    box-shadow: var(--sombra-neon);
 }
 
 .botao-excluir {
-    background-color: transparent;
-    color: var(--cor-vermelho-rock);
-    border: 1px solid var(--cor-vermelho-rock);
+    background: rgba(237, 28, 36, 0.08);
+    color: #ff474d;
+    border: 1px solid rgba(237, 28, 36, 0.45);
 }
 
 .botao-excluir:hover {
     background-color: var(--cor-vermelho-rock);
+    border-color: var(--cor-vermelho-rock);
     color: var(--cor-texto-branco);
+    box-shadow: var(--sombra-neon);
 }
 
 .estado-vazio {
@@ -1765,9 +1775,8 @@ h1, h2, h3, .fonte-rock {
 
 .envoltorio-tabela {
     width: 100%;
-    overflow-x: auto;
-    overflow-y: auto;
-    max-height: 460px;
+    overflow: visible;
+    max-height: none;
 }
 
 .tabela-admin {
@@ -1777,7 +1786,7 @@ h1, h2, h3, .fonte-rock {
 
 .tabela-admin th,
 .tabela-admin td {
-    padding: 12px 10px;
+    padding: 13px 10px;
     text-align: left;
     font-size: 13px;
     color: var(--cor-texto-branco);
@@ -1799,9 +1808,6 @@ h1, h2, h3, .fonte-rock {
     letter-spacing: 0.06em;
     font-weight: 700;
     background-color: var(--cor-fundo-escuro);
-    position: sticky;
-    top: 0;
-    z-index: 1;
 }
 
 .tabela-admin tbody tr {
@@ -1984,13 +1990,13 @@ body.pagina-backstage {
     top: 0;
     left: 0;
     bottom: 0;
-    width: 264px;
+    width: 272px;
     background-color: #0a0a0a;
     border-right: 1px solid rgba(245, 245, 243, 0.1);
     display: flex;
     flex-direction: column;
-    gap: 18px;
-    padding: 20px 16px;
+    gap: 20px;
+    padding: 22px 18px;
     z-index: 200;
     overflow-x: hidden;
     overflow-y: auto;
@@ -1999,7 +2005,7 @@ body.pagina-backstage {
 .topo-sidebar-admin {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
     padding-bottom: 16px;
     border-bottom: 1px solid rgba(245, 245, 243, 0.08);
 }
@@ -2008,13 +2014,13 @@ body.pagina-backstage {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 8px;
+    gap: 10px;
     text-decoration: none;
 }
 
 .marca-sidebar-admin img {
     max-width: 100%;
-    height: 34px;
+    height: 36px;
     width: auto;
     object-fit: contain;
     display: block;
@@ -2023,61 +2029,22 @@ body.pagina-backstage {
 .selo-backstage-vip {
     display: inline-flex;
     align-items: center;
-    padding: 3px 9px;
+    padding: 4px 10px;
     border-radius: var(--raio-pilula);
     background: rgba(237, 28, 36, 0.16);
     border: 1px solid rgba(237, 28, 36, 0.45);
     color: #ff474d;
-    font-size: 9px;
+    font-size: 10px;
     font-weight: 900;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     white-space: nowrap;
 }
 
-.status-conexao-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 11px;
-    border-radius: var(--raio-pilula);
-    background-color: #141414;
-    border: 1px solid rgba(245, 245, 243, 0.1);
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--cor-texto-cinza);
-}
-
-.status-conexao-pill::before {
-    content: "";
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background-color: #f59e0b;
-    flex-shrink: 0;
-}
-
-.status-conexao-pill.online {
-    color: #86efac;
-    border-color: rgba(34, 197, 94, 0.35);
-    background-color: rgba(34, 197, 94, 0.08);
-}
-
-.status-conexao-pill.online::before {
-    background-color: #22c55e;
-    box-shadow: 0 0 8px rgba(34, 197, 94, 0.7);
-}
-
-.status-conexao-pill.local {
-    color: #fdba74;
-    border-color: rgba(245, 158, 11, 0.3);
-    background-color: rgba(245, 158, 11, 0.08);
-}
-
 .nav-sidebar-admin {
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 20px;
     flex: 1;
 }
 
@@ -2088,50 +2055,52 @@ body.pagina-backstage {
 }
 
 .titulo-grupo-sidebar {
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: #737373;
-    padding: 0 10px;
+    color: #8c8c8c;
+    padding: 0 12px;
 }
 
 .links-sidebar-admin {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
 }
 
 .link-sidebar-admin {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 10px 12px;
-    border-radius: 12px;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: var(--raio-pilula);
     text-decoration: none;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 700;
-    color: var(--cor-texto-cinza);
+    color: var(--cor-texto-metal);
     border: 1px solid transparent;
     transition: all 0.2s ease;
 }
 
 .link-sidebar-admin svg {
+    width: 18px;
+    height: 18px;
     flex-shrink: 0;
-    opacity: 0.8;
+    opacity: 0.85;
     transition: color 0.2s ease, opacity 0.2s ease;
 }
 
 .link-sidebar-admin:hover {
-    background-color: rgba(245, 245, 243, 0.05);
+    background-color: rgba(245, 245, 243, 0.06);
     color: var(--cor-texto-branco);
 }
 
 .link-sidebar-admin.ativo {
-    background-color: rgba(237, 28, 36, 0.14);
+    background-color: rgba(237, 28, 36, 0.16);
     color: var(--cor-texto-branco);
-    border-color: rgba(237, 28, 36, 0.45);
+    border-color: rgba(237, 28, 36, 0.5);
 }
 
 .link-sidebar-admin.ativo svg {
@@ -2151,16 +2120,16 @@ body.pagina-backstage {
 .perfil-admin-sidebar {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 10px;
-    border-radius: 12px;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 14px;
     background-color: #131313;
     border: 1px solid rgba(245, 245, 243, 0.08);
 }
 
 .avatar-admin-sidebar {
-    width: 36px;
-    height: 36px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     background-color: var(--cor-vermelho-rock);
     color: #ffffff;
@@ -2180,7 +2149,7 @@ body.pagina-backstage {
 }
 
 .info-perfil-sidebar strong {
-    font-size: 13px;
+    font-size: 14px;
     color: var(--cor-texto-branco);
     white-space: nowrap;
     overflow: hidden;
@@ -2188,7 +2157,7 @@ body.pagina-backstage {
 }
 
 .info-perfil-sidebar span {
-    font-size: 11px;
+    font-size: 12px;
     color: var(--cor-texto-cinza);
     white-space: nowrap;
     overflow: hidden;
@@ -2206,41 +2175,50 @@ body.pagina-backstage {
     align-items: center;
     justify-content: center;
     gap: 6px;
-    padding: 8px 10px;
-    border-radius: 10px;
+    padding: 10px 12px;
+    border-radius: var(--raio-pilula);
+    font-family: var(--fonte-corpo);
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
     text-decoration: none;
-    color: var(--cor-texto-metal);
-    background-color: #151515;
-    border: 1px solid rgba(245, 245, 243, 0.12);
-    transition: all 0.2s ease;
+    color: var(--cor-texto-branco);
+    background: rgba(245, 245, 243, 0.05);
+    border: 1px solid rgba(245, 245, 243, 0.22);
+    transition: all 0.22s ease;
 }
 
 .botao-sidebar-acao:hover {
     border-color: var(--cor-vermelho-rock);
+    background: rgba(237, 28, 36, 0.14);
     color: var(--cor-texto-branco);
+    box-shadow: var(--sombra-neon);
 }
 
 .botao-sidebar-acao.sair:hover {
-    background-color: rgba(237, 28, 36, 0.16);
-    color: #ff474d;
+    background-color: var(--cor-vermelho-rock);
+    border-color: var(--cor-vermelho-rock);
+    color: var(--cor-texto-branco);
 }
 
 .conteudo-backstage {
     flex: 1;
-    margin-left: 264px;
+    margin-left: 0;
+    width: 100%;
     min-width: 0;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    padding-left: max(300px, calc((100% - 1080px) / 2));
+    padding-right: max(28px, calc((100% - 1080px) / 2));
 }
 
 .conteudo-backstage .painel-admin {
     width: 100%;
-    max-width: 1240px;
-    margin: 0 auto;
-    padding: 36px 32px 64px;
+    max-width: none;
+    margin: 0;
+    padding: 40px 0 64px;
 }
 
 .barra-mobile-admin {
@@ -2335,17 +2313,35 @@ body.pagina-backstage {
     flex-wrap: wrap;
 }
 
+.cabecalho-bloco-admin h2 {
+    font-size: 18px;
+}
+
 .link-bloco-admin {
-    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: var(--raio-pilula);
+    background: rgba(245, 245, 243, 0.05);
+    border: 1px solid rgba(245, 245, 243, 0.22);
+    font-family: var(--fonte-corpo);
+    font-size: 11px;
     font-weight: 800;
-    color: #ff474d;
+    color: var(--cor-texto-branco);
     text-decoration: none;
     text-transform: uppercase;
     letter-spacing: 0.04em;
+    white-space: nowrap;
+    transition: all 0.22s ease;
 }
 
 .link-bloco-admin:hover {
-    text-decoration: underline;
+    background-color: var(--cor-vermelho-rock);
+    border-color: var(--cor-vermelho-rock);
+    color: var(--cor-texto-branco);
+    text-decoration: none;
+    box-shadow: var(--sombra-neon);
 }
 
 .lista-lotacao-admin {
@@ -2607,39 +2603,54 @@ body.pagina-backstage {
 .botao-exportar-csv {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 6px;
-    height: 40px;
-    padding: 0 16px;
+    height: 42px;
+    padding: 0 20px;
     border-radius: var(--raio-pilula);
-    background-color: var(--cor-botao-escuro);
-    border: 1px solid var(--cor-borda-clara);
+    background: rgba(245, 245, 243, 0.05);
+    border: 1px solid rgba(245, 245, 243, 0.22);
     color: var(--cor-texto-branco);
+    font-family: var(--fonte-corpo);
     font-size: 12px;
     font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.22s ease;
 }
 
 .botao-exportar-csv:hover {
     border-color: var(--cor-vermelho-rock);
-    background-color: rgba(237, 28, 36, 0.16);
+    background: rgba(237, 28, 36, 0.14);
+    box-shadow: var(--sombra-neon);
 }
 
 .botao-checkin {
-    background-color: rgba(245, 245, 243, 0.08);
+    background-color: var(--cor-vermelho-rock);
     color: var(--cor-texto-branco);
-    border: 1px solid rgba(245, 245, 243, 0.22);
+    border: 1px solid var(--cor-vermelho-rock);
+    box-shadow: 0 4px 12px rgba(237, 28, 36, 0.32);
 }
 
 .botao-checkin:hover {
-    border-color: #22c55e;
-    color: #86efac;
+    background-color: var(--cor-vermelho-sangue);
+    border-color: var(--cor-vermelho-sangue);
+    color: var(--cor-texto-branco);
+    box-shadow: var(--sombra-neon);
 }
 
 .botao-checkin.validado {
-    background-color: rgba(34, 197, 94, 0.16);
-    border-color: #22c55e;
-    color: #86efac;
+    background: rgba(245, 245, 243, 0.05);
+    border-color: rgba(245, 245, 243, 0.22);
+    color: var(--cor-texto-metal);
+    box-shadow: none;
+}
+
+.botao-checkin.validado:hover {
+    border-color: var(--cor-vermelho-rock);
+    background: rgba(237, 28, 36, 0.14);
+    color: var(--cor-texto-branco);
 }
 
 .linha-checkin-feito {
@@ -3051,6 +3062,8 @@ body.pagina-backstage {
 
     .conteudo-backstage {
         margin-left: 0;
+        padding-left: 0;
+        padding-right: 0;
     }
 
     .conteudo-backstage .painel-admin {

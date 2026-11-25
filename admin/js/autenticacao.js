@@ -212,14 +212,6 @@ window.ControladorAutenticacao = (function () {
             if (elEmail) elEmail.textContent = sessao.email || "";
             if (elIniciais) elIniciais.textContent = obterIniciais(sessao.nome || sessao.email);
         }
-
-        const elStatus = document.getElementById("status-conexao-admin");
-        if (elStatus) {
-            const conectado = Boolean(window.supabaseConfigurado && window.supabaseClient);
-            elStatus.classList.remove("online", "local");
-            elStatus.classList.add(conectado ? "online" : "local");
-            elStatus.textContent = conectado ? "Supabase Online" : "Modo Local";
-        }
     }
 
     function configurarBotoesSair() {
