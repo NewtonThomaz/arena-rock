@@ -2,6 +2,8 @@ const controladorEventos = {
     idEmEdicao: null,
     idBancoEmEdicao: null,
     eventosAtuais: [],
+    etapaAtual: 1,
+    totalEtapas: 4,
 
     gerarSlug: function (texto) {
         return texto
@@ -167,6 +169,151 @@ const controladorEventos = {
         return true;
     },
 
+    validarEtapa: function (numeroEtapa) {
+        if (numeroEtapa === 1) {
+            const campoTitulo = document.querySelector("#campo-titulo");
+            const okTitulo = controladorEventos.validar("titulo", campoTitulo ? campoTitulo.value : "", 3);
+            if (!okTitulo && campoTitulo) campoTitulo.focus();
+            return okTitulo;
+        }
+
+        if (numeroEtapa === 2) {
+            const campoData = document.querySelector("#campo-data");
+            const campoHorario = document.querySelector("#campo-horario");
+            const campoLocal = document.querySelector("#campo-local");
+
+            const okData = controladorEventos.validar("data", campoData ? campoData.value : "", 3);
+            const okHorario = controladorEventos.validar("horario", campoHorario ? campoHorario.value : "", 2);
+            const okLocal = controladorEventos.validar("local", campoLocal ? campoLocal.value : "", 2);
+
+            if (!okData && campoData) campoData.focus();
+            else if (!okHorario && campoHorario) campoHorario.focus();
+            else if (!okLocal && campoLocal) campoLocal.focus();
+
+            return okData && okHorario && okLocal;
+        }
+
+        return true;
+    },
+
+    irParaEtapa: function (destino, pularValidacao, focarCampo) {
+        const etapaAlvo = Math.max(1, Math.min(controladorEventos.totalEtapas, Number(destino) || 1));
+
+        if (!pularValidacao && etapaAlvo > controladorEventos.etapaAtual) {
+            for (let s = controladorEventos.etapaAtual; s < etapaAlvo; s++) {
+                if (!controladorEventos.validarEtapa(s)) {
+                    if (controladorEventos.etapaAtual !== s) {
+                        controladorEventos.irParaEtapa(s, true, false);
+                    }
+                    return false;
+                }
+            }
+        }
+
+        controladorEventos.etapaAtual = etapaAlvo;
+
+        document.querySelectorAll("#form-cadastro-evento .etapa-formulario-admin").forEach(function (bloco) {
+            const num = Number(bloco.getAttribute("data-etapa"));
+            bloco.classList.toggle("ativa", num === etapaAlvo);
+        });
+
+        document.querySelectorAll("#formulario-evento .passo-wizard").forEach(function (btnPasso) {
+            const num = Number(btnPasso.getAttribute("data-ir-etapa"));
+            const indicador = btnPasso.querySelector(".indicador-passo-wizard");
+            const concluido = num < etapaAlvo;
+            const ativo = num === etapaAlvo;
+
+            btnPasso.classList.toggle("ativo", ativo);
+            btnPasso.classList.toggle("concluido", concluido);
+            btnPasso.setAttribute("aria-selected", ativo ? "true" : "false");
+
+            if (indicador) {
+                indicador.textContent = concluido ? "✓" : String(num);
+            }
+        });
+
+        document.querySelectorAll("#formulario-evento .trilha-passo-wizard").forEach(function (trilha, indice) {
+            trilha.classList.toggle("preenchida", indice < etapaAlvo - 1);
+        });
+
+        const btnVoltar = document.getElementById("voltar-etapa-evento");
+        const btnAvancar = document.getElementById("avancar-etapa-evento");
+        const btnSalvar = document.getElementById("salvar-evento");
+        const naUltima = etapaAlvo === controladorEventos.totalEtapas;
+
+        if (btnVoltar) btnVoltar.hidden = etapaAlvo === 1;
+        if (btnAvancar) btnAvancar.hidden = naUltima;
+        if (btnSalvar) btnSalvar.hidden = !naUltima;
+
+        const corpoModal = document.querySelector("#formulario-evento .corpo-modal-admin");
+        if (corpoModal) corpoModal.scrollTop = 0;
+
+        if (focarCampo) {
+            const etapaAtivaEl = document.querySelector(`#form-cadastro-evento .etapa-formulario-admin[data-etapa="${etapaAlvo}"]`);
+            if (etapaAtivaEl) {
+                const primeiro = etapaAtivaEl.querySelector("input:not([type='hidden']):not([type='checkbox']), select, textarea");
+                if (primeiro) setTimeout(function () { primeiro.focus(); }, 40);
+            }
+        }
+
+        return true;
+    },
+
+    configurarWizard: function () {
+        const modal = document.getElementById("formulario-evento");
+        const formulario = document.getElementById("form-cadastro-evento");
+        if (!modal || !formulario) return;
+
+        modal.querySelectorAll(".passo-wizard[data-ir-etapa]").forEach(function (btnPasso) {
+            btnPasso.addEventListener("click", function () {
+                const alvo = Number(this.getAttribute("data-ir-etapa"));
+                controladorEventos.irParaEtapa(alvo, false, true);
+            });
+        });
+
+        const btnVoltar = document.getElementById("voltar-etapa-evento");
+        if (btnVoltar) {
+            btnVoltar.addEventListener("click", function () {
+                controladorEventos.irParaEtapa(controladorEventos.etapaAtual - 1, true, true);
+            });
+        }
+
+        const btnAvancar = document.getElementById("avancar-etapa-evento");
+        if (btnAvancar) {
+            btnAvancar.addEventListener("click", function () {
+                controladorEventos.irParaEtapa(controladorEventos.etapaAtual + 1, false, true);
+            });
+        }
+
+        [
+            { id: "titulo", min: 3 },
+            { id: "data", min: 3 },
+            { id: "horario", min: 2 },
+            { id: "local", min: 2 }
+        ].forEach(function (regra) {
+            const el = document.getElementById("campo-" + regra.id);
+            if (el) {
+                el.addEventListener("input", function () {
+                    if (el.value.trim().length >= regra.min) {
+                        controladorEventos.validar(regra.id, el.value, regra.min);
+                    }
+                });
+            }
+        });
+
+        formulario.addEventListener("keydown", function (evento) {
+            if (evento.key === "Enter" && evento.target && evento.target.tagName !== "TEXTAREA") {
+                evento.preventDefault();
+                if (controladorEventos.etapaAtual < controladorEventos.totalEtapas) {
+                    controladorEventos.irParaEtapa(controladorEventos.etapaAtual + 1, false, true);
+                } else {
+                    const btnSalvar = document.getElementById("salvar-evento");
+                    if (btnSalvar) btnSalvar.click();
+                }
+            }
+        });
+    },
+
     iniciarEdicao: function (item) {
         controladorEventos.idEmEdicao = item.slug || item.id;
         controladorEventos.idBancoEmEdicao = item.idBanco || (typeof item.id === "number" ? item.id : null);
@@ -213,6 +360,7 @@ const controladorEventos = {
         }
 
         controladorEventos.atualizarSelecaoCapa(item.imagem || "");
+        controladorEventos.irParaEtapa(1, true, false);
 
         if (window.ControladorModalAdmin) {
             window.ControladorModalAdmin.abrir("formulario-evento", true);
@@ -238,25 +386,29 @@ const controladorEventos = {
         if (botaoSalvar) botaoSalvar.textContent = "Salvar Show na Programação";
 
         controladorEventos.atualizarSelecaoCapa("");
+        controladorEventos.irParaEtapa(1, true, false);
     },
 
     obterDadosFormulario: function () {
-        const nome = document.querySelector("#campo-titulo").value;
-        if (!controladorEventos.validar("titulo", nome, 3)) return null;
+        if (!controladorEventos.validarEtapa(1)) {
+            controladorEventos.irParaEtapa(1, true, false);
+            return null;
+        }
 
+        if (!controladorEventos.validarEtapa(2)) {
+            controladorEventos.irParaEtapa(2, true, false);
+            return null;
+        }
+
+        const nome = document.querySelector("#campo-titulo").value;
         const seletorCategoria = document.querySelector("#campo-categoria");
         const categoria_id = seletorCategoria.value;
         const opcaoSelecionada = seletorCategoria.options[seletorCategoria.selectedIndex];
         const nomeCategoria = opcaoSelecionada ? opcaoSelecionada.getAttribute("data-nome") : "Show";
 
         const data = document.querySelector("#campo-data").value;
-        if (!controladorEventos.validar("data", data, 3)) return null;
-
         const horario = document.querySelector("#campo-horario").value;
-        if (!controladorEventos.validar("horario", horario, 2)) return null;
-
         const local = document.querySelector("#campo-local").value;
-        if (!controladorEventos.validar("local", local, 2)) return null;
 
         const endereco = document.querySelector("#campo-endereco").value || local;
         const vagas_totais = Number(document.querySelector("#campo-vagas-totais").value || 200);
@@ -429,6 +581,8 @@ const controladorEventos = {
         if (window.ControladorModalAdmin) {
             window.ControladorModalAdmin.registrarReset("formulario-evento", controladorEventos.cancelarEdicao);
         }
+        controladorEventos.configurarWizard();
+        controladorEventos.irParaEtapa(1, true, false);
         await controladorEventos.montarCategorias();
         controladorEventos.montarSugestoes();
         controladorEventos.configurarSeletorCapas();

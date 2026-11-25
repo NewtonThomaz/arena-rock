@@ -110,180 +110,221 @@
                         <div class="cabecalho-modal-admin">
                             <div class="cabecalho-formulario">
                                 <h2 id="titulo-form-evento">Cadastrar Novo Show / Evento</h2>
-                                <p>Preencha as informações abaixo divididas por etapas para publicar ou editar um show na programação.</p>
+                                <p>Avance pelas etapas para preencher os dados do show e publicar na programação.</p>
                             </div>
                             <button type="button" class="botao-fechar-modal" data-fechar-modal aria-label="Fechar janela">✕</button>
                         </div>
 
+                        <div class="barra-etapas-modal" role="tablist" aria-label="Etapas do cadastro de show">
+                            <button type="button" class="passo-wizard ativo" data-ir-etapa="1">
+                                <span class="indicador-passo-wizard" data-num="1">1</span>
+                                <span class="rotulo-passo-wizard">Show &amp; Line-up</span>
+                            </button>
+                            <span class="trilha-passo-wizard" aria-hidden="true"></span>
+                            <button type="button" class="passo-wizard" data-ir-etapa="2">
+                                <span class="indicador-passo-wizard" data-num="2">2</span>
+                                <span class="rotulo-passo-wizard">Data &amp; Palco</span>
+                            </button>
+                            <span class="trilha-passo-wizard" aria-hidden="true"></span>
+                            <button type="button" class="passo-wizard" data-ir-etapa="3">
+                                <span class="indicador-passo-wizard" data-num="3">3</span>
+                                <span class="rotulo-passo-wizard">Ingressos &amp; Sobre</span>
+                            </button>
+                            <span class="trilha-passo-wizard" aria-hidden="true"></span>
+                            <button type="button" class="passo-wizard" data-ir-etapa="4">
+                                <span class="indicador-passo-wizard" data-num="4">4</span>
+                                <span class="rotulo-passo-wizard">Capa da Vitrine</span>
+                            </button>
+                        </div>
+
                         <div class="corpo-modal-admin">
-                            <form class="formulario-admin" id="form-cadastro-evento" novalidate>
-                        <div class="grupo-formulario">
-                            <div class="titulo-grupo">
-                                <span class="numero-passo">1</span>
-                                <span>Identificação &amp; Line-up</span>
-                            </div>
+                            <form class="formulario-admin formulario-wizard" id="form-cadastro-evento" novalidate>
+                                <div class="etapa-formulario-admin ativa" data-etapa="1">
+                                    <div class="grupo-formulario">
+                                        <div class="titulo-grupo">
+                                            <span class="numero-passo">1</span>
+                                            <span>Identificação &amp; Line-up</span>
+                                        </div>
 
-                            <div class="grade-formulario-2">
-                                <div class="campo-formulario">
-                                    <label for="campo-titulo">Nome do Show ou Festival <span class="obrigatorio">*</span></label>
-                                    <input type="text" id="campo-titulo" name="titulo"
-                                        placeholder="Ex: Festival Trovão de Aço 2026" />
-                                    <span class="erro-campo">O nome do evento é obrigatório (mín. 3 letras)</span>
-                                </div>
+                                        <div class="grade-formulario-2">
+                                            <div class="campo-formulario">
+                                                <label for="campo-titulo">Nome do Show ou Festival <span class="obrigatorio">*</span></label>
+                                                <input type="text" id="campo-titulo" name="titulo"
+                                                    placeholder="Ex: Festival Trovão de Aço 2026" />
+                                                <span class="erro-campo">O nome do evento é obrigatório (mín. 3 letras)</span>
+                                            </div>
 
-                                <div class="campo-formulario">
-                                    <label for="campo-banda-principal">Banda Principal / Line-up</label>
-                                    <input type="text" id="campo-banda-principal" name="banda_principal"
-                                        list="lista-sugestoes-bandas" placeholder="Ex: Valquíria de Aço + Convidados" />
-                                    <datalist id="lista-sugestoes-bandas"></datalist>
-                                </div>
-                            </div>
+                                            <div class="campo-formulario">
+                                                <label for="campo-banda-principal">Banda Principal / Line-up</label>
+                                                <input type="text" id="campo-banda-principal" name="banda_principal"
+                                                    list="lista-sugestoes-bandas" placeholder="Ex: Valquíria de Aço + Convidados" />
+                                                <datalist id="lista-sugestoes-bandas"></datalist>
+                                            </div>
+                                        </div>
 
-                            <div class="grade-formulario-3">
-                                <div class="campo-formulario">
-                                    <label for="campo-categoria">Categoria</label>
-                                    <select id="campo-categoria" name="categoria"></select>
-                                </div>
+                                        <div class="grade-formulario-3">
+                                            <div class="campo-formulario">
+                                                <label for="campo-categoria">Categoria</label>
+                                                <select id="campo-categoria" name="categoria"></select>
+                                            </div>
 
-                                <div class="campo-formulario">
-                                    <label for="campo-vertente">Vertente do Rock</label>
-                                    <input type="text" id="campo-vertente" name="vertente_rock"
-                                        placeholder="Ex: Heavy Metal / Hard Rock" />
-                                </div>
+                                            <div class="campo-formulario">
+                                                <label for="campo-vertente">Vertente do Rock</label>
+                                                <input type="text" id="campo-vertente" name="vertente_rock"
+                                                    placeholder="Ex: Heavy Metal / Hard Rock" />
+                                            </div>
 
-                                <div class="campo-formulario">
-                                    <label for="campo-classificacao">Classificação Etária</label>
-                                    <select id="campo-classificacao" name="classificacao">
-                                        <option value="18 anos">18 anos</option>
-                                        <option value="16 anos">16 anos</option>
-                                        <option value="Livre">Livre</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="grupo-formulario">
-                            <div class="titulo-grupo">
-                                <span class="numero-passo">2</span>
-                                <span>Data, Horário &amp; Localização</span>
-                            </div>
-
-                            <div class="grade-formulario-3">
-                                <div class="campo-formulario">
-                                    <label for="campo-data">Data do Show <span class="obrigatorio">*</span></label>
-                                    <input type="date" id="campo-data" name="data" />
-                                    <span class="erro-campo">A data é obrigatória</span>
-                                </div>
-
-                                <div class="campo-formulario">
-                                    <label for="campo-horario">Abertura / Horário <span class="obrigatorio">*</span></label>
-                                    <input type="text" id="campo-horario" name="horario" placeholder="Ex: 20h às 02h" />
-                                    <span class="erro-campo">O horário é obrigatório</span>
-                                </div>
-
-                                <div class="campo-formulario">
-                                    <label for="campo-organizador">Produtora / Realização</label>
-                                    <input type="text" id="campo-organizador" name="organizador"
-                                        placeholder="Ex: Produtora Riff Brutal" />
-                                </div>
-                            </div>
-
-                            <div class="grade-formulario-2">
-                                <div class="campo-formulario">
-                                    <label for="campo-local">Casa de Show / Palco <span class="obrigatorio">*</span></label>
-                                    <input type="text" id="campo-local" name="local" list="lista-sugestoes-locais"
-                                        placeholder="Ex: Galpão Manifesto Rock" />
-                                    <datalist id="lista-sugestoes-locais"></datalist>
-                                    <span class="erro-campo">O local é obrigatório</span>
-                                </div>
-
-                                <div class="campo-formulario">
-                                    <label for="campo-endereco">Endereço Completo</label>
-                                    <input type="text" id="campo-endereco" name="endereco"
-                                        placeholder="Ex: Rua Augusta, 1420 - Consolação, São Paulo/SP" />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="grupo-formulario">
-                            <div class="titulo-grupo">
-                                <span class="numero-passo">3</span>
-                                <span>Ingressos, Capa do Card &amp; Detalhes</span>
-                            </div>
-
-                            <div class="grade-formulario-3">
-                                <div class="campo-formulario">
-                                    <label for="campo-vagas-totais">Lotação Total (Ingressos)</label>
-                                    <input type="number" id="campo-vagas-totais" name="vagas_totais" min="0"
-                                        placeholder="Ex: 500" />
-                                </div>
-
-                                <div class="campo-formulario">
-                                    <label for="campo-vagas-restantes">Ingressos Disponíveis</label>
-                                    <input type="number" id="campo-vagas-restantes" name="vagas_restantes" min="0"
-                                        placeholder="Ex: 500" />
-                                </div>
-
-                                <div class="campo-formulario">
-                                    <label for="campo-destaque">Destaque na Vitrine</label>
-                                    <div class="campo-marcacao">
-                                        <input type="checkbox" id="campo-destaque" name="destaque" />
-                                        <label for="campo-destaque">Selo "Destaque"</label>
+                                            <div class="campo-formulario">
+                                                <label for="campo-classificacao">Classificação Etária</label>
+                                                <select id="campo-classificacao" name="classificacao">
+                                                    <option value="18 anos">18 anos</option>
+                                                    <option value="16 anos">16 anos</option>
+                                                    <option value="Livre">Livre</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="campo-formulario">
-                                <label>Capa do Card na Vitrine</label>
-                                <div class="seletor-capas-admin" id="seletor-capas-admin">
-                                    <button type="button" class="opcao-capa-admin selecionada" data-capa="">
-                                        <span class="opcao-capa-auto">Automática</span>
-                                        <span class="rotulo-capa-admin">Por Categoria</span>
-                                    </button>
-                                    <button type="button" class="opcao-capa-admin" data-capa="./assets/images/cards/capa-festival.png">
-                                        <img src="../assets/images/cards/capa-festival.png" alt="Capa Festival" />
-                                        <span class="rotulo-capa-admin">Festival</span>
-                                    </button>
-                                    <button type="button" class="opcao-capa-admin" data-capa="./assets/images/cards/capa-show.png">
-                                        <img src="../assets/images/cards/capa-show.png" alt="Capa Show" />
-                                        <span class="rotulo-capa-admin">Show / Palco</span>
-                                    </button>
-                                    <button type="button" class="opcao-capa-admin" data-capa="./assets/images/cards/capa-tributo.png">
-                                        <img src="../assets/images/cards/capa-tributo.png" alt="Capa Tributo" />
-                                        <span class="rotulo-capa-admin">Amplificadores</span>
-                                    </button>
-                                    <button type="button" class="opcao-capa-admin" data-capa="./assets/images/cards/capa-batalha.png">
-                                        <img src="../assets/images/cards/capa-batalha.png" alt="Capa Clube" />
-                                        <span class="rotulo-capa-admin">Clube Punk</span>
-                                    </button>
-                                    <button type="button" class="opcao-capa-admin" data-capa="./assets/images/cards/capa-workshop.png">
-                                        <img src="../assets/images/cards/capa-workshop.png" alt="Capa Guitarra" />
-                                        <span class="rotulo-capa-admin">Guitarra</span>
-                                    </button>
-                                    <button type="button" class="opcao-capa-admin" data-capa="./assets/images/cards/capa-palco.png">
-                                        <img src="../assets/images/cards/capa-palco.png" alt="Capa Pub" />
-                                        <span class="rotulo-capa-admin">Pub / Arena</span>
-                                    </button>
+                                <div class="etapa-formulario-admin" data-etapa="2">
+                                    <div class="grupo-formulario">
+                                        <div class="titulo-grupo">
+                                            <span class="numero-passo">2</span>
+                                            <span>Data, Horário &amp; Localização</span>
+                                        </div>
+
+                                        <div class="grade-formulario-3">
+                                            <div class="campo-formulario">
+                                                <label for="campo-data">Data do Show <span class="obrigatorio">*</span></label>
+                                                <input type="date" id="campo-data" name="data" />
+                                                <span class="erro-campo">A data é obrigatória</span>
+                                            </div>
+
+                                            <div class="campo-formulario">
+                                                <label for="campo-horario">Abertura / Horário <span class="obrigatorio">*</span></label>
+                                                <input type="text" id="campo-horario" name="horario" placeholder="Ex: 20h às 02h" />
+                                                <span class="erro-campo">O horário é obrigatório</span>
+                                            </div>
+
+                                            <div class="campo-formulario">
+                                                <label for="campo-organizador">Produtora / Realização</label>
+                                                <input type="text" id="campo-organizador" name="organizador"
+                                                    placeholder="Ex: Produtora Riff Brutal" />
+                                            </div>
+                                        </div>
+
+                                        <div class="grade-formulario-2">
+                                            <div class="campo-formulario">
+                                                <label for="campo-local">Casa de Show / Palco <span class="obrigatorio">*</span></label>
+                                                <input type="text" id="campo-local" name="local" list="lista-sugestoes-locais"
+                                                    placeholder="Ex: Galpão Manifesto Rock" />
+                                                <datalist id="lista-sugestoes-locais"></datalist>
+                                                <span class="erro-campo">O local é obrigatório</span>
+                                            </div>
+
+                                            <div class="campo-formulario">
+                                                <label for="campo-endereco">Endereço Completo</label>
+                                                <input type="text" id="campo-endereco" name="endereco"
+                                                    placeholder="Ex: Rua Augusta, 1420 - Consolação, São Paulo/SP" />
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="campo-formulario">
-                                <label for="campo-imagem">URL de Capa Personalizada (opcional)</label>
-                                <input type="text" id="campo-imagem" name="imagem"
-                                    placeholder="Deixe vazio para usar automática ou cole uma URL https://..." />
-                            </div>
+                                <div class="etapa-formulario-admin" data-etapa="3">
+                                    <div class="grupo-formulario">
+                                        <div class="titulo-grupo">
+                                            <span class="numero-passo">3</span>
+                                            <span>Ingressos, Destaque &amp; Descrição</span>
+                                        </div>
 
-                            <div class="campo-formulario">
-                                <label for="campo-descricao">Descrição Completa do Show &amp; Atrações</label>
-                                <textarea id="campo-descricao" name="descricao"
-                                    placeholder="Descreva os detalhes do show, cronograma das bandas e estrutura do local..."></textarea>
-                            </div>
-                        </div>
+                                        <div class="grade-formulario-3">
+                                            <div class="campo-formulario">
+                                                <label for="campo-vagas-totais">Lotação Total (Ingressos)</label>
+                                                <input type="number" id="campo-vagas-totais" name="vagas_totais" min="0"
+                                                    placeholder="Ex: 500" />
+                                            </div>
 
-                        <div class="rodape-formulario">
-                            <button type="button" id="cancelar-edicao-evento" class="botao-pequeno botao-editar" data-fechar-modal>Cancelar</button>
-                            <button type="button" id="salvar-evento" class="botao-principal">Salvar Show na Programação</button>
-                        </div>
+                                            <div class="campo-formulario">
+                                                <label for="campo-vagas-restantes">Ingressos Disponíveis</label>
+                                                <input type="number" id="campo-vagas-restantes" name="vagas_restantes" min="0"
+                                                    placeholder="Ex: 500" />
+                                            </div>
+
+                                            <div class="campo-formulario">
+                                                <label for="campo-destaque">Destaque na Vitrine</label>
+                                                <div class="campo-marcacao">
+                                                    <input type="checkbox" id="campo-destaque" name="destaque" />
+                                                    <label for="campo-destaque">Selo "Destaque"</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="campo-formulario">
+                                            <label for="campo-descricao">Descrição Completa do Show &amp; Atrações</label>
+                                            <textarea id="campo-descricao" name="descricao" rows="4"
+                                                placeholder="Descreva os detalhes do show, cronograma das bandas e estrutura do local..."></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="etapa-formulario-admin" data-etapa="4">
+                                    <div class="grupo-formulario">
+                                        <div class="titulo-grupo">
+                                            <span class="numero-passo">4</span>
+                                            <span>Capa do Card na Vitrine</span>
+                                        </div>
+
+                                        <div class="campo-formulario">
+                                            <label>Escolha uma Arte Oficial ou Automática</label>
+                                            <div class="seletor-capas-admin" id="seletor-capas-admin">
+                                                <button type="button" class="opcao-capa-admin selecionada" data-capa="">
+                                                    <span class="opcao-capa-auto">Automática</span>
+                                                    <span class="rotulo-capa-admin">Por Categoria</span>
+                                                </button>
+                                                <button type="button" class="opcao-capa-admin" data-capa="./assets/images/cards/capa-festival.png">
+                                                    <img src="../assets/images/cards/capa-festival.png" alt="Capa Festival" />
+                                                    <span class="rotulo-capa-admin">Festival</span>
+                                                </button>
+                                                <button type="button" class="opcao-capa-admin" data-capa="./assets/images/cards/capa-show.png">
+                                                    <img src="../assets/images/cards/capa-show.png" alt="Capa Show" />
+                                                    <span class="rotulo-capa-admin">Show / Palco</span>
+                                                </button>
+                                                <button type="button" class="opcao-capa-admin" data-capa="./assets/images/cards/capa-tributo.png">
+                                                    <img src="../assets/images/cards/capa-tributo.png" alt="Capa Tributo" />
+                                                    <span class="rotulo-capa-admin">Amplificadores</span>
+                                                </button>
+                                                <button type="button" class="opcao-capa-admin" data-capa="./assets/images/cards/capa-batalha.png">
+                                                    <img src="../assets/images/cards/capa-batalha.png" alt="Capa Clube" />
+                                                    <span class="rotulo-capa-admin">Clube Punk</span>
+                                                </button>
+                                                <button type="button" class="opcao-capa-admin" data-capa="./assets/images/cards/capa-workshop.png">
+                                                    <img src="../assets/images/cards/capa-workshop.png" alt="Capa Guitarra" />
+                                                    <span class="rotulo-capa-admin">Guitarra</span>
+                                                </button>
+                                                <button type="button" class="opcao-capa-admin" data-capa="./assets/images/cards/capa-palco.png">
+                                                    <img src="../assets/images/cards/capa-palco.png" alt="Capa Pub" />
+                                                    <span class="rotulo-capa-admin">Pub / Arena</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="campo-formulario">
+                                            <label for="campo-imagem">URL de Capa Personalizada (opcional)</label>
+                                            <input type="text" id="campo-imagem" name="imagem"
+                                                placeholder="Deixe vazio para usar automática ou cole uma URL https://..." />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="rodape-formulario rodape-wizard-admin">
+                                    <button type="button" id="cancelar-edicao-evento" class="botao-pequeno botao-editar" data-fechar-modal>Cancelar</button>
+                                    <div class="acoes-wizard-direita">
+                                        <button type="button" id="voltar-etapa-evento" class="botao-pequeno botao-editar" hidden>← Anterior</button>
+                                        <button type="button" id="avancar-etapa-evento" class="botao-principal">Próxima Etapa →</button>
+                                        <button type="button" id="salvar-evento" class="botao-principal" hidden>Salvar Show na Programação</button>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>
