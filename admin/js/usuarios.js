@@ -64,6 +64,12 @@
     }
 
     if (formulario) {
+        if (window.ControladorModalAdmin) {
+            window.ControladorModalAdmin.registrarReset("formulario-usuario", function () {
+                formulario.reset();
+            });
+        }
+
         formulario.addEventListener("submit", async function (evento) {
             evento.preventDefault();
             const nome = (campoNome.value || "").trim();
@@ -100,7 +106,11 @@
                 });
             }
 
-            formulario.reset();
+            if (window.ControladorModalAdmin) {
+                window.ControladorModalAdmin.fechar("formulario-usuario");
+            } else {
+                formulario.reset();
+            }
             await renderizarUsuarios();
             alert("Membro cadastrado! Ele já pode fazer login no Backstage.");
         });

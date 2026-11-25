@@ -269,9 +269,116 @@ window.ControladorAutenticacao = (function () {
         }
     }
 
+    const callbacksResetModal = {};
+
+    function registrarResetModal(idModal, fn) {
+        if (idModal && typeof fn === "function") {
+            callbacksResetModal[idModal] = fn;
+        }
+    }
+
+    function abrirModalAdmin(idModal, pularReset) {
+        const modal = document.getElementById(idModal);
+        if (!modal) return;
+
+        if (!pularReset && typeof callbacksResetModal[idModal] === "function") {
+            callbacksResetModal[idModal]();
+        }
+
+        modal.classList.add("aberto");
+        modal.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+
+        const corpo = modal.querySelector(".corpo-modal-admin");
+        if (corpo) corpo.scrollTop = 0;
+
+        setTimeout(function () {
+            const primeiroCampo = modal.querySelector("input:not([type='hidden']):not([type='checkbox']), select, textarea");
+            if (primeiroCampo) primeiroCampo.focus();
+        }, 60);
+    }
+
+    function fecharModalAdmin(idModal) {
+        const modal = document.getElementById(idModal);
+        if (!modal) return;
+
+        modal.classList.remove("aberto");
+        modal.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+
+        if (typeof callbacksResetModal[idModal] === "function") {
+            callbacksResetModal[idModal]();
+        }
+    }
+
+    function configurarModaisAdmin() {
+        document.querySelectorAll('a[href^="#formulario-"], [data-abrir-modal]').forEach(function (gatilho) {
+            if (gatilho.dataset.modalInicializado === "sim") return;
+            gatilho.dataset.modalInicializado = "sim";
+
+            gatilho.addEventListener("click", function (evento) {
+                const href = gatilho.getAttribute("href") || "";
+                const idAlvo = gatilho.getAttribute("data-abrir-modal") || href.replace(/^#/, "");
+                const modal = document.getElementById(idAlvo);
+                if (modal && modal.classList.contains("modal-admin-overlay")) {
+                    evento.preventDefault();
+                    abrirModalAdmin(idAlvo, false);
+                }
+            });
+        });
+
+        document.querySelectorAll(".modal-admin-overlay").forEach(function (modal) {
+            if (modal.dataset.overlayInicializado === "sim") return;
+            modal.dataset.overlayInicializado = "sim";
+
+            modal.addEventListener("click", function (evento) {
+                if (evento.target === modal) {
+                    fecharModalAdmin(modal.id);
+                }
+            });
+
+            modal.querySelectorAll("[data-fechar-modal]").forEach(function (btn) {
+                btn.addEventListener("click", function () {
+                    fecharModalAdmin(modal.id);
+                });
+            });
+        });
+
+        document.addEventListener("keydown", function (evento) {
+            if (evento.key === "Escape") {
+                const aberto = document.querySelector(".modal-admin-overlay.aberto");
+                if (aberto) {
+                    fecharModalAdmin(aberto.id);
+                }
+            }
+        });
+
+        if (window.location.hash && window.location.hash.startsWith("#formulario-")) {
+            const idHash = window.location.hash.slice(1);
+            const modalHash = document.getElementById(idHash);
+            if (modalHash && modalHash.classList.contains("modal-admin-overlay")) {
+                setTimeout(function () {
+                    abrirModalAdmin(idHash, false);
+                    if (window.history && window.history.replaceState) {
+                        window.history.replaceState(null, "", window.location.pathname + window.location.search);
+                    }
+                }, 80);
+            }
+        }
+    }
+
+    window.ControladorModalAdmin = {
+        abrir: abrirModalAdmin,
+        fechar: fecharModalAdmin,
+        registrarReset: registrarResetModal
+    };
+
     exigirAutenticacao();
 
-    document.addEventListener("DOMContentLoaded", configurarBotoesSair);
+    document.addEventListener("DOMContentLoaded", function () {
+        configurarBotoesSair();
+        configurarModaisAdmin();
+    });
 
     return {
         obterSessaoAtual: obterSessaoAtual,

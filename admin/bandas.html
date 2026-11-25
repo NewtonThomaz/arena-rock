@@ -106,13 +106,18 @@
                     </div>
                 </section>
 
-                <section class="bloco-admin" id="formulario-banda">
-                    <div class="cabecalho-formulario">
-                        <h2 id="titulo-form-banda">Cadastrar Nova Banda</h2>
-                        <p>Adicione as informações da banda para exibi-la na vitrine pública e sugerir no line-up dos shows.</p>
-                    </div>
+                <div class="modal-admin-overlay" id="formulario-banda" aria-hidden="true">
+                    <div class="modal-admin-dialogo" role="dialog" aria-modal="true" aria-labelledby="titulo-form-banda">
+                        <div class="cabecalho-modal-admin">
+                            <div class="cabecalho-formulario">
+                                <h2 id="titulo-form-banda">Cadastrar Nova Banda</h2>
+                                <p>Adicione as informações da banda para exibi-la na vitrine pública e sugerir no line-up dos shows.</p>
+                            </div>
+                            <button type="button" class="botao-fechar-modal" data-fechar-modal aria-label="Fechar janela">✕</button>
+                        </div>
 
-                    <form class="formulario-admin" id="form-cadastro-banda" novalidate>
+                        <div class="corpo-modal-admin">
+                            <form class="formulario-admin" id="form-cadastro-banda" novalidate>
                         <div class="grupo-formulario">
                             <div class="titulo-grupo">
                                 <span class="numero-passo">1</span>
@@ -165,11 +170,13 @@
                         </div>
 
                         <div class="rodape-formulario">
-                            <button type="button" id="cancelar-edicao-banda" class="botao-pequeno botao-editar" hidden>Cancelar Edição</button>
+                            <button type="button" id="cancelar-edicao-banda" class="botao-pequeno botao-editar" data-fechar-modal>Cancelar</button>
                             <button type="submit" id="salvar-banda" class="botao-principal">Salvar Banda</button>
                         </div>
-                    </form>
-                </section>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </main>
 
             <footer class="rodape">

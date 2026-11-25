@@ -10,7 +10,6 @@
     const campoBiografia = document.getElementById("campo-biografia-banda");
     const campoDestaque = document.getElementById("campo-destaque-banda");
     const botaoSalvar = document.getElementById("salvar-banda");
-    const botaoCancelar = document.getElementById("cancelar-edicao-banda");
 
     let idEmEdicao = null;
     let listaAtual = [];
@@ -47,7 +46,6 @@
         idEmEdicao = banda.id || banda.slug;
         if (tituloForm) tituloForm.textContent = "Editar Banda: " + banda.nome;
         if (botaoSalvar) botaoSalvar.textContent = "Salvar Alterações";
-        if (botaoCancelar) botaoCancelar.hidden = false;
 
         campoNome.value = banda.nome || "";
         campoVertente.value = banda.vertente || "";
@@ -56,8 +54,9 @@
         campoBiografia.value = banda.biografia || "";
         campoDestaque.checked = Boolean(banda.destaque);
 
-        const secaoForm = document.getElementById("formulario-banda");
-        if (secaoForm) secaoForm.scrollIntoView({ behavior: "smooth" });
+        if (window.ControladorModalAdmin) {
+            window.ControladorModalAdmin.abrir("formulario-banda", true);
+        }
     }
 
     function cancelarEdicao() {
@@ -65,7 +64,6 @@
         if (formulario) formulario.reset();
         if (tituloForm) tituloForm.textContent = "Cadastrar Nova Banda";
         if (botaoSalvar) botaoSalvar.textContent = "Salvar Banda";
-        if (botaoCancelar) botaoCancelar.hidden = true;
     }
 
     async function renderizarTabela(recarregar) {
@@ -136,8 +134,8 @@
         });
     }
 
-    if (botaoCancelar) {
-        botaoCancelar.addEventListener("click", cancelarEdicao);
+    if (window.ControladorModalAdmin) {
+        window.ControladorModalAdmin.registrarReset("formulario-banda", cancelarEdicao);
     }
 
     if (formulario) {
@@ -173,7 +171,11 @@
                 if (window.supabaseConfigurado && window.supabaseClient) {
                     await window.supabaseClient.from("bandas").update(payload).eq("id", idEmEdicao);
                 }
-                cancelarEdicao();
+                if (window.ControladorModalAdmin) {
+                    window.ControladorModalAdmin.fechar("formulario-banda");
+                } else {
+                    cancelarEdicao();
+                }
                 await renderizarTabela(true);
                 alert("Banda atualizada com sucesso!");
             } else {
@@ -183,7 +185,11 @@
                 if (window.supabaseConfigurado && window.supabaseClient) {
                     await window.supabaseClient.from("bandas").insert(payload);
                 }
-                formulario.reset();
+                if (window.ControladorModalAdmin) {
+                    window.ControladorModalAdmin.fechar("formulario-banda");
+                } else {
+                    cancelarEdicao();
+                }
                 await renderizarTabela(true);
                 alert("Banda cadastrada no circuito!");
             }

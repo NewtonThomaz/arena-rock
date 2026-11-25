@@ -9,7 +9,6 @@
     const campoEstrutura = document.getElementById("campo-estrutura-local");
     const campoDescricao = document.getElementById("campo-descricao-local");
     const botaoSalvar = document.getElementById("salvar-local");
-    const botaoCancelar = document.getElementById("cancelar-edicao-local");
 
     let idEmEdicao = null;
     let listaAtual = [];
@@ -56,7 +55,6 @@
         idEmEdicao = loc.id;
         if (tituloForm) tituloForm.textContent = "Editar Casa de Show: " + loc.nome;
         if (botaoSalvar) botaoSalvar.textContent = "Salvar Alterações";
-        if (botaoCancelar) botaoCancelar.hidden = false;
 
         campoNome.value = loc.nome || "";
         campoBairro.value = loc.bairroCidade || "";
@@ -65,8 +63,9 @@
         campoEstrutura.value = loc.estrutura || "";
         campoDescricao.value = loc.descricao || "";
 
-        const secaoForm = document.getElementById("formulario-local");
-        if (secaoForm) secaoForm.scrollIntoView({ behavior: "smooth" });
+        if (window.ControladorModalAdmin) {
+            window.ControladorModalAdmin.abrir("formulario-local", true);
+        }
     }
 
     function cancelarEdicao() {
@@ -74,7 +73,6 @@
         if (formulario) formulario.reset();
         if (tituloForm) tituloForm.textContent = "Cadastrar Nova Casa de Show";
         if (botaoSalvar) botaoSalvar.textContent = "Salvar Casa de Show";
-        if (botaoCancelar) botaoCancelar.hidden = true;
     }
 
     async function renderizarTabela() {
@@ -128,8 +126,8 @@
         });
     }
 
-    if (botaoCancelar) {
-        botaoCancelar.addEventListener("click", cancelarEdicao);
+    if (window.ControladorModalAdmin) {
+        window.ControladorModalAdmin.registrarReset("formulario-local", cancelarEdicao);
     }
 
     if (formulario) {
@@ -172,7 +170,11 @@
                 if (window.supabaseConfigurado && window.supabaseClient) {
                     await window.supabaseClient.from("locais").update(payloadSupabase).eq("id", idEmEdicao);
                 }
-                cancelarEdicao();
+                if (window.ControladorModalAdmin) {
+                    window.ControladorModalAdmin.fechar("formulario-local");
+                } else {
+                    cancelarEdicao();
+                }
                 await renderizarTabela();
                 alert("Casa de show atualizada com sucesso!");
             } else {
@@ -183,7 +185,11 @@
                 if (window.supabaseConfigurado && window.supabaseClient) {
                     await window.supabaseClient.from("locais").insert(payloadSupabase);
                 }
-                formulario.reset();
+                if (window.ControladorModalAdmin) {
+                    window.ControladorModalAdmin.fechar("formulario-local");
+                } else {
+                    cancelarEdicao();
+                }
                 await renderizarTabela();
                 alert("Casa de show cadastrada com sucesso!");
             }

@@ -101,13 +101,18 @@
                     </div>
                 </section>
 
-                <section class="bloco-admin" id="formulario-categoria">
-                    <div class="cabecalho-formulario">
-                        <h2>Nova Categoria</h2>
-                        <p>Defina o nome, identificador de URL (slug) e a cor da etiqueta para os filtros de eventos.</p>
-                    </div>
+                <div class="modal-admin-overlay" id="formulario-categoria" aria-hidden="true">
+                    <div class="modal-admin-dialogo" role="dialog" aria-modal="true" aria-labelledby="titulo-form-categoria">
+                        <div class="cabecalho-modal-admin">
+                            <div class="cabecalho-formulario">
+                                <h2 id="titulo-form-categoria">Nova Categoria</h2>
+                                <p>Defina o nome, identificador de URL (slug) e a cor da etiqueta para os filtros de eventos.</p>
+                            </div>
+                            <button type="button" class="botao-fechar-modal" data-fechar-modal aria-label="Fechar janela">✕</button>
+                        </div>
 
-                    <form class="formulario-admin" id="form-cadastro-categoria" novalidate>
+                        <div class="corpo-modal-admin">
+                            <form class="formulario-admin" id="form-cadastro-categoria" novalidate>
                         <div class="grupo-formulario">
                             <div class="titulo-grupo">
                                 <span class="numero-passo">1</span>
@@ -133,10 +138,13 @@
                         </div>
 
                         <div class="rodape-formulario">
+                            <button type="button" class="botao-pequeno botao-editar" data-fechar-modal>Cancelar</button>
                             <button type="submit" class="botao-principal">Salvar Categoria</button>
                         </div>
-                    </form>
-                </section>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </main>
 
             <footer class="rodape">

@@ -65,6 +65,12 @@ const controladorCategorias = {
 
         if (!formulario) return;
 
+        if (window.ControladorModalAdmin) {
+            window.ControladorModalAdmin.registrarReset("formulario-categoria", function () {
+                formulario.reset();
+            });
+        }
+
         if (campoNome && campoSlug) {
             campoNome.addEventListener("input", function () {
                 campoSlug.value = controladorCategorias.gerarSlug(campoNome.value);
@@ -93,8 +99,12 @@ const controladorCategorias = {
                 });
             }
 
-            formulario.reset();
-            controladorCategorias.renderizarTabela();
+            if (window.ControladorModalAdmin) {
+                window.ControladorModalAdmin.fechar("formulario-categoria");
+            } else {
+                formulario.reset();
+            }
+            await controladorCategorias.renderizarTabela();
         });
     },
 

@@ -173,11 +173,16 @@ const controladorEventos = {
 
         const tituloForm = document.getElementById("titulo-form-evento");
         const botaoSalvar = document.getElementById("salvar-evento");
-        const botaoCancelar = document.getElementById("cancelar-edicao-evento");
+        const formulario = document.getElementById("form-cadastro-evento");
+
+        if (formulario) {
+            formulario.querySelectorAll(".erro-campo.visivel").forEach(function (el) {
+                el.classList.remove("visivel");
+            });
+        }
 
         if (tituloForm) tituloForm.textContent = "Editar Show: " + (item.nome || item.titulo);
         if (botaoSalvar) botaoSalvar.textContent = "Salvar Alterações";
-        if (botaoCancelar) botaoCancelar.hidden = false;
 
         document.querySelector("#campo-titulo").value = item.nome || item.titulo || "";
         document.querySelector("#campo-banda-principal").value = item.banda_principal || item.bandaPrincipal || "";
@@ -209,8 +214,9 @@ const controladorEventos = {
 
         controladorEventos.atualizarSelecaoCapa(item.imagem || "");
 
-        const secaoForm = document.getElementById("formulario-evento");
-        if (secaoForm) secaoForm.scrollIntoView({ behavior: "smooth" });
+        if (window.ControladorModalAdmin) {
+            window.ControladorModalAdmin.abrir("formulario-evento", true);
+        }
     },
 
     cancelarEdicao: function () {
@@ -218,15 +224,18 @@ const controladorEventos = {
         controladorEventos.idBancoEmEdicao = null;
 
         const formulario = document.getElementById("form-cadastro-evento");
-        if (formulario) formulario.reset();
+        if (formulario) {
+            formulario.reset();
+            formulario.querySelectorAll(".erro-campo.visivel").forEach(function (el) {
+                el.classList.remove("visivel");
+            });
+        }
 
         const tituloForm = document.getElementById("titulo-form-evento");
         const botaoSalvar = document.getElementById("salvar-evento");
-        const botaoCancelar = document.getElementById("cancelar-edicao-evento");
 
         if (tituloForm) tituloForm.textContent = "Cadastrar Novo Show / Evento";
         if (botaoSalvar) botaoSalvar.textContent = "Salvar Show na Programação";
-        if (botaoCancelar) botaoCancelar.hidden = true;
 
         controladorEventos.atualizarSelecaoCapa("");
     },
@@ -303,12 +312,6 @@ const controladorEventos = {
 
     configurarBotaoSalvar: function () {
         const botaoSalvar = document.querySelector("#salvar-evento");
-        const botaoCancelar = document.getElementById("cancelar-edicao-evento");
-
-        if (botaoCancelar) {
-            botaoCancelar.addEventListener("click", controladorEventos.cancelarEdicao);
-        }
-
         if (!botaoSalvar) return;
 
         botaoSalvar.addEventListener("click", async function () {
@@ -359,7 +362,11 @@ const controladorEventos = {
                 if (controladorEventos.idBancoEmEdicao) {
                     await controladorEventos.salvarNoSupabase(payloadSupabase, true, controladorEventos.idBancoEmEdicao);
                 }
-                controladorEventos.cancelarEdicao();
+                if (window.ControladorModalAdmin) {
+                    window.ControladorModalAdmin.fechar("formulario-evento");
+                } else {
+                    controladorEventos.cancelarEdicao();
+                }
                 await controladorEventos.popularTabelaEventos();
                 alert("Show atualizado com sucesso!");
             } else {
@@ -367,7 +374,11 @@ const controladorEventos = {
                     window.EventosAPI.adicionarEventoLocal(Object.assign({ id: dados.slug }, dadosLocais));
                 }
                 await controladorEventos.salvarNoSupabase(payloadSupabase, false, null);
-                controladorEventos.cancelarEdicao();
+                if (window.ControladorModalAdmin) {
+                    window.ControladorModalAdmin.fechar("formulario-evento");
+                } else {
+                    controladorEventos.cancelarEdicao();
+                }
                 await controladorEventos.popularTabelaEventos();
                 alert("Show cadastrado com sucesso na programação!");
             }
@@ -415,6 +426,9 @@ const controladorEventos = {
     },
 
     inicializar: async function () {
+        if (window.ControladorModalAdmin) {
+            window.ControladorModalAdmin.registrarReset("formulario-evento", controladorEventos.cancelarEdicao);
+        }
         await controladorEventos.montarCategorias();
         controladorEventos.montarSugestoes();
         controladorEventos.configurarSeletorCapas();
