@@ -114,6 +114,14 @@
         corpoTabela.querySelectorAll(".botao-excluir").forEach(function (botao) {
             botao.addEventListener("click", async function () {
                 const id = this.getAttribute("data-id");
+                const confirmado = await window.ArenaUI.confirmar({
+                    titulo: "Excluir Banda",
+                    mensagem: "Deseja remover esta banda do line-up do circuito?",
+                    textoConfirmar: "Sim, Excluir",
+                    perigoso: true
+                });
+                if (!confirmado) return;
+
                 if (window.supabaseConfigurado && window.supabaseClient) {
                     await window.supabaseClient.from("bandas").delete().eq("id", id);
                 }
@@ -149,7 +157,11 @@
             const destaque = Boolean(campoDestaque.checked);
 
             if (nome.length < 2 || vertente.length < 2 || cidade.length < 2) {
-                alert("Preencha o nome da banda, a vertente musical e a cidade.");
+                await window.ArenaUI.alerta({
+                    titulo: "Campos Obrigatórios",
+                    mensagem: "Preencha o nome da banda, a vertente musical e a cidade.",
+                    tipo: "erro"
+                });
                 return;
             }
 
@@ -177,7 +189,11 @@
                     cancelarEdicao();
                 }
                 await renderizarTabela(true);
-                alert("Banda atualizada com sucesso!");
+                await window.ArenaUI.alerta({
+                    titulo: "Banda Atualizada",
+                    mensagem: "Banda atualizada com sucesso!",
+                    tipo: "sucesso"
+                });
             } else {
                 if (window.EventosAPI) {
                     window.EventosAPI.adicionarBandaLocal(Object.assign({ id: slug }, payload));
@@ -191,7 +207,11 @@
                     cancelarEdicao();
                 }
                 await renderizarTabela(true);
-                alert("Banda cadastrada no circuito!");
+                await window.ArenaUI.alerta({
+                    titulo: "Banda Cadastrada",
+                    mensagem: "Banda cadastrada no circuito!",
+                    tipo: "sucesso"
+                });
             }
         });
     }

@@ -201,6 +201,14 @@
         corpoTabela.querySelectorAll(".botao-excluir").forEach(function (botao) {
             botao.addEventListener("click", async function () {
                 const id = this.getAttribute("data-id");
+                const confirmado = await window.ArenaUI.confirmar({
+                    titulo: "Cancelar Ingresso",
+                    mensagem: "Deseja remover esta inscrição e liberar a vaga novamente no show?",
+                    textoConfirmar: "Sim, Remover",
+                    perigoso: true
+                });
+                if (!confirmado) return;
+
                 const eventoAtualizado = EventosAPI.removerInscricaoLocal(id);
                 if (window.supabaseConfigurado && window.supabaseClient) {
                     await window.supabaseClient.from("inscricoes").delete().eq("id", id);
@@ -224,7 +232,11 @@
     function exportarCSV() {
         const registros = ultimasFiltradas.length > 0 ? ultimasFiltradas : filtrarRegistros();
         if (registros.length === 0) {
-            alert("Não há registros visíveis para exportar.");
+            window.ArenaUI.alerta({
+                titulo: "Lista Vazia",
+                mensagem: "Não há registros visíveis neste filtro para exportar.",
+                tipo: "aviso"
+            });
             return;
         }
 

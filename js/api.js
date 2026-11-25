@@ -981,3 +981,215 @@ window.EventosAPI = (function () {
         criarMetaIcone: criarMetaIcone
     };
 })();
+
+window.ArenaUI = (function () {
+    let overlayEl = null;
+    let resolverAtual = null;
+    let modoAtual = "alerta";
+
+    const TITULOS_PADRAO = {
+        sucesso: "Tudo Certo",
+        erro: "Verifique os Dados",
+        aviso: "Atenção",
+        info: "Aviso"
+    };
+
+    const ICONES_TIPO = {
+        sucesso: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>',
+        aviso: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>',
+        erro: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>',
+        info: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>'
+    };
+
+    function garantirEstrutura() {
+        if (overlayEl) return overlayEl;
+
+        overlayEl = document.createElement("div");
+        overlayEl.className = "arena-dialogo-overlay";
+        overlayEl.id = "arena-dialogo-overlay";
+        overlayEl.setAttribute("aria-hidden", "true");
+        overlayEl.innerHTML = `
+            <div class="arena-dialogo-caixa tipo-info" role="alertdialog" aria-modal="true" aria-labelledby="arena-dialogo-titulo" aria-describedby="arena-dialogo-mensagem">
+                <div class="arena-dialogo-topo">
+                    <span class="arena-dialogo-icone" id="arena-dialogo-icone"></span>
+                    <h2 class="arena-dialogo-titulo" id="arena-dialogo-titulo">Aviso</h2>
+                </div>
+                <p class="arena-dialogo-mensagem" id="arena-dialogo-mensagem"></p>
+                <input type="text" class="arena-dialogo-input" id="arena-dialogo-input" hidden />
+                <div class="arena-dialogo-acoes" id="arena-dialogo-acoes">
+                    <button type="button" class="botao-pequeno botao-editar" id="arena-dialogo-cancelar" hidden>Cancelar</button>
+                    <button type="button" class="botao-principal" id="arena-dialogo-confirmar">Entendi</button>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(overlayEl);
+
+        const btnCancelar = overlayEl.querySelector("#arena-dialogo-cancelar");
+        const btnConfirmar = overlayEl.querySelector("#arena-dialogo-confirmar");
+        const inputEl = overlayEl.querySelector("#arena-dialogo-input");
+
+        btnCancelar.addEventListener("click", function () {
+            fecharDialogo(modoAtual === "solicitar" ? null : false);
+        });
+
+        btnConfirmar.addEventListener("click", function () {
+            if (modoAtual === "solicitar") {
+                fecharDialogo(inputEl.value);
+            } else {
+                fecharDialogo(true);
+            }
+        });
+
+        overlayEl.addEventListener("click", function (evento) {
+            if (evento.target === overlayEl) {
+                if (modoAtual === "alerta") {
+                    fecharDialogo(true);
+                } else if (modoAtual === "solicitar") {
+                    fecharDialogo(null);
+                } else {
+                    fecharDialogo(false);
+                }
+            }
+        });
+
+        inputEl.addEventListener("keydown", function (evento) {
+            if (evento.key === "Enter" && overlayEl.classList.contains("aberto")) {
+                evento.preventDefault();
+                fecharDialogo(inputEl.value);
+            }
+        });
+
+        document.addEventListener("keydown", function (evento) {
+            if (!overlayEl || !overlayEl.classList.contains("aberto")) return;
+
+            if (evento.key === "Escape") {
+                evento.preventDefault();
+                evento.stopImmediatePropagation();
+                if (modoAtual === "alerta") {
+                    fecharDialogo(true);
+                } else if (modoAtual === "solicitar") {
+                    fecharDialogo(null);
+                } else {
+                    fecharDialogo(false);
+                }
+            } else if (evento.key === "Enter" && modoAtual === "alerta") {
+                evento.preventDefault();
+                evento.stopImmediatePropagation();
+                fecharDialogo(true);
+            }
+        }, true);
+
+        return overlayEl;
+    }
+
+    function fecharDialogo(resultado) {
+        if (!overlayEl) return;
+
+        overlayEl.classList.remove("aberto");
+        overlayEl.setAttribute("aria-hidden", "true");
+
+        if (!document.querySelector(".modal-admin-overlay.aberto")) {
+            document.body.style.overflow = "";
+        }
+
+        const resolver = resolverAtual;
+        resolverAtual = null;
+        if (typeof resolver === "function") {
+            resolver(resultado);
+        }
+    }
+
+    function abrirDialogo(modo, config) {
+        if (resolverAtual) {
+            fecharDialogo(modoAtual === "alerta" ? true : (modoAtual === "solicitar" ? null : false));
+        }
+
+        modoAtual = modo;
+        const overlay = garantirEstrutura();
+        const caixa = overlay.querySelector(".arena-dialogo-caixa");
+        const iconeEl = overlay.querySelector("#arena-dialogo-icone");
+        const tituloEl = overlay.querySelector("#arena-dialogo-titulo");
+        const msgEl = overlay.querySelector("#arena-dialogo-mensagem");
+        const inputEl = overlay.querySelector("#arena-dialogo-input");
+        const btnCancelar = overlay.querySelector("#arena-dialogo-cancelar");
+        const btnConfirmar = overlay.querySelector("#arena-dialogo-confirmar");
+
+        const tipo = config.tipo || (config.perigoso ? "erro" : "info");
+        caixa.className = "arena-dialogo-caixa tipo-" + tipo;
+        iconeEl.innerHTML = ICONES_TIPO[tipo] || ICONES_TIPO.info;
+
+        tituloEl.textContent = config.titulo || TITULOS_PADRAO[tipo] || "Aviso";
+        msgEl.textContent = config.mensagem || "";
+
+        if (modo === "solicitar") {
+            inputEl.hidden = false;
+            inputEl.value = config.valorInicial || "";
+            inputEl.placeholder = config.placeholder || "";
+        } else {
+            inputEl.hidden = true;
+            inputEl.value = "";
+        }
+
+        if (modo === "alerta") {
+            btnCancelar.hidden = true;
+            btnConfirmar.className = "botao-principal";
+            btnConfirmar.textContent = config.textoBotao || "Entendi";
+        } else {
+            btnCancelar.hidden = false;
+            btnCancelar.textContent = config.textoCancelar || "Cancelar";
+            btnConfirmar.className = config.perigoso ? "botao-pequeno botao-excluir" : "botao-principal";
+            btnConfirmar.textContent = config.textoConfirmar || "Confirmar";
+        }
+
+        overlay.classList.add("aberto");
+        overlay.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+
+        setTimeout(function () {
+            if (modo === "solicitar") {
+                inputEl.focus();
+                inputEl.select();
+            } else if (modo === "confirmar") {
+                btnCancelar.focus();
+            } else {
+                btnConfirmar.focus();
+            }
+        }, 40);
+
+        return new Promise(function (resolve) {
+            resolverAtual = resolve;
+        });
+    }
+
+    function alerta(opcoesOuMensagem, tipoOpcional) {
+        const config = typeof opcoesOuMensagem === "string"
+            ? { mensagem: opcoesOuMensagem, tipo: tipoOpcional || "info" }
+            : Object.assign({ tipo: "info" }, opcoesOuMensagem || {});
+        return abrirDialogo("alerta", config);
+    }
+
+    function confirmar(opcoesOuMensagem) {
+        const config = typeof opcoesOuMensagem === "string"
+            ? { titulo: "Confirmar Ação", mensagem: opcoesOuMensagem, tipo: "aviso" }
+            : Object.assign({ titulo: "Confirmar Ação", tipo: opcoesOuMensagem && opcoesOuMensagem.perigoso ? "erro" : "aviso" }, opcoesOuMensagem || {});
+        return abrirDialogo("confirmar", config);
+    }
+
+    function solicitar(opcoesOuMensagem) {
+        const config = typeof opcoesOuMensagem === "string"
+            ? { titulo: "Informar Valor", mensagem: opcoesOuMensagem, tipo: "info" }
+            : Object.assign({ titulo: "Informar Valor", tipo: "info" }, opcoesOuMensagem || {});
+        return abrirDialogo("solicitar", config);
+    }
+
+    return {
+        alerta: alerta,
+        confirmar: confirmar,
+        solicitar: solicitar
+    };
+})();
+
+window.alert = function (mensagem) {
+    return window.ArenaUI.alerta(String(mensagem ?? ""), "info");
+};

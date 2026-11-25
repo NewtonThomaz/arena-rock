@@ -49,6 +49,13 @@
             botao.addEventListener("click", async function () {
                 const id = this.getAttribute("data-id");
                 const email = this.getAttribute("data-email");
+                const confirmado = await window.ArenaUI.confirmar({
+                    titulo: "Remover da Equipe",
+                    mensagem: "Deseja revogar o acesso deste membro ao Backstage?",
+                    textoConfirmar: "Sim, Remover",
+                    perigoso: true
+                });
+                if (!confirmado) return;
 
                 if (window.supabaseConfigurado && window.supabaseClient) {
                     await window.supabaseClient.from("usuarios").delete().eq("id", id);
@@ -79,7 +86,11 @@
             const status = campoStatus ? campoStatus.value : "ativo";
 
             if (nome.length < 3 || !email.includes("@")) {
-                alert("Preencha o nome completo e um e-mail válido.");
+                await window.ArenaUI.alerta({
+                    titulo: "Dados Inválidos",
+                    mensagem: "Preencha o nome completo e um e-mail válido.",
+                    tipo: "erro"
+                });
                 return;
             }
 
@@ -112,7 +123,11 @@
                 formulario.reset();
             }
             await renderizarUsuarios();
-            alert("Membro cadastrado! Ele já pode fazer login no Backstage.");
+            await window.ArenaUI.alerta({
+                titulo: "Membro Cadastrado",
+                mensagem: "Membro cadastrado! Ele já pode fazer login no Backstage.",
+                tipo: "sucesso"
+            });
         });
     }
 

@@ -3498,4 +3498,153 @@ body.pagina-backstage {
     .corpo-modal-admin {
         padding: 18px;
     }
+
+    .arena-dialogo-caixa {
+        padding: 22px 20px 18px;
+    }
+}
+
+.arena-dialogo-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1200;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.arena-dialogo-overlay.aberto {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.arena-dialogo-caixa {
+    width: 100%;
+    max-width: 440px;
+    background: linear-gradient(165deg, #161616 0%, #0d0d0d 100%);
+    border: 1px solid rgba(245, 245, 243, 0.16);
+    border-top: 3px solid var(--cor-vermelho-rock);
+    border-radius: 22px;
+    padding: 26px 26px 22px;
+    box-shadow: 0 28px 64px rgba(0, 0, 0, 0.9), 0 0 36px rgba(237, 28, 36, 0.18);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    text-align: left;
+    transform: translateY(14px) scale(0.97);
+    transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.arena-dialogo-overlay.aberto .arena-dialogo-caixa {
+    transform: translateY(0) scale(1);
+}
+
+.arena-dialogo-caixa.tipo-sucesso {
+    border-top-color: #22c55e;
+    box-shadow: 0 28px 64px rgba(0, 0, 0, 0.9), 0 0 36px rgba(34, 197, 94, 0.14);
+}
+
+.arena-dialogo-caixa.tipo-aviso {
+    border-top-color: #f59e0b;
+    box-shadow: 0 28px 64px rgba(0, 0, 0, 0.9), 0 0 36px rgba(245, 158, 11, 0.14);
+}
+
+.arena-dialogo-caixa.tipo-erro,
+.arena-dialogo-caixa.tipo-info {
+    border-top-color: var(--cor-vermelho-rock);
+}
+
+.arena-dialogo-topo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.arena-dialogo-icone {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background-color: rgba(237, 28, 36, 0.16);
+    border: 1px solid rgba(237, 28, 36, 0.45);
+    color: #ff474d;
+}
+
+.arena-dialogo-caixa.tipo-sucesso .arena-dialogo-icone {
+    background-color: rgba(34, 197, 94, 0.14);
+    border-color: rgba(34, 197, 94, 0.4);
+    color: #86efac;
+}
+
+.arena-dialogo-caixa.tipo-aviso .arena-dialogo-icone {
+    background-color: rgba(245, 158, 11, 0.14);
+    border-color: rgba(245, 158, 11, 0.45);
+    color: #fcd34d;
+}
+
+.arena-dialogo-titulo {
+    font-family: var(--fonte-display);
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    color: var(--cor-texto-branco);
+    line-height: 1.2;
+}
+
+.arena-dialogo-mensagem {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--cor-texto-metal);
+    word-break: break-word;
+}
+
+.arena-dialogo-input {
+    width: 100%;
+    height: 44px;
+    padding: 0 14px;
+    border-radius: 12px;
+    border: 1px solid var(--cor-borda-clara);
+    background-color: #080808;
+    color: var(--cor-texto-branco);
+    font-family: var(--fonte-corpo);
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.arena-dialogo-input:focus {
+    border-color: var(--cor-vermelho-rock);
+    box-shadow: 0 0 0 3px rgba(237, 28, 36, 0.18);
+}
+
+.arena-dialogo-acoes {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+}
+
+.arena-dialogo-acoes .botao-principal {
+    padding: 10px 22px;
+    font-size: 12px;
+    min-width: 110px;
+}
+
+.arena-dialogo-acoes .botao-pequeno {
+    padding: 10px 18px;
+    font-size: 12px;
 }

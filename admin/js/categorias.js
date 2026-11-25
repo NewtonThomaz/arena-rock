@@ -46,6 +46,14 @@ const controladorCategorias = {
         corpoTabela.querySelectorAll(".botao-excluir").forEach(function (botao) {
             botao.addEventListener("click", async function () {
                 const idOuSlug = this.getAttribute("data-id");
+                const confirmado = await window.ArenaUI.confirmar({
+                    titulo: "Excluir Categoria",
+                    mensagem: "Deseja remover esta categoria da programação?",
+                    textoConfirmar: "Sim, Excluir",
+                    perigoso: true
+                });
+                if (!confirmado) return;
+
                 if (window.supabaseConfigurado && window.supabaseClient) {
                     await window.supabaseClient.from("categorias").delete().eq("id", idOuSlug);
                 }
@@ -81,7 +89,11 @@ const controladorCategorias = {
             evento.preventDefault();
             const nome = (campoNome.value || "").trim();
             if (nome.length < 2) {
-                alert("Informe o nome da categoria de rock.");
+                await window.ArenaUI.alerta({
+                    titulo: "Campo Obrigatório",
+                    mensagem: "Informe o nome da categoria de rock.",
+                    tipo: "erro"
+                });
                 return;
             }
             const slug = (campoSlug.value || "").trim() || controladorCategorias.gerarSlug(nome);
@@ -105,6 +117,11 @@ const controladorCategorias = {
                 formulario.reset();
             }
             await controladorCategorias.renderizarTabela();
+            await window.ArenaUI.alerta({
+                titulo: "Categoria Cadastrada",
+                mensagem: "Nova categoria adicionada com sucesso!",
+                tipo: "sucesso"
+            });
         });
     },
 

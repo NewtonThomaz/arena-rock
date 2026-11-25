@@ -546,11 +546,23 @@ const controladorEventos = {
             await controladorEventos.popularTabelaEventos();
 
             if (resultadoBanco && resultadoBanco.imagemNaoSalvaNoBanco) {
-                alert("Show salvo, mas a coluna 'imagem' ainda não existe no seu banco Supabase. Execute a migration 20261125004501_add_imagem_eventos_checkin_inscricoes.sql no SQL Editor do Supabase para salvar capas personalizadas.");
+                await window.ArenaUI.alerta({
+                    titulo: "Migration Pendente no Banco",
+                    mensagem: "Show salvo, mas a coluna 'imagem' ainda não existe no seu banco Supabase. Execute a migration 20261125004501_add_imagem_eventos_checkin_inscricoes.sql no SQL Editor do Supabase para salvar capas personalizadas.",
+                    tipo: "aviso"
+                });
             } else if (resultadoBanco && !resultadoBanco.ok) {
-                alert("Aviso: os dados foram salvos localmente, mas o Supabase retornou erro: " + resultadoBanco.erro);
+                await window.ArenaUI.alerta({
+                    titulo: "Aviso de Sincronização",
+                    mensagem: "Os dados foram salvos localmente, mas o Supabase retornou erro: " + resultadoBanco.erro,
+                    tipo: "aviso"
+                });
             } else {
-                alert(ehEdicao ? "Show atualizado com sucesso!" : "Show cadastrado com sucesso na programação!");
+                await window.ArenaUI.alerta({
+                    titulo: ehEdicao ? "Show Atualizado" : "Show Publicado",
+                    mensagem: ehEdicao ? "Show atualizado com sucesso!" : "Show cadastrado com sucesso na programação!",
+                    tipo: "sucesso"
+                });
             }
         });
     },
@@ -581,6 +593,14 @@ const controladorEventos = {
         corpoTabela.querySelectorAll(".botao-excluir").forEach(function (botao) {
             botao.addEventListener("click", async function () {
                 const id = this.getAttribute("data-id");
+                const confirmado = await window.ArenaUI.confirmar({
+                    titulo: "Excluir Show",
+                    mensagem: "Deseja remover este show da programação? Esta ação não pode ser desfeita.",
+                    textoConfirmar: "Sim, Excluir",
+                    perigoso: true
+                });
+                if (!confirmado) return;
+
                 if (window.supabaseConfigurado && window.supabaseClient) {
                     await window.supabaseClient.from("eventos").delete().eq("id", id);
                 }

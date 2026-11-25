@@ -112,6 +112,14 @@
         corpoTabela.querySelectorAll(".botao-excluir").forEach(function (botao) {
             botao.addEventListener("click", async function () {
                 const id = this.getAttribute("data-id");
+                const confirmado = await window.ArenaUI.confirmar({
+                    titulo: "Excluir Casa de Show",
+                    mensagem: "Deseja remover esta casa de show da lista de palcos parceiros?",
+                    textoConfirmar: "Sim, Excluir",
+                    perigoso: true
+                });
+                if (!confirmado) return;
+
                 if (window.supabaseConfigurado && window.supabaseClient) {
                     await window.supabaseClient.from("locais").delete().eq("id", id);
                 }
@@ -141,7 +149,11 @@
             const descricao = (campoDescricao.value || "").trim() || "Casa de show parceira do circuito Arena Rock.";
 
             if (nome.length < 2 || bairroCidade.length < 2 || endereco.length < 4) {
-                alert("Preencha nome do palco, bairro/cidade e endereço.");
+                await window.ArenaUI.alerta({
+                    titulo: "Campos Obrigatórios",
+                    mensagem: "Preencha nome do palco, bairro/cidade e endereço.",
+                    tipo: "erro"
+                });
                 return;
             }
 
@@ -176,7 +188,11 @@
                     cancelarEdicao();
                 }
                 await renderizarTabela();
-                alert("Casa de show atualizada com sucesso!");
+                await window.ArenaUI.alerta({
+                    titulo: "Casa de Show Atualizada",
+                    mensagem: "Casa de show atualizada com sucesso!",
+                    tipo: "sucesso"
+                });
             } else {
                 const novoId = gerarSlug(nome) || String(Date.now());
                 if (window.EventosAPI) {
@@ -191,7 +207,11 @@
                     cancelarEdicao();
                 }
                 await renderizarTabela();
-                alert("Casa de show cadastrada com sucesso!");
+                await window.ArenaUI.alerta({
+                    titulo: "Casa de Show Cadastrada",
+                    mensagem: "Casa de show cadastrada com sucesso!",
+                    tipo: "sucesso"
+                });
             }
         });
     }

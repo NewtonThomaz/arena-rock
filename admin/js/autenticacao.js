@@ -346,6 +346,7 @@ window.ControladorAutenticacao = (function () {
 
         document.addEventListener("keydown", function (evento) {
             if (evento.key === "Escape") {
+                if (document.querySelector(".arena-dialogo-overlay.aberto")) return;
                 const aberto = document.querySelector(".modal-admin-overlay.aberto");
                 if (aberto) {
                     fecharModalAdmin(aberto.id);
