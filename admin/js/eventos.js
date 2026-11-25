@@ -548,7 +548,7 @@ const controladorEventos = {
             if (resultadoBanco && resultadoBanco.imagemNaoSalvaNoBanco) {
                 await window.ArenaUI.alerta({
                     titulo: "Migration Pendente no Banco",
-                    mensagem: "Show salvo, mas a coluna 'imagem' ainda não existe no seu banco Supabase. Execute a migration 20261125004501_add_imagem_eventos_checkin_inscricoes.sql no SQL Editor do Supabase para salvar capas personalizadas.",
+                    mensagem: "Show salvo, mas a coluna 'imagem' ainda não existe no seu banco Supabase. Execute a migration 20261119210101_add_imagem_to_eventos.sql no SQL Editor do Supabase para salvar capas personalizadas.",
                     tipo: "aviso"
                 });
             } else if (resultadoBanco && !resultadoBanco.ok) {

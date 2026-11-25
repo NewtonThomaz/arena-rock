@@ -18,7 +18,7 @@
             )
         );
 
-        const corpo = document.createElement("div");
+        const corpo = document.createElement("section");
         corpo.className = "corpo-cartao";
 
         const titulo = document.createElement("h3");
@@ -26,25 +26,25 @@
         titulo.textContent = inscricao.eventoTitulo;
         corpo.appendChild(titulo);
 
-        const listaMeta = document.createElement("div");
+        const listaMeta = document.createElement("section");
         listaMeta.className = "lista-meta-cartao";
 
-        const linhaTitular = document.createElement("div");
+        const linhaTitular = document.createElement("p");
         linhaTitular.className = "linha-meta-cartao";
         linhaTitular.appendChild(EventosAPI.criarMetaIcone("usuarios", inscricao.nome + " • " + inscricao.email, "destaque-meta"));
         listaMeta.appendChild(linhaTitular);
 
-        const linhaEmissao = document.createElement("div");
+        const linhaEmissao = document.createElement("p");
         linhaEmissao.className = "linha-meta-cartao";
         linhaEmissao.appendChild(EventosAPI.criarMetaIcone("calendario", "Emitido em " + inscricao.dataHora));
         listaMeta.appendChild(linhaEmissao);
 
         corpo.appendChild(listaMeta);
 
-        const rodape = document.createElement("div");
+        const rodape = document.createElement("footer");
         rodape.className = "rodape-cartao";
 
-        const destaqueRodape = document.createElement("div");
+        const destaqueRodape = document.createElement("p");
         destaqueRodape.className = "destaque-rodape-cartao";
         const rotulo = document.createElement("span");
         rotulo.className = "rotulo-rodape-cartao";
@@ -83,7 +83,7 @@
         contadorIngressos.textContent = filtrados.length + (filtrados.length === 1 ? " ingresso emitido encontrado" : " ingressos emitidos encontrados");
 
         if (filtrados.length === 0) {
-            const vazio = document.createElement("div");
+            const vazio = document.createElement("section");
             vazio.className = "estado-vazio";
             const msg = document.createElement("p");
             msg.textContent = "Nenhum ingresso encontrado para esta busca.";

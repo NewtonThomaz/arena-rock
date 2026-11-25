@@ -1,9 +1,4 @@
--- Migration: Simulação de compras de ingressos - Lote 1 (Festival Trovão, Noite Grunge e Fúria Subterrânea)
-
-ALTER TABLE public.eventos ADD COLUMN IF NOT EXISTS imagem TEXT;
-ALTER TABLE public.inscricoes ADD COLUMN IF NOT EXISTS checkin BOOLEAN NOT NULL DEFAULT FALSE;
-ALTER TABLE public.inscricoes ADD COLUMN IF NOT EXISTS checkin_em TIMESTAMPTZ;
-
+﻿-- Migration: Simulação de compras de ingressos - Lote 1
 INSERT INTO public.inscricoes (
     evento_id,
     nome,
@@ -25,7 +20,7 @@ SELECT
     v.criado_em::TIMESTAMPTZ
 FROM (
     VALUES
-        -- Festival Trovão de Aço 2026 (18 compradores)
+        -- Festival TrovÃ£o de AÃ§o 2026 (18 compradores)
         ('festival-trovao-de-aco-2026', 'Rafael Mendes', 'rafael.mendes@arenarock.com', 'Pista Premium (Frontstage)', 'ROCK-FT01A9', true, '2026-11-14T16:12:00-03:00', '2026-10-18T11:20:00-03:00'),
         ('festival-trovao-de-aco-2026', 'Camila Nogueira', 'camila.nogueira@arenarock.com', 'Mezanino / Camarote Backstage', 'ROCK-FT02B4', true, '2026-11-14T16:28:00-03:00', '2026-10-19T14:05:00-03:00'),
         ('festival-trovao-de-aco-2026', 'Bruno Vasconcelos', 'bruno.vasconcelos@arenarock.com', 'Pista Rock', 'ROCK-FT03C7', true, '2026-11-14T16:45:00-03:00', '2026-10-20T09:30:00-03:00'),
@@ -62,7 +57,7 @@ FROM (
         ('noite-grunge-tributo-anos-90', 'Leticia Gomes', 'leticia.gomes@arenarock.com', 'Pista Rock', 'ROCK-NG14Q8', false, NULL, '2026-11-17T14:42:00-03:00'),
         ('noite-grunge-tributo-anos-90', 'Mateus Carvalho', 'mateus.carvalho@arenarock.com', 'Mezanino / Camarote Backstage', 'ROCK-NG15R5', false, NULL, '2026-11-19T18:27:00-03:00'),
 
-        -- Show Aniversário 10 Anos: Fúria Subterrânea (14 compradores)
+        -- Show AniversÃ¡rio 10 Anos: FÃºria SubterrÃ¢nea (14 compradores)
         ('show-aniversario-furia-subterranea', 'Igor Cavalcanti', 'igor.cavalcanti@arenarock.com', 'Pista Rock', 'ROCK-FS01C4', true, '2026-12-04T20:06:00-03:00', '2026-11-01T10:12:00-03:00'),
         ('show-aniversario-furia-subterranea', 'Priscila Martins', 'priscila.martins@arenarock.com', 'Pista Premium (Frontstage)', 'ROCK-FS02D8', true, '2026-12-04T20:18:00-03:00', '2026-11-02T15:40:00-03:00'),
         ('show-aniversario-furia-subterranea', 'Leandro Batista', 'leandro.batista@arenarock.com', 'Pista Rock', 'ROCK-FS03E2', false, NULL, '2026-11-04T19:05:00-03:00'),
@@ -80,3 +75,4 @@ FROM (
 ) AS v(slug_evento, nome, email, setor_ingresso, codigo_confirmacao, checkin, checkin_em, criado_em)
 JOIN public.eventos e ON e.slug = v.slug_evento
 ON CONFLICT (codigo_confirmacao) DO NOTHING;
+

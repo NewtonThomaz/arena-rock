@@ -102,11 +102,11 @@
             <span class="resumo-paginacao-admin">
                 Exibindo <strong>${inicioExibido}–${fimExibido}</strong> de <strong>${totalItens}</strong> inscritos • Página <strong>${paginaAtual}</strong> de <strong>${totalPaginas}</strong>
             </span>
-            <div class="botoes-paginacao-admin">
+            <section class="botoes-paginacao-admin">
                 <button type="button" class="botao-pagina-admin" data-pagina="${paginaAtual - 1}" ${paginaAtual <= 1 ? "disabled" : ""}>← Anterior</button>
                 ${botoesNumericos}
                 <button type="button" class="botao-pagina-admin" data-pagina="${paginaAtual + 1}" ${paginaAtual >= totalPaginas ? "disabled" : ""}>Próxima →</button>
-            </div>
+            </section>
         `;
 
         containerPaginacao.querySelectorAll("button[data-pagina]").forEach(function (btn) {
@@ -158,10 +158,10 @@
             return `
                 <tr class="${classeLinha}" data-evento="${item.eventoId}">
                     <td data-label="Participante">
-                        <div class="celula-participante-portaria">
+                        <article class="celula-participante-portaria">
                             <strong>${item.nome}</strong>
                             <span class="email-participante-portaria">${item.email}</span>
-                        </div>
+                        </article>
                     </td>
                     <td data-label="Show / Evento">${item.eventoTitulo}</td>
                     <td data-label="Setor"><span class="categoria-evento selo-setor-portaria">${item.setorIngresso || "Pista Rock"}</span></td>

@@ -81,10 +81,10 @@
                     const restantes = Number(ev.vagasRestantes || 0);
                     const ocupados = Math.max(0, totais - restantes);
 
-                    const item = document.createElement("div");
+                    const item = document.createElement("article");
                     item.className = "item-lotacao-admin";
 
-                    const topo = document.createElement("div");
+                    const topo = document.createElement("header");
                     topo.className = "topo-item-lotacao";
 
                     const titulo = document.createElement("strong");
@@ -98,13 +98,13 @@
                     topo.appendChild(titulo);
                     topo.appendChild(link);
 
-                    const meta = document.createElement("div");
+                    const meta = document.createElement("p");
                     meta.className = "meta-item-lotacao";
                     meta.textContent = ocupados + " / " + totais + " vendidos (" + percentual + "%) • " + restantes + " restantes";
 
-                    const trilha = document.createElement("div");
+                    const trilha = document.createElement("figure");
                     trilha.className = "trilha-lotacao";
-                    const barra = document.createElement("div");
+                    const barra = document.createElement("span");
                     barra.className = "barra-lotacao" + (restantes === 0 ? " esgotada" : (percentual >= 75 ? " alta" : ""));
                     barra.style.width = percentual + "%";
                     trilha.appendChild(barra);
@@ -125,10 +125,10 @@
             } else {
                 feedIngressos.innerHTML = "";
                 recentes.forEach(function (ins) {
-                    const item = document.createElement("div");
+                    const item = document.createElement("article");
                     item.className = "item-feed-ingresso";
 
-                    const info = document.createElement("div");
+                    const info = document.createElement("section");
                     info.className = "info-feed-ingresso";
 
                     const nome = document.createElement("strong");
@@ -139,7 +139,7 @@
                     info.appendChild(nome);
                     info.appendChild(detalhe);
 
-                    const lado = document.createElement("div");
+                    const lado = document.createElement("aside");
                     lado.className = "lado-feed-ingresso";
 
                     const codigo = document.createElement("span");

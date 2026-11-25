@@ -907,7 +907,7 @@ window.EventosAPI = (function () {
     }
 
     function criarMidiaVitrine(srcImagem, altImagem, etiquetaTexto, seloTexto, classeSeloExtra) {
-        const midia = document.createElement("div");
+        const midia = document.createElement("figure");
         midia.className = "midia-cartao";
 
         const img = document.createElement("img");
@@ -1004,23 +1004,23 @@ window.ArenaUI = (function () {
     function garantirEstrutura() {
         if (overlayEl) return overlayEl;
 
-        overlayEl = document.createElement("div");
+        overlayEl = document.createElement("aside");
         overlayEl.className = "arena-dialogo-overlay";
         overlayEl.id = "arena-dialogo-overlay";
         overlayEl.setAttribute("aria-hidden", "true");
         overlayEl.innerHTML = `
-            <div class="arena-dialogo-caixa tipo-info" role="alertdialog" aria-modal="true" aria-labelledby="arena-dialogo-titulo" aria-describedby="arena-dialogo-mensagem">
-                <div class="arena-dialogo-topo">
+            <article class="arena-dialogo-caixa tipo-info" role="alertdialog" aria-modal="true" aria-labelledby="arena-dialogo-titulo" aria-describedby="arena-dialogo-mensagem">
+                <header class="arena-dialogo-topo">
                     <span class="arena-dialogo-icone" id="arena-dialogo-icone"></span>
                     <h2 class="arena-dialogo-titulo" id="arena-dialogo-titulo">Aviso</h2>
-                </div>
+                </header>
                 <p class="arena-dialogo-mensagem" id="arena-dialogo-mensagem"></p>
                 <input type="text" class="arena-dialogo-input" id="arena-dialogo-input" hidden />
-                <div class="arena-dialogo-acoes" id="arena-dialogo-acoes">
+                <footer class="arena-dialogo-acoes" id="arena-dialogo-acoes">
                     <button type="button" class="botao-pequeno botao-editar" id="arena-dialogo-cancelar" hidden>Cancelar</button>
                     <button type="button" class="botao-principal" id="arena-dialogo-confirmar">Entendi</button>
-                </div>
-            </div>
+                </footer>
+            </article>
         `;
 
         document.body.appendChild(overlayEl);

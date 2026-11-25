@@ -18,10 +18,10 @@
     }
 
     function renderizarDetalhe(evento) {
-        const cartao = document.createElement("div");
+        const cartao = document.createElement("article");
         cartao.className = "cartao-detalhe";
 
-        const cabecalho = document.createElement("div");
+        const cabecalho = document.createElement("header");
         cabecalho.className = "cabecalho-cartao";
 
         if (evento.destaque) {
@@ -36,7 +36,7 @@
         data.textContent = EventosAPI.formatarData(evento.dataISO) + " • " + evento.horario;
         cabecalho.appendChild(data);
 
-        const etiquetas = document.createElement("div");
+        const etiquetas = document.createElement("header");
         etiquetas.className = "etiquetas-cartao";
 
         const categoria = document.createElement("span");
@@ -63,7 +63,7 @@
         local.className = "local-evento";
         local.textContent = "Casa de Show: " + evento.local;
 
-        const ocupacao = document.createElement("div");
+        const ocupacao = document.createElement("section");
         ocupacao.className = "info-ocupacao";
 
         const quantidade = document.createElement("span");
@@ -77,9 +77,9 @@
         percentagem.className = "percentual-vagas";
         percentagem.textContent = percentual + "% vendido";
 
-        const barraProgresso = document.createElement("div");
+        const barraProgresso = document.createElement("figure");
         barraProgresso.className = "barra-progresso";
-        const preenchimentoProgresso = document.createElement("div");
+        const preenchimentoProgresso = document.createElement("span");
         preenchimentoProgresso.className = "preenchimento-progresso";
         preenchimentoProgresso.style.width = percentual + "%";
         barraProgresso.appendChild(preenchimentoProgresso);

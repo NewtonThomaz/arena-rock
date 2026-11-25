@@ -26,7 +26,7 @@
             <span class="linha-hamburguer"></span>
             <span class="linha-hamburguer"></span>
         </button>
-        <div class="fundo-menu-mobile" id="fundo-menu-mobile"></div>
+        <aside class="fundo-menu-mobile" id="fundo-menu-mobile" aria-hidden="true"></aside>
         <ul class="navegacao" id="menu-navegacao">
             <li class="item-navegacao">
                 <a class="link-navegacao" href="../index.html">Voltar para o Site</a>
@@ -35,34 +35,34 @@
     </nav>
 
     <main class="tela-login-vip secao-destaque">
-        <div class="grade-perspectiva-hero" aria-hidden="true"></div>
+        <figure class="grade-perspectiva-hero" aria-hidden="true"></figure>
 
-        <div class="credencial-vip">
-            <div class="topo-credencial-vip">
-                <div class="furo-cracha" aria-hidden="true"></div>
-                <div class="emblema-credencial-vip" aria-hidden="true">
+        <article class="credencial-vip">
+            <header class="topo-credencial-vip">
+                <figure class="furo-cracha" aria-hidden="true"></figure>
+                <figure class="emblema-credencial-vip" aria-hidden="true">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                         <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
                     </svg>
-                </div>
+                </figure>
                 <span class="selo-backstage-vip">ALL ACCESS • BACKSTAGE PASS</span>
                 <h1>Acesso da Produção</h1>
                 <p>Credencial restrita para gerenciar shows, bandas, casas de show e portaria do circuito.</p>
-            </div>
+            </header>
 
-            <div class="corpo-credencial-vip">
+            <section class="corpo-credencial-vip">
                 <form class="formulario-admin" id="formulario-login" novalidate>
-                    <div class="campo-formulario">
+                    <section class="campo-formulario">
                         <label for="campo-email">E-mail da Produção <span class="obrigatorio">*</span></label>
                         <input type="email" id="campo-email" name="email" placeholder="admin@arenarock.com.br"
                             autocomplete="username" />
-                    </div>
+                    </section>
 
-                    <div class="campo-formulario">
+                    <section class="campo-formulario">
                         <label for="campo-senha">Senha de Acesso <span class="obrigatorio">*</span></label>
                         <input type="password" id="campo-senha" name="senha" placeholder="Digite sua senha"
                             autocomplete="current-password" />
-                    </div>
+                    </section>
 
                     <span class="erro-formulario" id="erro-login" hidden></span>
 
@@ -70,8 +70,8 @@
                 </form>
 
                 <p class="dica-acesso-vip">Acesso padrão: <strong>admin@arenarock.com.br</strong> • Senha: <strong>rock2026</strong></p>
-            </div>
-        </div>
+            </section>
+        </article>
     </main>
 
     <footer class="rodape">

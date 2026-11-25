@@ -34,7 +34,7 @@
         atracao.className = "atracao-principal";
         atracao.textContent = "Line-up: " + (evento.bandaPrincipal || "Atrações Confirmadas");
 
-        const etiquetas = document.createElement("div");
+        const etiquetas = document.createElement("header");
         etiquetas.className = "etiquetas-cartao";
 
         const categoria = document.createElement("span");

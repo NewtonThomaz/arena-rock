@@ -15,7 +15,7 @@
             )
         );
 
-        const corpo = document.createElement("div");
+        const corpo = document.createElement("section");
         corpo.className = "corpo-cartao";
 
         const nome = document.createElement("h3");
@@ -28,16 +28,16 @@
         descricao.textContent = local.descricao;
         corpo.appendChild(descricao);
 
-        const listaMeta = document.createElement("div");
+        const listaMeta = document.createElement("section");
         listaMeta.className = "lista-meta-cartao";
 
-        const linhaEndereco = document.createElement("div");
+        const linhaEndereco = document.createElement("p");
         linhaEndereco.className = "linha-meta-cartao";
         linhaEndereco.appendChild(EventosAPI.criarMetaIcone("pin", local.endereco));
         listaMeta.appendChild(linhaEndereco);
 
         if (local.estrutura) {
-            const linhaEstrutura = document.createElement("div");
+            const linhaEstrutura = document.createElement("p");
             linhaEstrutura.className = "linha-meta-cartao";
             linhaEstrutura.appendChild(EventosAPI.criarMetaIcone("musica", local.estrutura));
             listaMeta.appendChild(linhaEstrutura);
@@ -45,10 +45,10 @@
 
         corpo.appendChild(listaMeta);
 
-        const rodape = document.createElement("div");
+        const rodape = document.createElement("footer");
         rodape.className = "rodape-cartao";
 
-        const destaqueRodape = document.createElement("div");
+        const destaqueRodape = document.createElement("p");
         destaqueRodape.className = "destaque-rodape-cartao";
         const rotulo = document.createElement("span");
         rotulo.className = "rotulo-rodape-cartao";

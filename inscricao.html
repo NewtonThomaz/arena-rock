@@ -26,7 +26,7 @@
             <span class="linha-hamburguer"></span>
             <span class="linha-hamburguer"></span>
         </button>
-        <div class="fundo-menu-mobile" id="fundo-menu-mobile"></div>
+        <aside class="fundo-menu-mobile" id="fundo-menu-mobile" aria-hidden="true"></aside>
         <ul class="navegacao" id="menu-navegacao">
             <li class="item-navegacao">
                 <a class="link-navegacao" href="index.html">Agenda Rock</a>
@@ -47,73 +47,73 @@
     </nav>
 
     <main class="secao-inscricao">
-        <div id="inscricao-vazio" class="estado-vazio" hidden>
+        <section id="inscricao-vazio" class="estado-vazio" hidden>
             <p>Nenhum show selecionado para reserva.</p>
             <a class="botao-principal" href="index.html">Ver Agenda de Shows</a>
-        </div>
+        </section>
 
-        <div id="inscricao-conteudo" class="conteudo-inscricao" hidden>
+        <section id="inscricao-conteudo" class="conteudo-inscricao" hidden>
             <section class="resumo-inscricao" id="resumo-evento"></section>
 
-            <div class="cartao-formulario">
-                <div class="cabecalho-formulario">
+            <article class="cartao-formulario">
+                <header class="cabecalho-formulario">
                     <h2>Dados do Participante</h2>
                     <p>Preencha suas informações para emitir sua credencial de acesso ao show.</p>
-                </div>
+                </header>
 
                 <form class="formulario-inscricao" id="formulario-inscricao" novalidate>
-                    <div class="grupo-formulario">
-                        <div class="titulo-grupo">
+                    <fieldset class="grupo-formulario">
+                        <header class="titulo-grupo">
                             <span class="numero-passo">1</span>
                             <span>Identificação e Contato</span>
-                        </div>
+                        </header>
 
-                        <div class="campo-formulario">
+                        <section class="campo-formulario">
                             <label for="campo-nome">Nome completo <span class="obrigatorio">*</span></label>
                             <input type="text" id="campo-nome" name="nome" placeholder="Digite seu nome completo" />
                             <span class="erro-formulario" id="erro-nome" hidden></span>
-                        </div>
+                        </section>
 
-                        <div class="campo-formulario">
+                        <section class="campo-formulario">
                             <label for="campo-email">E-mail para envio do voucher <span class="obrigatorio">*</span></label>
                             <input type="email" id="campo-email" name="email" placeholder="seuemail@exemplo.com" />
                             <span class="erro-formulario" id="erro-email" hidden></span>
-                        </div>
-                    </div>
+                        </section>
+                    </fieldset>
 
-                    <div class="grupo-formulario">
-                        <div class="titulo-grupo">
+                    <fieldset class="grupo-formulario">
+                        <header class="titulo-grupo">
                             <span class="numero-passo">2</span>
                             <span>Escolha do Setor</span>
-                        </div>
+                        </header>
 
-                        <div class="campo-formulario">
+                        <section class="campo-formulario">
                             <label for="campo-setor">Setor / Modalidade do Ingresso</label>
                             <select id="campo-setor" name="setor_ingresso">
                                 <option value="Pista Rock">Pista Rock (Lote Promocional)</option>
                                 <option value="Pista Premium (Frontstage)">Pista Premium (Frontstage - Frente ao Palco)</option>
                                 <option value="Mezanino / Camarote Backstage">Mezanino / Camarote Backstage</option>
                             </select>
-                        </div>
-                    </div>
+                        </section>
+                    </fieldset>
 
-                    <div class="rodape-formulario">
+                    <footer class="rodape-formulario">
                         <button type="submit" class="botao-principal">Confirmar Presença &amp; Gerar Ingresso</button>
-                    </div>
+                    </footer>
                 </form>
-            </div>
-        </div>
+            </article>
+        </section>
 
-        <div id="inscricao-confirmada" class="confirmacao-inscricao" hidden>
+        <section id="inscricao-confirmada" class="confirmacao-inscricao" hidden>
             <h1 class="titulo-principal">Seu Ingresso Rock foi Gerado!</h1>
             <p>Apresente este código na portaria do evento:</p>
             <strong class="codigo-destaque" id="codigo-confirmacao"></strong>
             <p id="resumo-setor-confirmado"></p>
-            <div class="acoes-tabela">
+            <nav class="acoes-tabela" aria-label="Ações pós-inscrição">
                 <a class="botao-editar botao-pequeno" id="link-voltar-evento" href="index.html">Voltar para o Show</a>
                 <a class="botao-principal" href="ingressos.html">Ver Meus Ingressos</a>
-            </div>
-        </div>
+            </nav>
+        </section>
     </main>
 
     <footer class="rodape">

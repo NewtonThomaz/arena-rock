@@ -17,7 +17,7 @@
             )
         );
 
-        const corpo = document.createElement("div");
+        const corpo = document.createElement("section");
         corpo.className = "corpo-cartao";
 
         const nome = document.createElement("h3");
@@ -30,16 +30,16 @@
         biografia.textContent = banda.biografia;
         corpo.appendChild(biografia);
 
-        const listaMeta = document.createElement("div");
+        const listaMeta = document.createElement("section");
         listaMeta.className = "lista-meta-cartao";
 
-        const linhaCidade = document.createElement("div");
+        const linhaCidade = document.createElement("p");
         linhaCidade.className = "linha-meta-cartao";
         linhaCidade.appendChild(EventosAPI.criarMetaIcone("pin", banda.cidade));
         listaMeta.appendChild(linhaCidade);
 
         if (banda.integrantes) {
-            const linhaIntegrantes = document.createElement("div");
+            const linhaIntegrantes = document.createElement("p");
             linhaIntegrantes.className = "linha-meta-cartao";
             linhaIntegrantes.appendChild(EventosAPI.criarMetaIcone("usuarios", banda.integrantes));
             listaMeta.appendChild(linhaIntegrantes);
@@ -47,10 +47,10 @@
 
         corpo.appendChild(listaMeta);
 
-        const rodape = document.createElement("div");
+        const rodape = document.createElement("footer");
         rodape.className = "rodape-cartao";
 
-        const destaqueRodape = document.createElement("div");
+        const destaqueRodape = document.createElement("p");
         destaqueRodape.className = "destaque-rodape-cartao";
         const rotulo = document.createElement("span");
         rotulo.className = "rotulo-rodape-cartao";
@@ -88,7 +88,7 @@
         contadorBandas.textContent = filtradas.length + (filtradas.length === 1 ? " banda confirmada no circuito" : " bandas confirmadas no circuito");
 
         if (filtradas.length === 0) {
-            const vazio = document.createElement("div");
+            const vazio = document.createElement("section");
             vazio.className = "estado-vazio";
             const msg = document.createElement("p");
             msg.textContent = "Nenhuma banda encontrada com esse termo.";

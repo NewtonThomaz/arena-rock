@@ -21,7 +21,7 @@
             )
         );
 
-        const corpo = document.createElement("div");
+        const corpo = document.createElement("section");
         corpo.className = "corpo-cartao";
 
         const titulo = document.createElement("h3");
@@ -29,20 +29,20 @@
         titulo.textContent = evento.titulo;
         corpo.appendChild(titulo);
 
-        const listaMeta = document.createElement("div");
+        const listaMeta = document.createElement("section");
         listaMeta.className = "lista-meta-cartao";
 
-        const linhaBanda = document.createElement("div");
+        const linhaBanda = document.createElement("p");
         linhaBanda.className = "linha-meta-cartao";
         linhaBanda.appendChild(EventosAPI.criarMetaIcone("musica", evento.bandaPrincipal || "Atrações Confirmadas", "destaque-meta"));
         listaMeta.appendChild(linhaBanda);
 
-        const linhaLocal = document.createElement("div");
+        const linhaLocal = document.createElement("p");
         linhaLocal.className = "linha-meta-cartao";
         linhaLocal.appendChild(EventosAPI.criarMetaIcone("pin", evento.local));
         listaMeta.appendChild(linhaLocal);
 
-        const linhaData = document.createElement("div");
+        const linhaData = document.createElement("p");
         linhaData.className = "linha-meta-cartao";
         linhaData.appendChild(EventosAPI.criarMetaIcone("calendario", EventosAPI.formatarData(evento.dataISO)));
         linhaData.appendChild(EventosAPI.criarMetaIcone("relogio", evento.horario));
@@ -50,10 +50,10 @@
 
         corpo.appendChild(listaMeta);
 
-        const rodape = document.createElement("div");
+        const rodape = document.createElement("footer");
         rodape.className = "rodape-cartao";
 
-        const destaqueRodape = document.createElement("div");
+        const destaqueRodape = document.createElement("p");
         destaqueRodape.className = "destaque-rodape-cartao";
 
         if (!esgotado) {
@@ -90,7 +90,7 @@
     function renderizarEsqueleto(quantidade) {
         listaEventos.innerHTML = "";
         for (let i = 0; i < quantidade; i++) {
-            const esqueleto = document.createElement("div");
+            const esqueleto = document.createElement("article");
             esqueleto.className = "cartao-vitrine esqueleto";
             listaEventos.appendChild(esqueleto);
         }
@@ -100,7 +100,7 @@
         listaEventos.innerHTML = "";
 
         if (eventos.length === 0) {
-            const vazio = document.createElement("div");
+            const vazio = document.createElement("section");
             vazio.className = "estado-vazio";
             const mensagem = document.createElement("p");
             mensagem.textContent = "Nenhum show ou evento encontrado para este filtro.";

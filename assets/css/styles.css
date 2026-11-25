@@ -35,6 +35,16 @@
     box-sizing: border-box;
 }
 
+fieldset {
+    border: 0;
+    min-width: 0;
+}
+
+.preenchimento-progresso,
+.barra-lotacao {
+    display: block;
+}
+
 html {
     scroll-behavior: smooth;
 }
