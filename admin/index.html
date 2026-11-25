@@ -15,113 +15,250 @@
         rel="stylesheet">
 </head>
 
-<body>
-    <nav class="menu-cabecalho">
-        <a class="marca-topo" href="../index.html">
-            <img class="logotipo" alt="Logotipo Arena Rock" title="Arena Rock"
-                src="../assets/images/logotipo-rock.svg" />
-        </a>
-        <button type="button" class="botao-hamburguer" id="botao-menu-mobile" aria-label="Menu">
-            <span class="linha-hamburguer"></span>
-            <span class="linha-hamburguer"></span>
-            <span class="linha-hamburguer"></span>
-        </button>
-        <div class="fundo-menu-mobile" id="fundo-menu-mobile"></div>
-        <ul class="navegacao" id="menu-navegacao">
-            <li class="item-navegacao">
-                <a class="link-navegacao ativo" href="index.html">Painel</a>
-            </li>
-            <li class="item-navegacao">
-                <a class="link-navegacao" href="eventos.html">Shows &amp; Eventos</a>
-            </li>
-            <li class="item-navegacao">
-                <a class="link-navegacao" href="categorias.html">Categorias</a>
-            </li>
-            <li class="item-navegacao">
-                <a class="link-navegacao" href="inscritos.html">Ingressos / Inscritos</a>
-            </li>
-            <li class="item-navegacao">
-                <a class="link-navegacao" href="usuarios.html">Equipe</a>
-            </li>
-            <li class="item-navegacao">
-                <a class="link-navegacao" href="../index.html">Ver Site</a>
-            </li>
-            <li class="item-navegacao">
-                <a class="link-navegacao" id="botao-sair" href="login.html">Sair</a>
-            </li>
-        </ul>
-    </nav>
+<body class="pagina-backstage">
+    <div class="layout-backstage">
+        <div class="fundo-sidebar-admin" id="fundo-sidebar-admin"></div>
 
-    <main class="painel-admin">
-        <div class="cabecalho-admin">
-            <div>
-                <h1>Backstage: Painel Administrativo</h1>
-                <p id="nome-admin-logado">Gerencie a programação de shows de rock, categorias, lotes de ingressos e equipe de produção.</p>
+        <aside class="sidebar-backstage" id="sidebar-backstage">
+            <div class="topo-sidebar-admin">
+                <a class="marca-sidebar-admin" href="../index.html">
+                    <img alt="Logotipo Arena Rock" src="../assets/images/logotipo-rock.svg" />
+                    <span class="selo-backstage-vip">Backstage</span>
+                </a>
+                <div class="status-conexao-pill local" id="status-conexao-admin">Verificando conexão...</div>
             </div>
-            <a class="botao-principal" href="eventos.html#formulario-evento">+ Cadastrar Novo Show</a>
-        </div>
 
-        <div class="atalhos-admin">
-            <a class="cartao-atalho" href="eventos.html">
-                <strong>Shows &amp; Festivais</strong>
-                <span id="resumo-admin-eventos">Criar, editar e remover shows de rock, line-up de bandas, datas e lotes de ingressos.</span>
-            </a>
-            <a class="cartao-atalho" href="categorias.html">
-                <strong>Categorias Rock</strong>
-                <span id="resumo-admin-categorias">Organizar modalidades de eventos e filtros do site.</span>
-            </a>
-            <a class="cartao-atalho" href="inscritos.html">
-                <strong>Ingressos &amp; Inscritos</strong>
-                <span id="resumo-admin-inscritos">Conferir a lista de rockeiros inscritos por show, setores e códigos de confirmação.</span>
-            </a>
-            <a class="cartao-atalho" href="usuarios.html">
-                <strong>Equipe de Produção</strong>
-                <span id="resumo-admin-equipe">Controlar produtores e administradores com acesso ao Backstage.</span>
-            </a>
-        </div>
-    </main>
+            <nav class="nav-sidebar-admin" aria-label="Navegação do Backstage">
+                <div class="grupo-nav-admin">
+                    <span class="titulo-grupo-sidebar">Visão Geral</span>
+                    <ul class="links-sidebar-admin">
+                        <li>
+                            <a class="link-sidebar-admin ativo" href="index.html">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                                <span>Painel</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
 
-    <footer class="rodape">
-        <p>© 2026 Arena Rock | Circuito de Eventos de Rock &amp; Cultura Underground.</p>
-    </footer>
+                <div class="grupo-nav-admin">
+                    <span class="titulo-grupo-sidebar">Programação</span>
+                    <ul class="links-sidebar-admin">
+                        <li>
+                            <a class="link-sidebar-admin" href="eventos.html">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>
+                                <span>Shows &amp; Eventos</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="link-sidebar-admin" href="bandas.html">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                                <span>Bandas &amp; Line-up</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="link-sidebar-admin" href="locais.html">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                                <span>Casas de Show</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="link-sidebar-admin" href="categorias.html">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg>
+                                <span>Categorias</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="grupo-nav-admin">
+                    <span class="titulo-grupo-sidebar">Operação</span>
+                    <ul class="links-sidebar-admin">
+                        <li>
+                            <a class="link-sidebar-admin" href="inscritos.html">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/></svg>
+                                <span>Portaria &amp; Inscritos</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="link-sidebar-admin" href="usuarios.html">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                <span>Equipe</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="rodape-sidebar-admin">
+                <div class="perfil-admin-sidebar">
+                    <span class="avatar-admin-sidebar" id="usuario-sidebar-iniciais">AR</span>
+                    <div class="info-perfil-sidebar">
+                        <strong id="usuario-sidebar-nome">Produtor</strong>
+                        <span id="usuario-sidebar-email">admin@arenarock.com.br</span>
+                    </div>
+                </div>
+                <div class="acoes-rodape-sidebar">
+                    <a class="botao-sidebar-acao" href="../index.html">Ver Site ↗</a>
+                    <a class="botao-sidebar-acao sair" id="botao-sair" href="login.html">Sair</a>
+                </div>
+            </div>
+        </aside>
+
+        <div class="conteudo-backstage">
+            <header class="barra-mobile-admin">
+                <a class="marca-topo" href="../index.html">
+                    <img class="logotipo" alt="Logotipo Arena Rock" src="../assets/images/logotipo-rock.svg" />
+                </a>
+                <button type="button" class="botao-hamburguer" id="botao-sidebar-admin" aria-label="Menu Backstage" aria-expanded="false">
+                    <span class="linha-hamburguer"></span>
+                    <span class="linha-hamburguer"></span>
+                    <span class="linha-hamburguer"></span>
+                </button>
+            </header>
+
+            <main class="painel-admin">
+                <div class="cabecalho-admin">
+                    <div>
+                        <h1>Backstage: Central de Produção</h1>
+                        <p id="nome-admin-logado">Acompanhe a ocupação dos palcos, portaria em tempo real e acesse os módulos de gestão.</p>
+                    </div>
+                    <a class="botao-principal" href="eventos.html#formulario-evento">+ Cadastrar Novo Show</a>
+                </div>
+
+                <section class="grade-kpis-admin" aria-label="Indicadores do circuito">
+                    <article class="cartao-kpi-admin">
+                        <div class="topo-kpi-admin">
+                            <span class="rotulo-kpi-admin">Shows Ativos</span>
+                            <span class="icone-kpi-admin">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>
+                            </span>
+                        </div>
+                        <strong class="valor-kpi-admin" id="kpi-shows">0</strong>
+                        <span class="sub-kpi-admin" id="sub-kpi-shows">Carregando...</span>
+                    </article>
+
+                    <article class="cartao-kpi-admin">
+                        <div class="topo-kpi-admin">
+                            <span class="rotulo-kpi-admin">Ingressos Emitidos</span>
+                            <span class="icone-kpi-admin">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/></svg>
+                            </span>
+                        </div>
+                        <strong class="valor-kpi-admin" id="kpi-ingressos">0</strong>
+                        <span class="sub-kpi-admin" id="sub-kpi-ingressos">Carregando...</span>
+                    </article>
+
+                    <article class="cartao-kpi-admin">
+                        <div class="topo-kpi-admin">
+                            <span class="rotulo-kpi-admin">Ocupação Média</span>
+                            <span class="icone-kpi-admin">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                            </span>
+                        </div>
+                        <strong class="valor-kpi-admin" id="kpi-ocupacao">0%</strong>
+                        <span class="sub-kpi-admin" id="sub-kpi-ocupacao">Carregando...</span>
+                    </article>
+
+                    <article class="cartao-kpi-admin">
+                        <div class="topo-kpi-admin">
+                            <span class="rotulo-kpi-admin">Vagas Restantes</span>
+                            <span class="icone-kpi-admin">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            </span>
+                        </div>
+                        <strong class="valor-kpi-admin" id="kpi-vagas">0</strong>
+                        <span class="sub-kpi-admin" id="sub-kpi-vagas">Carregando...</span>
+                    </article>
+                </section>
+
+                <section class="grade-dashboard-2">
+                    <div class="bloco-admin">
+                        <div class="cabecalho-bloco-admin">
+                            <h2>Lotação por Show</h2>
+                            <a class="link-bloco-admin" href="eventos.html">Gerenciar Shows →</a>
+                        </div>
+                        <div class="lista-lotacao-admin" id="lista-lotacao-dashboard"></div>
+                    </div>
+
+                    <div class="bloco-admin">
+                        <div class="cabecalho-bloco-admin">
+                            <h2>Últimos Ingressos Emitidos</h2>
+                            <a class="link-bloco-admin" href="inscritos.html">Abrir Portaria →</a>
+                        </div>
+                        <div class="feed-ingressos-admin" id="feed-ingressos-dashboard"></div>
+                    </div>
+                </section>
+
+                <section class="atalhos-admin" aria-label="Atalhos rápidos">
+                    <a class="cartao-atalho" href="eventos.html">
+                        <div class="topo-atalho-admin">
+                            <span class="icone-kpi-admin"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg></span>
+                            <span class="seta-atalho-admin">→</span>
+                        </div>
+                        <strong>Shows &amp; Festivais</strong>
+                        <span id="resumo-admin-eventos">Criar, editar e remover shows da programação.</span>
+                    </a>
+
+                    <a class="cartao-atalho" href="bandas.html">
+                        <div class="topo-atalho-admin">
+                            <span class="icone-kpi-admin"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span>
+                            <span class="seta-atalho-admin">→</span>
+                        </div>
+                        <strong>Bandas &amp; Line-up</strong>
+                        <span id="resumo-admin-bandas">Gerenciar bandas autorais, tributos e headliners.</span>
+                    </a>
+
+                    <a class="cartao-atalho" href="locais.html">
+                        <div class="topo-atalho-admin">
+                            <span class="icone-kpi-admin"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></span>
+                            <span class="seta-atalho-admin">→</span>
+                        </div>
+                        <strong>Casas de Show</strong>
+                        <span id="resumo-admin-locais">Cadastrar palcos, pubs, arenas e lotação.</span>
+                    </a>
+
+                    <a class="cartao-atalho" href="categorias.html">
+                        <div class="topo-atalho-admin">
+                            <span class="icone-kpi-admin"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg></span>
+                            <span class="seta-atalho-admin">→</span>
+                        </div>
+                        <strong>Categorias Rock</strong>
+                        <span id="resumo-admin-categorias">Organizar modalidades de eventos e filtros.</span>
+                    </a>
+
+                    <a class="cartao-atalho" href="inscritos.html">
+                        <div class="topo-atalho-admin">
+                            <span class="icone-kpi-admin"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/></svg></span>
+                            <span class="seta-atalho-admin">→</span>
+                        </div>
+                        <strong>Portaria &amp; Inscritos</strong>
+                        <span id="resumo-admin-inscritos">Validar check-in e exportar lista de presença.</span>
+                    </a>
+
+                    <a class="cartao-atalho" href="usuarios.html">
+                        <div class="topo-atalho-admin">
+                            <span class="icone-kpi-admin"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+                            <span class="seta-atalho-admin">→</span>
+                        </div>
+                        <strong>Equipe de Produção</strong>
+                        <span id="resumo-admin-equipe">Controlar produtores e operadores da portaria.</span>
+                    </a>
+                </section>
+            </main>
+
+            <footer class="rodape">
+                <p>© 2026 Arena Rock | Circuito de Eventos de Rock &amp; Cultura Underground.</p>
+            </footer>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../supabase-credentials.js"></script>
     <script src="./js/supabaseClient.js"></script>
     <script src="./js/autenticacao.js"></script>
     <script src="../js/api.js"></script>
-    <script>
-        (async function () {
-            await EventosAPI.sincronizarComSupabase();
-            const eventos = EventosAPI.listarEventos();
-            const categorias = EventosAPI.listarCategorias();
-            const inscritos = EventosAPI.listarInscricoes();
-            let equipe = window.ControladorAutenticacao ? window.ControladorAutenticacao.listarUsuariosLocais() : [];
-
-            if (window.supabaseConfigurado && window.supabaseClient) {
-                try {
-                    const resUsuarios = await window.supabaseClient.from("usuarios").select("id");
-                    if (!resUsuarios.error && resUsuarios.data) {
-                        equipe = resUsuarios.data;
-                    }
-                } catch (e) {}
-            }
-
-            const totalIngressos = eventos.reduce(function (soma, ev) {
-                return soma + Math.max(0, Number(ev.vagasRestantes || 0));
-            }, 0);
-
-            const elEventos = document.getElementById("resumo-admin-eventos");
-            const elCategorias = document.getElementById("resumo-admin-categorias");
-            const elInscritos = document.getElementById("resumo-admin-inscritos");
-            const elEquipe = document.getElementById("resumo-admin-equipe");
-
-            if (elEventos) elEventos.textContent = eventos.length + " shows cadastrados | " + totalIngressos.toLocaleString("pt-BR") + " ingressos disponíveis.";
-            if (elCategorias) elCategorias.textContent = categorias.length + " categorias ativas nos filtros do site.";
-            if (elInscritos) elInscritos.textContent = inscritos.length + " ingressos emitidos para portaria.";
-            if (elEquipe) elEquipe.textContent = equipe.length + " membros cadastrados na equipe.";
-        })();
-    </script>
+    <script src="./js/dashboard.js"></script>
 </body>
 
 </html>

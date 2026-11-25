@@ -194,6 +194,34 @@ window.ControladorAutenticacao = (function () {
         };
     }
 
+    function obterIniciais(nome) {
+        const partes = String(nome || "AR").trim().split(/\s+/).filter(Boolean);
+        if (partes.length === 0) return "AR";
+        if (partes.length === 1) return partes[0].slice(0, 2).toUpperCase();
+        return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
+    }
+
+    function hidratarSidebarBackstage() {
+        const sessao = obterSessaoAtual();
+        const elNome = document.getElementById("usuario-sidebar-nome");
+        const elEmail = document.getElementById("usuario-sidebar-email");
+        const elIniciais = document.getElementById("usuario-sidebar-iniciais");
+
+        if (sessao) {
+            if (elNome) elNome.textContent = sessao.nome || "Produtor";
+            if (elEmail) elEmail.textContent = sessao.email || "";
+            if (elIniciais) elIniciais.textContent = obterIniciais(sessao.nome || sessao.email);
+        }
+
+        const elStatus = document.getElementById("status-conexao-admin");
+        if (elStatus) {
+            const conectado = Boolean(window.supabaseConfigurado && window.supabaseClient);
+            elStatus.classList.remove("online", "local");
+            elStatus.classList.add(conectado ? "online" : "local");
+            elStatus.textContent = conectado ? "Supabase Online" : "Modo Local";
+        }
+    }
+
     function configurarBotoesSair() {
         const linksSair = document.querySelectorAll('a[href="login.html"], #botao-sair');
         linksSair.forEach(function (link) {
@@ -203,36 +231,48 @@ window.ControladorAutenticacao = (function () {
             });
         });
 
-        const botaoMenu = document.getElementById("botao-menu-mobile");
-        const menuNavegacao = document.getElementById("menu-navegacao") || document.querySelector(".navegacao");
-        const fundoMenu = document.getElementById("fundo-menu-mobile");
+        hidratarSidebarBackstage();
 
-        if (botaoMenu && menuNavegacao && botaoMenu.dataset.inicializado !== "sim") {
-            botaoMenu.dataset.inicializado = "sim";
+        const botaoSidebar = document.getElementById("botao-sidebar-admin");
+        const sidebar = document.getElementById("sidebar-backstage");
+        const fundoSidebar = document.getElementById("fundo-sidebar-admin");
 
-            function alternarMenu() {
-                const aberto = menuNavegacao.classList.toggle("aberto");
-                botaoMenu.classList.toggle("ativo", aberto);
-                if (fundoMenu) {
-                    fundoMenu.classList.toggle("visivel", aberto);
+        if (botaoSidebar && sidebar && botaoSidebar.dataset.inicializado !== "sim") {
+            botaoSidebar.dataset.inicializado = "sim";
+
+            function alternarSidebar() {
+                const aberta = sidebar.classList.toggle("aberta");
+                botaoSidebar.classList.toggle("ativo", aberta);
+                botaoSidebar.setAttribute("aria-expanded", aberta ? "true" : "false");
+                document.body.style.overflow = aberta ? "hidden" : "";
+                if (fundoSidebar) {
+                    fundoSidebar.classList.toggle("visivel", aberta);
                 }
             }
 
-            function fecharMenu() {
-                menuNavegacao.classList.remove("aberto");
-                botaoMenu.classList.remove("ativo");
-                if (fundoMenu) {
-                    fundoMenu.classList.remove("visivel");
+            function fecharSidebar() {
+                sidebar.classList.remove("aberta");
+                botaoSidebar.classList.remove("ativo");
+                botaoSidebar.setAttribute("aria-expanded", "false");
+                document.body.style.overflow = "";
+                if (fundoSidebar) {
+                    fundoSidebar.classList.remove("visivel");
                 }
             }
 
-            botaoMenu.addEventListener("click", alternarMenu);
-            if (fundoMenu) {
-                fundoMenu.addEventListener("click", fecharMenu);
+            botaoSidebar.addEventListener("click", alternarSidebar);
+            if (fundoSidebar) {
+                fundoSidebar.addEventListener("click", fecharSidebar);
             }
 
-            menuNavegacao.querySelectorAll("a").forEach(function (link) {
-                link.addEventListener("click", fecharMenu);
+            document.addEventListener("keydown", function (evento) {
+                if (evento.key === "Escape" && sidebar.classList.contains("aberta")) {
+                    fecharSidebar();
+                }
+            });
+
+            sidebar.querySelectorAll(".link-sidebar-admin").forEach(function (link) {
+                link.addEventListener("click", fecharSidebar);
             });
         }
     }

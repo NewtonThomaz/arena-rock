@@ -34,16 +34,27 @@
         </ul>
     </nav>
 
-    <main class="secao-login">
-        <h1>Acesso da Produção</h1>
-        <p>Faça login para acessar os cadastros de shows, categorias, inscritos e equipe.</p>
+    <main class="tela-login-vip secao-destaque">
+        <div class="grade-perspectiva-hero" aria-hidden="true"></div>
 
-        <div class="cartao-formulario">
-            <form class="formulario-admin" id="formulario-login" novalidate>
-                <div class="grupo-formulario">
+        <div class="credencial-vip">
+            <div class="topo-credencial-vip">
+                <div class="furo-cracha" aria-hidden="true"></div>
+                <div class="emblema-credencial-vip" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                    </svg>
+                </div>
+                <span class="selo-backstage-vip">ALL ACCESS • BACKSTAGE PASS</span>
+                <h1>Acesso da Produção</h1>
+                <p>Credencial restrita para gerenciar shows, bandas, casas de show e portaria do circuito.</p>
+            </div>
+
+            <div class="corpo-credencial-vip">
+                <form class="formulario-admin" id="formulario-login" novalidate>
                     <div class="campo-formulario">
                         <label for="campo-email">E-mail da Produção <span class="obrigatorio">*</span></label>
-                        <input type="email" id="campo-email" name="email" placeholder="Digite seu e-mail"
+                        <input type="email" id="campo-email" name="email" placeholder="admin@arenarock.com.br"
                             autocomplete="username" />
                     </div>
 
@@ -54,10 +65,12 @@
                     </div>
 
                     <span class="erro-formulario" id="erro-login" hidden></span>
-                </div>
 
-                <button type="submit" class="botao-principal" id="botao-entrar">Entrar no Backstage</button>
-            </form>
+                    <button type="submit" class="botao-principal" id="botao-entrar">Entrar no Backstage →</button>
+                </form>
+
+                <p class="dica-acesso-vip">Acesso padrão: <strong>admin@arenarock.com.br</strong> • Senha: <strong>rock2026</strong></p>
+            </div>
         </div>
     </main>
 

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bandas &amp; Line-up | Backstage Admin</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/images/icone-rock.svg">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Libre+Franklin:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@1,700;1,900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="pagina-backstage">
+    <div class="layout-backstage">
+        <div class="fundo-sidebar-admin" id="fundo-sidebar-admin"></div>
+
+        <aside class="sidebar-backstage" id="sidebar-backstage">
+            <div class="topo-sidebar-admin">
+                <a class="marca-sidebar-admin" href="../index.html">
+                    <img alt="Logotipo Arena Rock" src="../assets/images/logotipo-rock.svg" />
+                    <span class="selo-backstage-vip">Backstage</span>
+                </a>
+                <div class="status-conexao-pill local" id="status-conexao-admin">Verificando conexão...</div>
+            </div>
+
+            <nav class="nav-sidebar-admin" aria-label="Navegação do Backstage">
+                <div class="grupo-nav-admin">
+                    <span class="titulo-grupo-sidebar">Visão Geral</span>
+                    <ul class="links-sidebar-admin">
+                        <li><a class="link-sidebar-admin" href="index.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg><span>Painel</span></a></li>
+                    </ul>
+                </div>
+                <div class="grupo-nav-admin">
+                    <span class="titulo-grupo-sidebar">Programação</span>
+                    <ul class="links-sidebar-admin">
+                        <li><a class="link-sidebar-admin" href="eventos.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg><span>Shows &amp; Eventos</span></a></li>
+                        <li><a class="link-sidebar-admin ativo" href="bandas.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg><span>Bandas &amp; Line-up</span></a></li>
+                        <li><a class="link-sidebar-admin" href="locais.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg><span>Casas de Show</span></a></li>
+                        <li><a class="link-sidebar-admin" href="categorias.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg><span>Categorias</span></a></li>
+                    </ul>
+                </div>
+                <div class="grupo-nav-admin">
+                    <span class="titulo-grupo-sidebar">Operação</span>
+                    <ul class="links-sidebar-admin">
+                        <li><a class="link-sidebar-admin" href="inscritos.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/></svg><span>Portaria &amp; Inscritos</span></a></li>
+                        <li><a class="link-sidebar-admin" href="usuarios.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>Equipe</span></a></li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="rodape-sidebar-admin">
+                <div class="perfil-admin-sidebar">
+                    <span class="avatar-admin-sidebar" id="usuario-sidebar-iniciais">AR</span>
+                    <div class="info-perfil-sidebar">
+                        <strong id="usuario-sidebar-nome">Produtor</strong>
+                        <span id="usuario-sidebar-email">admin@arenarock.com.br</span>
+                    </div>
+                </div>
+                <div class="acoes-rodape-sidebar">
+                    <a class="botao-sidebar-acao" href="../index.html">Ver Site ↗</a>
+                    <a class="botao-sidebar-acao sair" id="botao-sair" href="login.html">Sair</a>
+                </div>
+            </div>
+        </aside>
+
+        <div class="conteudo-backstage">
+            <header class="barra-mobile-admin">
+                <a class="marca-topo" href="../index.html"><img class="logotipo" alt="Logotipo Arena Rock" src="../assets/images/logotipo-rock.svg" /></a>
+                <button type="button" class="botao-hamburguer" id="botao-sidebar-admin" aria-label="Menu Backstage" aria-expanded="false">
+                    <span class="linha-hamburguer"></span><span class="linha-hamburguer"></span><span class="linha-hamburguer"></span>
+                </button>
+            </header>
+
+            <main class="painel-admin">
+                <div class="cabecalho-admin">
+                    <div>
+                        <h1>Gerenciar Bandas &amp; Line-up</h1>
+                        <p id="nome-admin-logado">Cadastre bandas autorais e tributos do circuito, defina headliners e atualize a formação.</p>
+                    </div>
+                    <a class="botao-principal" href="#formulario-banda">+ Nova Banda</a>
+                </div>
+
+                <section class="bloco-admin">
+                    <div class="cabecalho-bloco-admin">
+                        <h2>Bandas Confirmadas</h2>
+                        <input type="text" class="input-busca-admin" id="busca-admin-bandas" placeholder="Buscar por nome, vertente ou cidade..." style="max-width: 320px;" />
+                    </div>
+
+                    <div class="envoltorio-tabela">
+                        <table class="tabela-admin">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Vertente</th>
+                                    <th>Cidade</th>
+                                    <th>Destaque</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabela-bandas"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="bloco-admin" id="formulario-banda">
+                    <div class="cabecalho-formulario">
+                        <h2 id="titulo-form-banda">Cadastrar Nova Banda</h2>
+                        <p>Adicione as informações da banda para exibi-la na vitrine pública e sugerir no line-up dos shows.</p>
+                    </div>
+
+                    <form class="formulario-admin" id="form-cadastro-banda" novalidate>
+                        <div class="grupo-formulario">
+                            <div class="titulo-grupo">
+                                <span class="numero-passo">1</span>
+                                <span>Identificação Musical</span>
+                            </div>
+
+                            <div class="grade-formulario-3">
+                                <div class="campo-formulario">
+                                    <label for="campo-nome-banda">Nome da Banda <span class="obrigatorio">*</span></label>
+                                    <input type="text" id="campo-nome-banda" name="nome" placeholder="Ex: Valquíria de Aço" />
+                                </div>
+
+                                <div class="campo-formulario">
+                                    <label for="campo-vertente-banda">Vertente / Estilo <span class="obrigatorio">*</span></label>
+                                    <input type="text" id="campo-vertente-banda" name="vertente" placeholder="Ex: Heavy Metal" />
+                                </div>
+
+                                <div class="campo-formulario">
+                                    <label for="campo-cidade-banda">Cidade / Origem <span class="obrigatorio">*</span></label>
+                                    <input type="text" id="campo-cidade-banda" name="cidade" placeholder="Ex: São Paulo - SP" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grupo-formulario">
+                            <div class="titulo-grupo">
+                                <span class="numero-passo">2</span>
+                                <span>Formação &amp; Biografia</span>
+                            </div>
+
+                            <div class="grade-formulario-2">
+                                <div class="campo-formulario">
+                                    <label for="campo-integrantes-banda">Integrantes</label>
+                                    <input type="text" id="campo-integrantes-banda" name="integrantes" placeholder="Ex: Vocal, Guitarra, Baixo, Bateria" />
+                                </div>
+
+                                <div class="campo-formulario">
+                                    <label for="campo-destaque-banda">Status no Line-up</label>
+                                    <div class="campo-marcacao">
+                                        <input type="checkbox" id="campo-destaque-banda" name="destaque" />
+                                        <label for="campo-destaque-banda">Marcar como Headliner</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="campo-formulario">
+                                <label for="campo-biografia-banda">Biografia</label>
+                                <textarea id="campo-biografia-banda" name="biografia" placeholder="Resumo da história e sonoridade da banda..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="rodape-formulario">
+                            <button type="button" id="cancelar-edicao-banda" class="botao-pequeno botao-editar" hidden>Cancelar Edição</button>
+                            <button type="submit" id="salvar-banda" class="botao-principal">Salvar Banda</button>
+                        </div>
+                    </form>
+                </section>
+            </main>
+
+            <footer class="rodape">
+                <p>© 2026 Arena Rock | Circuito de Eventos de Rock &amp; Cultura Underground.</p>
+            </footer>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../supabase-credentials.js"></script>
+    <script src="./js/supabaseClient.js"></script>
+    <script src="./js/autenticacao.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="./js/bandas.js"></script>
+</body>
+
+</html>

@@ -363,6 +363,7 @@ window.EventosAPI = (function () {
             organizador: registro.responsavel || registro.organizador || "Produção Arena Rock",
             vagasTotais: Number(registro.vagas_totais ?? registro.vagasTotais ?? 100),
             vagasRestantes: Number(registro.vagas_restantes ?? registro.vagasRestantes ?? 100),
+            imagem: registro.imagem || "",
             descricaoCompleta: registro.descricao || registro.descricaoCompleta || ""
         };
     }
@@ -421,7 +422,9 @@ window.EventosAPI = (function () {
                         email: ins.email,
                         setorIngresso: ins.setor_ingresso || "Pista Rock",
                         dataHora: dataCriacao.toLocaleDateString("pt-BR") + " " + dataCriacao.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }),
-                        codigoConfirmacao: ins.codigo_confirmacao
+                        codigoConfirmacao: ins.codigo_confirmacao,
+                        checkin: Boolean(ins.checkin),
+                        checkinEm: ins.checkin_em ? new Date(ins.checkin_em).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) : ""
                     };
                 });
                 salvarStorage(CHAVE_STORAGE_INSCRICOES, inscricoes);
@@ -586,12 +589,111 @@ window.EventosAPI = (function () {
         return novoEvento;
     }
 
+    function atualizarEventoLocal(id, dadosAtualizados) {
+        eventos = lerStorage(CHAVE_STORAGE_EVENTOS, eventosIniciais);
+        let atualizado = null;
+        eventos = eventos.map(function (ev) {
+            if (String(ev.id) === String(id) || (ev.idBanco && String(ev.idBanco) === String(id))) {
+                atualizado = Object.assign({}, ev, dadosAtualizados, {
+                    id: ev.id,
+                    idBanco: ev.idBanco
+                });
+                return atualizado;
+            }
+            return ev;
+        });
+        salvarStorage(CHAVE_STORAGE_EVENTOS, eventos);
+        return atualizado;
+    }
+
     function removerEventoLocal(id) {
         eventos = lerStorage(CHAVE_STORAGE_EVENTOS, eventosIniciais);
         eventos = eventos.filter(function (ev) {
             return String(ev.id) !== String(id) && String(ev.idBanco) !== String(id);
         });
         salvarStorage(CHAVE_STORAGE_EVENTOS, eventos);
+    }
+
+    function adicionarBandaLocal(novaBanda) {
+        bandas = lerStorage(CHAVE_STORAGE_BANDAS, bandasIniciais);
+        bandas.unshift(novaBanda);
+        salvarStorage(CHAVE_STORAGE_BANDAS, bandas);
+        return novaBanda;
+    }
+
+    function atualizarBandaLocal(idOuSlug, dadosAtualizados) {
+        bandas = lerStorage(CHAVE_STORAGE_BANDAS, bandasIniciais);
+        let atualizada = null;
+        bandas = bandas.map(function (b) {
+            if (String(b.id) === String(idOuSlug) || String(b.slug) === String(idOuSlug)) {
+                atualizada = Object.assign({}, b, dadosAtualizados, {
+                    id: b.id
+                });
+                return atualizada;
+            }
+            return b;
+        });
+        salvarStorage(CHAVE_STORAGE_BANDAS, bandas);
+        return atualizada;
+    }
+
+    function removerBandaLocal(idOuSlug) {
+        bandas = lerStorage(CHAVE_STORAGE_BANDAS, bandasIniciais);
+        bandas = bandas.filter(function (b) {
+            return String(b.id) !== String(idOuSlug) && String(b.slug) !== String(idOuSlug);
+        });
+        salvarStorage(CHAVE_STORAGE_BANDAS, bandas);
+    }
+
+    function adicionarLocalLocal(novoLocal) {
+        locais = lerStorage(CHAVE_STORAGE_LOCAIS, locaisIniciais);
+        locais.unshift(novoLocal);
+        salvarStorage(CHAVE_STORAGE_LOCAIS, locais);
+        return novoLocal;
+    }
+
+    function atualizarLocalLocal(id, dadosAtualizados) {
+        locais = lerStorage(CHAVE_STORAGE_LOCAIS, locaisIniciais);
+        let atualizado = null;
+        locais = locais.map(function (loc) {
+            if (String(loc.id) === String(id)) {
+                atualizado = Object.assign({}, loc, dadosAtualizados, {
+                    id: loc.id
+                });
+                return atualizado;
+            }
+            return loc;
+        });
+        salvarStorage(CHAVE_STORAGE_LOCAIS, locais);
+        return atualizado;
+    }
+
+    function removerLocalLocal(id) {
+        locais = lerStorage(CHAVE_STORAGE_LOCAIS, locaisIniciais);
+        locais = locais.filter(function (loc) {
+            return String(loc.id) !== String(id);
+        });
+        salvarStorage(CHAVE_STORAGE_LOCAIS, locais);
+    }
+
+    function alternarCheckinInscricaoLocal(id) {
+        inscricoes = lerStorage(CHAVE_STORAGE_INSCRICOES, inscricoesIniciais);
+        let atualizada = null;
+        const agora = new Date();
+        const horaFormatada = agora.toLocaleDateString("pt-BR") + " " + agora.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+        inscricoes = inscricoes.map(function (item) {
+            if (String(item.id) === String(id)) {
+                const novoStatus = !Boolean(item.checkin);
+                atualizada = Object.assign({}, item, {
+                    checkin: novoStatus,
+                    checkinEm: novoStatus ? horaFormatada : ""
+                });
+                return atualizada;
+            }
+            return item;
+        });
+        salvarStorage(CHAVE_STORAGE_INSCRICOES, inscricoes);
+        return atualizada;
     }
 
     function adicionarCategoriaLocal(novaCat) {
@@ -859,10 +961,18 @@ window.EventosAPI = (function () {
         inscreverEvento: inscreverEvento,
         buscarInscricaoPorCodigoOuEmail: buscarInscricaoPorCodigoOuEmail,
         adicionarEventoLocal: adicionarEventoLocal,
+        atualizarEventoLocal: atualizarEventoLocal,
         removerEventoLocal: removerEventoLocal,
+        adicionarBandaLocal: adicionarBandaLocal,
+        atualizarBandaLocal: atualizarBandaLocal,
+        removerBandaLocal: removerBandaLocal,
+        adicionarLocalLocal: adicionarLocalLocal,
+        atualizarLocalLocal: atualizarLocalLocal,
+        removerLocalLocal: removerLocalLocal,
         adicionarCategoriaLocal: adicionarCategoriaLocal,
         removerCategoriaLocal: removerCategoriaLocal,
         removerInscricaoLocal: removerInscricaoLocal,
+        alternarCheckinInscricaoLocal: alternarCheckinInscricaoLocal,
         obterCapaEvento: obterCapaEvento,
         obterCapaBanda: obterCapaBanda,
         obterCapaLocal: obterCapaLocal,

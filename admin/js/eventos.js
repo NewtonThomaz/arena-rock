@@ -1,4 +1,8 @@
 const controladorEventos = {
+    idEmEdicao: null,
+    idBancoEmEdicao: null,
+    eventosAtuais: [],
+
     gerarSlug: function (texto) {
         return texto
             .toString()
@@ -18,6 +22,8 @@ const controladorEventos = {
         const dataShow = item.data || item.dataISO;
         const vagasRestantes = item.vagas_restantes ?? item.vagasRestantes ?? 0;
         const vagasTotais = item.vagas_totais ?? item.vagasTotais ?? 0;
+        const idRef = item.id;
+        const slugRef = item.slug || item.id;
 
         return `
             <tr>
@@ -28,8 +34,9 @@ const controladorEventos = {
                 <td data-label="Casa de Show">${item.local}</td>
                 <td data-label="Ingressos">${vagasRestantes} / ${vagasTotais}</td>
                 <td data-label="Ações" class="acoes-tabela">
-                    <a class="botao-pequeno botao-editar" href="inscritos.html?evento=${encodeURIComponent(item.id)}">Inscritos</a>
-                    <button type="button" class="botao-pequeno botao-excluir" data-id="${item.id}">Excluir</button>
+                    <button type="button" class="botao-pequeno botao-editar botao-editar-evento" data-id="${idRef}">Editar</button>
+                    <a class="botao-pequeno botao-editar" href="inscritos.html?evento=${encodeURIComponent(slugRef)}">Inscritos</a>
+                    <button type="button" class="botao-pequeno botao-excluir" data-id="${idRef}">Excluir</button>
                 </td>
             </tr>
         `;
@@ -50,17 +57,19 @@ const controladorEventos = {
                             contagemPorEvento[chave] = (contagemPorEvento[chave] || 0) + 1;
                         });
                     }
-                    return resEventos.data.map(function (ev) {
+                    controladorEventos.eventosAtuais = resEventos.data.map(function (ev) {
                         const inscritosReais = contagemPorEvento[String(ev.id)] || 0;
                         ev.vagas_restantes = Math.max(0, Number(ev.vagas_totais || 0) - inscritosReais);
                         return ev;
                     });
+                    return controladorEventos.eventosAtuais;
                 }
             } catch (erro) {
                 console.warn("Usando lista local de eventos:", erro);
             }
         }
-        return window.EventosAPI ? window.EventosAPI.listarEventos() : [];
+        controladorEventos.eventosAtuais = window.EventosAPI ? window.EventosAPI.listarEventos() : [];
+        return controladorEventos.eventosAtuais;
     },
 
     montarCategorias: async function () {
@@ -73,14 +82,144 @@ const controladorEventos = {
         }).join("");
     },
 
+    montarSugestoes: function () {
+        if (!window.EventosAPI) return;
+
+        const datalistBandas = document.getElementById("lista-sugestoes-bandas");
+        if (datalistBandas) {
+            const bandas = window.EventosAPI.listarBandas();
+            datalistBandas.innerHTML = bandas.map(function (b) {
+                return `<option value="${b.nome}"></option>`;
+            }).join("");
+        }
+
+        const datalistLocais = document.getElementById("lista-sugestoes-locais");
+        const locais = window.EventosAPI.listarLocais();
+        if (datalistLocais) {
+            datalistLocais.innerHTML = locais.map(function (l) {
+                return `<option value="${l.nome}"></option>`;
+            }).join("");
+        }
+
+        const campoLocal = document.getElementById("campo-local");
+        const campoEndereco = document.getElementById("campo-endereco");
+        if (campoLocal && campoEndereco && campoLocal.dataset.autoEndereco !== "sim") {
+            campoLocal.dataset.autoEndereco = "sim";
+            campoLocal.addEventListener("change", function () {
+                const encontrado = locais.find(function (l) {
+                    return l.nome.toLowerCase() === campoLocal.value.trim().toLowerCase();
+                });
+                if (encontrado && !campoEndereco.value.trim()) {
+                    campoEndereco.value = encontrado.endereco + (encontrado.bairroCidade ? " - " + encontrado.bairroCidade : "");
+                }
+            });
+        }
+    },
+
+    atualizarSelecaoCapa: function (valorCapa) {
+        const opcoes = document.querySelectorAll("#seletor-capas-admin .opcao-capa-admin");
+        const campoImagem = document.getElementById("campo-imagem");
+        if (campoImagem && campoImagem.value !== valorCapa) {
+            campoImagem.value = valorCapa || "";
+        }
+        opcoes.forEach(function (btn) {
+            const capaBtn = btn.getAttribute("data-capa") || "";
+            btn.classList.toggle("selecionada", capaBtn === (valorCapa || ""));
+        });
+    },
+
+    configurarSeletorCapas: function () {
+        const container = document.getElementById("seletor-capas-admin");
+        const campoImagem = document.getElementById("campo-imagem");
+        if (!container) return;
+
+        container.querySelectorAll(".opcao-capa-admin").forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                const capa = this.getAttribute("data-capa") || "";
+                controladorEventos.atualizarSelecaoCapa(capa);
+            });
+        });
+
+        if (campoImagem) {
+            campoImagem.addEventListener("input", function () {
+                controladorEventos.atualizarSelecaoCapa(campoImagem.value.trim());
+            });
+        }
+    },
+
     validar: function (idCampo, valor, tamanhoMinimo) {
-        const elementoErro = document.querySelector(`#campo-${idCampo} + .erro-campo`);
+        const elementoErro = document.querySelector(`#campo-${idCampo} + .erro-campo`) ||
+            document.querySelector(`#campo-${idCampo}`)?.parentElement?.querySelector(".erro-campo");
         if (!valor || valor.trim().length < tamanhoMinimo) {
             if (elementoErro) elementoErro.classList.add("visivel");
             return false;
         }
         if (elementoErro) elementoErro.classList.remove("visivel");
         return true;
+    },
+
+    iniciarEdicao: function (item) {
+        controladorEventos.idEmEdicao = item.slug || item.id;
+        controladorEventos.idBancoEmEdicao = item.idBanco || (typeof item.id === "number" ? item.id : null);
+
+        const tituloForm = document.getElementById("titulo-form-evento");
+        const botaoSalvar = document.getElementById("salvar-evento");
+        const botaoCancelar = document.getElementById("cancelar-edicao-evento");
+
+        if (tituloForm) tituloForm.textContent = "Editar Show: " + (item.nome || item.titulo);
+        if (botaoSalvar) botaoSalvar.textContent = "Salvar Alterações";
+        if (botaoCancelar) botaoCancelar.hidden = false;
+
+        document.querySelector("#campo-titulo").value = item.nome || item.titulo || "";
+        document.querySelector("#campo-banda-principal").value = item.banda_principal || item.bandaPrincipal || "";
+        document.querySelector("#campo-vertente").value = item.vertente_rock || item.vertenteRock || "";
+        document.querySelector("#campo-classificacao").value = item.classificacao || "16 anos";
+        document.querySelector("#campo-data").value = item.data || item.dataISO || "";
+        document.querySelector("#campo-horario").value = item.horario || "";
+        document.querySelector("#campo-organizador").value = item.responsavel || item.organizador || "";
+        document.querySelector("#campo-local").value = item.local || "";
+        document.querySelector("#campo-endereco").value = item.endereco || item.enderecoCompleto || "";
+        document.querySelector("#campo-vagas-totais").value = item.vagas_totais ?? item.vagasTotais ?? 200;
+        document.querySelector("#campo-vagas-restantes").value = item.vagas_restantes ?? item.vagasRestantes ?? 200;
+        document.querySelector("#campo-destaque").checked = Boolean(item.destaque);
+        document.querySelector("#campo-descricao").value = item.descricao || item.descricaoCompleta || "";
+
+        const seletorCat = document.querySelector("#campo-categoria");
+        if (seletorCat) {
+            if (item.categoria_id) {
+                seletorCat.value = String(item.categoria_id);
+            } else {
+                const nomeCat = item.categoria && item.categoria.nome ? item.categoria.nome : (item.categoria || "");
+                Array.from(seletorCat.options).forEach(function (opt) {
+                    if (opt.getAttribute("data-nome") === nomeCat) {
+                        seletorCat.value = opt.value;
+                    }
+                });
+            }
+        }
+
+        controladorEventos.atualizarSelecaoCapa(item.imagem || "");
+
+        const secaoForm = document.getElementById("formulario-evento");
+        if (secaoForm) secaoForm.scrollIntoView({ behavior: "smooth" });
+    },
+
+    cancelarEdicao: function () {
+        controladorEventos.idEmEdicao = null;
+        controladorEventos.idBancoEmEdicao = null;
+
+        const formulario = document.getElementById("form-cadastro-evento");
+        if (formulario) formulario.reset();
+
+        const tituloForm = document.getElementById("titulo-form-evento");
+        const botaoSalvar = document.getElementById("salvar-evento");
+        const botaoCancelar = document.getElementById("cancelar-edicao-evento");
+
+        if (tituloForm) tituloForm.textContent = "Cadastrar Novo Show / Evento";
+        if (botaoSalvar) botaoSalvar.textContent = "Salvar Show na Programação";
+        if (botaoCancelar) botaoCancelar.hidden = true;
+
+        controladorEventos.atualizarSelecaoCapa("");
     },
 
     obterDadosFormulario: function () {
@@ -103,13 +242,15 @@ const controladorEventos = {
 
         const endereco = document.querySelector("#campo-endereco").value || local;
         const vagas_totais = Number(document.querySelector("#campo-vagas-totais").value || 200);
-        const vagas_restantes = Number(document.querySelector("#campo-vagas-restantes").value || vagas_totais);
+        const campoRestantes = document.querySelector("#campo-vagas-restantes").value;
+        const vagas_restantes = campoRestantes === "" ? vagas_totais : Number(campoRestantes);
         const destaque = document.querySelector("#campo-destaque").checked;
         const descricao = document.querySelector("#campo-descricao").value || "Show confirmado no circuito Arena Rock.";
         const responsavel = document.querySelector("#campo-organizador").value || "Produção Arena Rock";
         const banda_principal = document.querySelector("#campo-banda-principal").value || "Bandas Convidadas";
         const vertente_rock = document.querySelector("#campo-vertente").value || "Rock / Metal";
         const classificacao = document.querySelector("#campo-classificacao").value || "16 anos";
+        const imagem = (document.querySelector("#campo-imagem")?.value || "").trim();
         const slug = controladorEventos.gerarSlug(nome);
 
         return {
@@ -128,67 +269,99 @@ const controladorEventos = {
             banda_principal: banda_principal,
             vertente_rock: vertente_rock,
             classificacao: classificacao,
+            imagem: imagem,
             slug: slug
         };
     },
 
+    salvarNoSupabase: async function (payload, ehEdicao, idBanco) {
+        if (!window.supabaseConfigurado || !window.supabaseClient) return;
+        const operacao = ehEdicao
+            ? window.supabaseClient.from("eventos").update(payload).eq("id", idBanco)
+            : window.supabaseClient.from("eventos").insert(payload).select();
+
+        const resposta = await operacao;
+        if (resposta.error && String(resposta.error.message || "").toLowerCase().includes("imagem")) {
+            const payloadSemImagem = Object.assign({}, payload);
+            delete payloadSemImagem.imagem;
+            if (ehEdicao) {
+                await window.supabaseClient.from("eventos").update(payloadSemImagem).eq("id", idBanco);
+            } else {
+                await window.supabaseClient.from("eventos").insert(payloadSemImagem).select();
+            }
+        }
+    },
+
     configurarBotaoSalvar: function () {
         const botaoSalvar = document.querySelector("#salvar-evento");
+        const botaoCancelar = document.getElementById("cancelar-edicao-evento");
+
+        if (botaoCancelar) {
+            botaoCancelar.addEventListener("click", controladorEventos.cancelarEdicao);
+        }
+
         if (!botaoSalvar) return;
 
         botaoSalvar.addEventListener("click", async function () {
             const dados = controladorEventos.obterDadosFormulario();
             if (!dados) return;
 
-            if (window.EventosAPI) {
-                window.EventosAPI.adicionarEventoLocal({
-                    id: dados.slug,
-                    categoria: dados.nomeCategoria,
-                    titulo: dados.nome,
-                    bandaPrincipal: dados.banda_principal,
-                    vertenteRock: dados.vertente_rock,
-                    classificacao: dados.classificacao,
-                    destaque: dados.destaque,
-                    dataISO: dados.data,
-                    horario: dados.horario,
-                    local: dados.local,
-                    enderecoCompleto: dados.endereco,
-                    organizador: dados.responsavel,
-                    vagasTotais: dados.vagas_totais,
-                    vagasRestantes: dados.vagas_restantes,
-                    descricaoCompleta: dados.descricao
-                });
-            }
+            const dadosLocais = {
+                categoria: dados.nomeCategoria,
+                titulo: dados.nome,
+                bandaPrincipal: dados.banda_principal,
+                vertenteRock: dados.vertente_rock,
+                classificacao: dados.classificacao,
+                destaque: dados.destaque,
+                dataISO: dados.data,
+                horario: dados.horario,
+                local: dados.local,
+                enderecoCompleto: dados.endereco,
+                organizador: dados.responsavel,
+                vagasTotais: dados.vagas_totais,
+                vagasRestantes: dados.vagas_restantes,
+                imagem: dados.imagem,
+                descricaoCompleta: dados.descricao
+            };
 
-            if (window.supabaseConfigurado && window.supabaseClient) {
-                const payloadSupabase = {
-                    nome: dados.nome,
-                    categoria_id: dados.categoria_id,
-                    data: dados.data,
-                    horario: dados.horario,
-                    local: dados.local,
-                    endereco: dados.endereco,
-                    vagas_totais: dados.vagas_totais,
-                    vagas_restantes: dados.vagas_restantes,
-                    destaque: dados.destaque,
-                    descricao: dados.descricao,
-                    responsavel: dados.responsavel,
-                    banda_principal: dados.banda_principal,
-                    vertente_rock: dados.vertente_rock,
-                    classificacao: dados.classificacao,
-                    slug: dados.slug
-                };
-                const resposta = await window.supabaseClient.from("eventos").insert(payloadSupabase).select();
-                if (resposta.error) {
-                    console.warn(resposta.error);
+            const payloadSupabase = {
+                nome: dados.nome,
+                categoria_id: dados.categoria_id,
+                data: dados.data,
+                horario: dados.horario,
+                local: dados.local,
+                endereco: dados.endereco,
+                vagas_totais: dados.vagas_totais,
+                vagas_restantes: dados.vagas_restantes,
+                destaque: dados.destaque,
+                descricao: dados.descricao,
+                responsavel: dados.responsavel,
+                banda_principal: dados.banda_principal,
+                vertente_rock: dados.vertente_rock,
+                classificacao: dados.classificacao,
+                imagem: dados.imagem || null,
+                slug: controladorEventos.idEmEdicao ? controladorEventos.idEmEdicao : dados.slug
+            };
+
+            if (controladorEventos.idEmEdicao) {
+                if (window.EventosAPI) {
+                    window.EventosAPI.atualizarEventoLocal(controladorEventos.idEmEdicao, dadosLocais);
                 }
+                if (controladorEventos.idBancoEmEdicao) {
+                    await controladorEventos.salvarNoSupabase(payloadSupabase, true, controladorEventos.idBancoEmEdicao);
+                }
+                controladorEventos.cancelarEdicao();
+                await controladorEventos.popularTabelaEventos();
+                alert("Show atualizado com sucesso!");
+            } else {
+                if (window.EventosAPI) {
+                    window.EventosAPI.adicionarEventoLocal(Object.assign({ id: dados.slug }, dadosLocais));
+                }
+                await controladorEventos.salvarNoSupabase(payloadSupabase, false, null);
+                controladorEventos.cancelarEdicao();
+                await controladorEventos.popularTabelaEventos();
+                alert("Show cadastrado com sucesso na programação!");
             }
-
-            const formulario = document.getElementById("form-cadastro-evento");
-            if (formulario) formulario.reset();
-
-            await controladorEventos.popularTabelaEventos();
-            alert("Show cadastrado com sucesso na programação!");
         });
     },
 
@@ -203,6 +376,18 @@ const controladorEventos = {
             return controladorEventos.templateItem(item);
         }).join("");
 
+        corpoTabela.querySelectorAll(".botao-editar-evento").forEach(function (botao) {
+            botao.addEventListener("click", function () {
+                const id = this.getAttribute("data-id");
+                const encontrado = controladorEventos.eventosAtuais.find(function (ev) {
+                    return String(ev.id) === String(id);
+                });
+                if (encontrado) {
+                    controladorEventos.iniciarEdicao(encontrado);
+                }
+            });
+        });
+
         corpoTabela.querySelectorAll(".botao-excluir").forEach(function (botao) {
             botao.addEventListener("click", async function () {
                 const id = this.getAttribute("data-id");
@@ -212,6 +397,9 @@ const controladorEventos = {
                 if (window.EventosAPI) {
                     window.EventosAPI.removerEventoLocal(id);
                 }
+                if (String(controladorEventos.idEmEdicao) === String(id) || String(controladorEventos.idBancoEmEdicao) === String(id)) {
+                    controladorEventos.cancelarEdicao();
+                }
                 controladorEventos.popularTabelaEventos();
             });
         });
@@ -219,6 +407,8 @@ const controladorEventos = {
 
     inicializar: async function () {
         await controladorEventos.montarCategorias();
+        controladorEventos.montarSugestoes();
+        controladorEventos.configurarSeletorCapas();
         controladorEventos.configurarBotaoSalvar();
         await controladorEventos.popularTabelaEventos();
     }

@@ -1,6 +1,12 @@
 (function () {
     const seletorEvento = document.getElementById("filtro-evento");
+    const campoBusca = document.getElementById("busca-inscritos");
+    const seletorStatus = document.getElementById("filtro-status-checkin");
+    const contadorPortaria = document.getElementById("contador-portaria");
+    const botaoExportar = document.getElementById("botao-exportar-csv");
     const corpoTabela = document.getElementById("tabela-inscritos");
+
+    let ultimasFiltradas = [];
 
     function obterFiltroDaUrl() {
         return new URLSearchParams(window.location.search).get("evento") || "";
@@ -17,13 +23,40 @@
             }).join("");
     }
 
-    function renderizarInscritos() {
-        const eventoSelecionado = seletorEvento.value;
+    function filtrarRegistros() {
+        const eventoSelecionado = seletorEvento ? seletorEvento.value : "";
+        const termo = (campoBusca && campoBusca.value ? campoBusca.value : "").trim().toLowerCase();
+        const statusFiltro = seletorStatus ? seletorStatus.value : "todos";
         const todas = EventosAPI.listarInscricoes();
 
-        const filtradas = todas.filter(function (item) {
+        const porEvento = todas.filter(function (item) {
             return !eventoSelecionado || String(item.eventoId) === String(eventoSelecionado);
         });
+
+        const totalValidados = porEvento.filter(function (item) { return Boolean(item.checkin); }).length;
+        if (contadorPortaria) {
+            contadorPortaria.textContent = totalValidados + " de " + porEvento.length + " validados";
+        }
+
+        return porEvento.filter(function (item) {
+            const bateTermo = !termo ||
+                (item.codigoConfirmacao && item.codigoConfirmacao.toLowerCase().includes(termo)) ||
+                (item.nome && item.nome.toLowerCase().includes(termo)) ||
+                (item.email && item.email.toLowerCase().includes(termo)) ||
+                (item.eventoTitulo && item.eventoTitulo.toLowerCase().includes(termo));
+
+            const validado = Boolean(item.checkin);
+            const bateStatus = statusFiltro === "todos" ||
+                (statusFiltro === "validados" && validado) ||
+                (statusFiltro === "pendentes" && !validado);
+
+            return bateTermo && bateStatus;
+        });
+    }
+
+    function renderizarInscritos() {
+        const filtradas = filtrarRegistros();
+        ultimasFiltradas = filtradas;
 
         if (filtradas.length === 0) {
             corpoTabela.innerHTML = `
@@ -35,20 +68,49 @@
         }
 
         corpoTabela.innerHTML = filtradas.map(function (item) {
+            const validado = Boolean(item.checkin);
+            const classeLinha = validado ? "linha-checkin-feito" : "";
+            const classeSelo = validado ? "selo-ativo" : "selo-inativo";
+            const textoStatus = validado ? ("✓ Check-in" + (item.checkinEm ? " • " + item.checkinEm : "")) : "Pendente";
+            const textoBotao = validado ? "Desfazer" : "Validar Entrada";
+            const classeBotao = validado ? "botao-pequeno botao-checkin validado" : "botao-pequeno botao-checkin";
+
             return `
-                <tr data-evento="${item.eventoId}">
+                <tr class="${classeLinha}" data-evento="${item.eventoId}">
                     <td data-label="Participante"><strong>${item.nome}</strong></td>
                     <td data-label="E-mail">${item.email}</td>
                     <td data-label="Show / Evento">${item.eventoTitulo}</td>
                     <td data-label="Setor"><span class="categoria-evento">${item.setorIngresso || "Pista Rock"}</span></td>
-                    <td data-label="Emitido em">${item.dataHora}</td>
                     <td data-label="Código"><strong>${item.codigoConfirmacao}</strong></td>
+                    <td data-label="Status"><span class="selo ${classeSelo}">${textoStatus}</span></td>
                     <td data-label="Ações" class="acoes-tabela">
+                        <button type="button" class="${classeBotao}" data-id="${item.id}">${textoBotao}</button>
                         <button type="button" class="botao-pequeno botao-excluir" data-id="${item.id}">Remover</button>
                     </td>
                 </tr>
             `;
         }).join("");
+
+        corpoTabela.querySelectorAll(".botao-checkin").forEach(function (botao) {
+            botao.addEventListener("click", async function () {
+                const id = this.getAttribute("data-id");
+                const atualizado = EventosAPI.alternarCheckinInscricaoLocal(id);
+
+                if (atualizado && window.supabaseConfigurado && window.supabaseClient) {
+                    try {
+                        await window.supabaseClient
+                            .from("inscricoes")
+                            .update({
+                                checkin: Boolean(atualizado.checkin),
+                                checkin_em: atualizado.checkin ? new Date().toISOString() : null
+                            })
+                            .eq("id", id);
+                    } catch (erro) {}
+                }
+
+                renderizarInscritos();
+            });
+        });
 
         corpoTabela.querySelectorAll(".botao-excluir").forEach(function (botao) {
             botao.addEventListener("click", async function () {
@@ -68,11 +130,51 @@
         });
     }
 
+    function escaparCSV(valor) {
+        const texto = String(valor ?? "").replace(/"/g, '""');
+        return '"' + texto + '"';
+    }
+
+    function exportarCSV() {
+        const registros = ultimasFiltradas.length > 0 ? ultimasFiltradas : filtrarRegistros();
+        if (registros.length === 0) {
+            alert("Não há registros visíveis para exportar.");
+            return;
+        }
+
+        const cabecalho = ["Participante", "E-mail", "Show", "Setor", "Emitido em", "Código", "Status Check-in"];
+        const linhas = registros.map(function (item) {
+            return [
+                escaparCSV(item.nome),
+                escaparCSV(item.email),
+                escaparCSV(item.eventoTitulo),
+                escaparCSV(item.setorIngresso || "Pista Rock"),
+                escaparCSV(item.dataHora),
+                escaparCSV(item.codigoConfirmacao),
+                escaparCSV(item.checkin ? "Validado" : "Pendente")
+            ].join(";");
+        });
+
+        const conteudo = "\uFEFF" + cabecalho.join(";") + "\n" + linhas.join("\n");
+        const blob = new Blob([conteudo], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "portaria-arena-rock.csv";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    }
+
     async function inicializar() {
         await EventosAPI.sincronizarComSupabase();
         carregarOpcoesFiltro();
         renderizarInscritos();
-        seletorEvento.addEventListener("change", renderizarInscritos);
+        if (seletorEvento) seletorEvento.addEventListener("change", renderizarInscritos);
+        if (campoBusca) campoBusca.addEventListener("input", renderizarInscritos);
+        if (seletorStatus) seletorStatus.addEventListener("change", renderizarInscritos);
+        if (botaoExportar) botaoExportar.addEventListener("click", exportarCSV);
     }
 
     document.addEventListener("DOMContentLoaded", inicializar);
