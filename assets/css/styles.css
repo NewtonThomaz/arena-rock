@@ -1992,6 +1992,7 @@ body.pagina-backstage {
     gap: 18px;
     padding: 20px 16px;
     z-index: 200;
+    overflow-x: hidden;
     overflow-y: auto;
 }
 
@@ -2005,15 +2006,18 @@ body.pagina-backstage {
 
 .marca-sidebar-admin {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-start;
     gap: 8px;
     text-decoration: none;
 }
 
 .marca-sidebar-admin img {
-    height: 36px;
+    max-width: 100%;
+    height: 34px;
     width: auto;
+    object-fit: contain;
+    display: block;
 }
 
 .selo-backstage-vip {
@@ -3028,13 +3032,21 @@ body.pagina-backstage {
     }
 
     .sidebar-backstage {
-        transform: translateX(-105%);
-        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        left: auto;
+        right: 0;
+        border-right: none;
+        border-left: 2px solid var(--cor-vermelho-rock);
+        transform: translateX(105%);
+        visibility: hidden;
+        pointer-events: none;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s ease;
         width: min(290px, 84vw);
     }
 
     .sidebar-backstage.aberta {
         transform: translateX(0);
+        visibility: visible;
+        pointer-events: auto;
     }
 
     .conteudo-backstage {
