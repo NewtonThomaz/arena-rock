@@ -2241,7 +2241,7 @@ body.pagina-backstage {
 
 .conteudo-backstage .painel-admin {
     width: 100%;
-    max-width: 1260px;
+    max-width: 1380px;
     margin: 0 auto;
     padding: 40px 36px 72px;
     gap: 32px;
@@ -2608,6 +2608,107 @@ body.pagina-backstage {
     flex: 0 1 220px;
     max-width: 240px;
     text-overflow: ellipsis;
+}
+
+.select-linhas-portaria {
+    flex: 0 1 160px;
+    max-width: 175px;
+}
+
+.tabela-portaria th,
+.tabela-portaria td {
+    padding: 14px 10px;
+}
+
+.celula-participante-portaria {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.celula-participante-portaria strong {
+    color: var(--cor-texto-branco);
+    font-size: 13px;
+}
+
+.email-participante-portaria {
+    color: var(--cor-texto-cinza);
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+.selo-setor-portaria {
+    white-space: normal;
+    text-align: center;
+    line-height: 1.25;
+    max-width: 190px;
+}
+
+.rodape-paginacao-admin {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid var(--cor-borda-clara);
+}
+
+.resumo-paginacao-admin {
+    font-size: 13px;
+    color: var(--cor-texto-cinza);
+}
+
+.resumo-paginacao-admin strong {
+    color: var(--cor-texto-branco);
+}
+
+.botoes-paginacao-admin {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.botao-pagina-admin {
+    min-width: 36px;
+    height: 36px;
+    padding: 0 12px;
+    border-radius: var(--raio-pilula);
+    border: 1px solid rgba(245, 245, 243, 0.2);
+    background: rgba(245, 245, 243, 0.04);
+    color: var(--cor-texto-branco);
+    font-family: var(--fonte-corpo);
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.botao-pagina-admin:hover:not(:disabled) {
+    border-color: var(--cor-vermelho-rock);
+    background: rgba(237, 28, 36, 0.14);
+    box-shadow: var(--sombra-neon);
+}
+
+.botao-pagina-admin.ativo {
+    background-color: var(--cor-vermelho-rock);
+    border-color: var(--cor-vermelho-rock);
+    color: #ffffff;
+    box-shadow: var(--sombra-neon);
+}
+
+.botao-pagina-admin:disabled {
+    opacity: 0.38;
+    cursor: not-allowed;
+}
+
+.reticencias-paginacao {
+    color: var(--cor-texto-cinza);
+    font-size: 13px;
+    padding: 0 4px;
 }
 
 .input-busca-admin:focus,
@@ -3356,6 +3457,17 @@ body.pagina-backstage {
     .controles-portaria-admin,
     .acoes-portaria-admin {
         width: 100%;
+    }
+
+    .celula-participante-portaria {
+        align-items: flex-end;
+        text-align: right;
+    }
+
+    .rodape-paginacao-admin {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
     }
 
     .modal-admin-overlay {

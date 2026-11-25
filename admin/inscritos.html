@@ -98,6 +98,14 @@
                                 <option value="pendentes">Pendentes</option>
                                 <option value="validados">Check-in Feito</option>
                             </select>
+
+                            <select class="select-portaria-admin select-linhas-portaria" id="linhas-por-pagina" aria-label="Linhas por página">
+                                <option value="10">10 por página</option>
+                                <option value="20">20 por página</option>
+                                <option value="50">50 por página</option>
+                                <option value="100" selected>100 por página</option>
+                                <option value="200">200 por página</option>
+                            </select>
                         </div>
 
                         <div class="acoes-portaria-admin">
@@ -107,11 +115,10 @@
                     </div>
 
                     <div class="envoltorio-tabela">
-                        <table class="tabela-admin">
+                        <table class="tabela-admin tabela-portaria">
                             <thead>
                                 <tr>
                                     <th>Participante</th>
-                                    <th>E-mail</th>
                                     <th>Show / Evento</th>
                                     <th>Setor</th>
                                     <th>Código</th>
@@ -122,6 +129,8 @@
                             <tbody id="tabela-inscritos"></tbody>
                         </table>
                     </div>
+
+                    <div class="rodape-paginacao-admin" id="paginacao-inscritos" hidden></div>
                 </section>
             </main>
 
