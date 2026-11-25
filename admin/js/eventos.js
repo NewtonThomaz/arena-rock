@@ -445,21 +445,35 @@ const controladorEventos = {
     },
 
     salvarNoSupabase: async function (payload, ehEdicao, idBanco) {
-        if (!window.supabaseConfigurado || !window.supabaseClient) return;
+        if (!window.supabaseConfigurado || !window.supabaseClient) {
+            return { ok: true, localApenas: true };
+        }
         const operacao = ehEdicao
             ? window.supabaseClient.from("eventos").update(payload).eq("id", idBanco)
             : window.supabaseClient.from("eventos").insert(payload).select();
 
         const resposta = await operacao;
-        if (resposta.error && String(resposta.error.message || "").toLowerCase().includes("imagem")) {
+        if (!resposta.error) {
+            return { ok: true };
+        }
+
+        const msgErro = String(resposta.error.message || "");
+        if (msgErro.toLowerCase().includes("imagem")) {
             const payloadSemImagem = Object.assign({}, payload);
             delete payloadSemImagem.imagem;
-            if (ehEdicao) {
-                await window.supabaseClient.from("eventos").update(payloadSemImagem).eq("id", idBanco);
-            } else {
-                await window.supabaseClient.from("eventos").insert(payloadSemImagem).select();
+            const respostaFallback = ehEdicao
+                ? await window.supabaseClient.from("eventos").update(payloadSemImagem).eq("id", idBanco)
+                : await window.supabaseClient.from("eventos").insert(payloadSemImagem).select();
+
+            if (!respostaFallback.error) {
+                return { ok: true, imagemNaoSalvaNoBanco: true };
             }
+            console.error("Erro ao salvar evento no Supabase:", respostaFallback.error);
+            return { ok: false, erro: respostaFallback.error.message };
         }
+
+        console.error("Erro ao salvar evento no Supabase:", resposta.error);
+        return { ok: false, erro: msgErro };
     },
 
     configurarBotaoSalvar: function () {
@@ -507,32 +521,36 @@ const controladorEventos = {
                 slug: controladorEventos.idEmEdicao ? controladorEventos.idEmEdicao : dados.slug
             };
 
-            if (controladorEventos.idEmEdicao) {
+            const ehEdicao = Boolean(controladorEventos.idEmEdicao);
+            let resultadoBanco = { ok: true };
+
+            if (ehEdicao) {
                 if (window.EventosAPI) {
                     window.EventosAPI.atualizarEventoLocal(controladorEventos.idEmEdicao, dadosLocais);
                 }
                 if (controladorEventos.idBancoEmEdicao) {
-                    await controladorEventos.salvarNoSupabase(payloadSupabase, true, controladorEventos.idBancoEmEdicao);
+                    resultadoBanco = await controladorEventos.salvarNoSupabase(payloadSupabase, true, controladorEventos.idBancoEmEdicao);
                 }
-                if (window.ControladorModalAdmin) {
-                    window.ControladorModalAdmin.fechar("formulario-evento");
-                } else {
-                    controladorEventos.cancelarEdicao();
-                }
-                await controladorEventos.popularTabelaEventos();
-                alert("Show atualizado com sucesso!");
             } else {
                 if (window.EventosAPI) {
                     window.EventosAPI.adicionarEventoLocal(Object.assign({ id: dados.slug }, dadosLocais));
                 }
-                await controladorEventos.salvarNoSupabase(payloadSupabase, false, null);
-                if (window.ControladorModalAdmin) {
-                    window.ControladorModalAdmin.fechar("formulario-evento");
-                } else {
-                    controladorEventos.cancelarEdicao();
-                }
-                await controladorEventos.popularTabelaEventos();
-                alert("Show cadastrado com sucesso na programação!");
+                resultadoBanco = await controladorEventos.salvarNoSupabase(payloadSupabase, false, null);
+            }
+
+            if (window.ControladorModalAdmin) {
+                window.ControladorModalAdmin.fechar("formulario-evento");
+            } else {
+                controladorEventos.cancelarEdicao();
+            }
+            await controladorEventos.popularTabelaEventos();
+
+            if (resultadoBanco && resultadoBanco.imagemNaoSalvaNoBanco) {
+                alert("Show salvo, mas a coluna 'imagem' ainda não existe no seu banco Supabase. Execute a migration 20261125004501_add_imagem_eventos_checkin_inscricoes.sql no SQL Editor do Supabase para salvar capas personalizadas.");
+            } else if (resultadoBanco && !resultadoBanco.ok) {
+                alert("Aviso: os dados foram salvos localmente, mas o Supabase retornou erro: " + resultadoBanco.erro);
+            } else {
+                alert(ehEdicao ? "Show atualizado com sucesso!" : "Show cadastrado com sucesso na programação!");
             }
         });
     },
